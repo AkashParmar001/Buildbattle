@@ -9,8 +9,11 @@ explainable Adaption integration. Keep demo-safe: app must run from seed data wi
   `OPENCODE_GUIDE.md` (staged build plan), `insightflow-pipeline.zip` (canonical starter:
   `pipeline/*.py`, `db/schema.sql`, `data/raw.csv`, `.env.example`, `README.md`).
 - Unzip the bundle before pipeline work; do not treat `files/` as the app root.
-- Target layout once built: `web/` (Next.js), `pipeline/`, `db/schema.sql`, `data/analysis.json`.
-- `web/`, `db/`, `data/`, `pipeline/` do not exist yet — create them per `files/OPENCODE_GUIDE.md` stages.
+- Layout once built: `web/` (Next.js), `pipeline/`, `db/schema.sql`, `data/analysis.json`
+  (+ `web/data/analysis.json` copy, committed so Vercel builds with root = `web/` still work).
+  `pipeline/03_seed_local.py` generates `data/analysis.json` with no API keys
+  (heuristic sentiment/labels, same KMeans/weekly/priority as `03_analyze.py`); prefer the
+  real `03_analyze.py` run once `ANTHROPIC_API_KEY` exists.
 
 ## Pipeline (executable truth: `README.md` + `pipeline/*.py`)
 
