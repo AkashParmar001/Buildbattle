@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { Suspense } from "react";
 
+import { getDataSource } from "@/lib/db";
 import { MobileNav, SidebarNav } from "@/components/nav-links";
 import { ThemeToggle } from "@/components/theme-toggle";
 
@@ -8,7 +9,8 @@ function SidebarNavFallback() {
   return <div aria-hidden="true" className="flex flex-1 flex-col gap-1 p-3" />;
 }
 
-export function AppShell({ children }: { children: ReactNode }) {
+export async function AppShell({ children }: { children: ReactNode }) {
+  const source = await getDataSource();
   return (
     <div className="flex min-h-screen bg-zinc-50 text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100">
       {/* Desktop sidebar */}
@@ -24,8 +26,16 @@ export function AppShell({ children }: { children: ReactNode }) {
         <Suspense fallback={<SidebarNavFallback />}>
           <SidebarNav />
         </Suspense>
-        <p className="border-t border-zinc-200 p-4 text-xs leading-5 text-zinc-400 dark:border-zinc-800 dark:text-zinc-500">
-          Demo seed data — works with all APIs down.
+        <p className="flex items-center gap-1.5 border-t border-zinc-200 p-4 text-xs leading-5 text-zinc-400 dark:border-zinc-800 dark:text-zinc-500">
+          <span
+            aria-hidden="true"
+            className={
+              source === "supabase"
+                ? "inline-block h-2 w-2 shrink-0 rounded-full bg-emerald-500"
+                : "inline-block h-2 w-2 shrink-0 rounded-full bg-amber-500"
+            }
+          />
+          Data source: {source === "supabase" ? "Database" : "Demo fallback"}
         </p>
       </aside>
 
@@ -52,6 +62,18 @@ export function AppShell({ children }: { children: ReactNode }) {
         </Suspense>
 
         <main className="min-w-0 flex-1 p-4 sm:p-6 print:p-0">{children}</main>
+
+        <footer className="flex items-center gap-1.5 px-4 pb-4 text-xs text-zinc-400 md:hidden dark:text-zinc-500 print:hidden">
+          <span
+            aria-hidden="true"
+            className={
+              source === "supabase"
+                ? "inline-block h-2 w-2 shrink-0 rounded-full bg-emerald-500"
+                : "inline-block h-2 w-2 shrink-0 rounded-full bg-amber-500"
+            }
+          />
+          Data source: {source === "supabase" ? "Database" : "Demo fallback"}
+        </footer>
       </div>
     </div>
   );
