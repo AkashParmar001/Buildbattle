@@ -1,0 +1,88 @@
+{
+ "meta": {
+  "total_rows": 7000,
+  "unique": 320,
+  "clusters": 10,
+  "analysis_source": "data/adapted.csv"
+ },
+ "adaption": {
+  "dataset_id": "3b55f52b-25d1-400a-a80c-158b56a4bd24",
+  "column_mapping": {
+   "prompt": "review"
+  },
+  "brand_controls": {
+   "hallucination_mitigation": true
+  },
+  "output": "per-review improved responses (chosen) + rejected alternatives + language expansion",
+  "input_rows": 320,
+  "output_rows": 376,
+  "expanded_languages": [
+   "English"
+  ],
+  "grade_before": "E",
+  "grade_after": "C",
+  "score_before": 2.0,
+  "score_after": 6.1,
+  "improvement_percent": 205.0,
+  "eval_rows": 100
+ },
+ "examples": [
+  {
+   "category": "Operational Issues",
+   "count": 295,
+   "raw": "The packaging was damaged upon arrival, and some items were missing from my order.",
+   "adapted": "It appears you are categorizing customer feedback or support tickets. \n\n**Classification Analysis:**\nThe label **\"Operational Issues\"** is correct. This specific complaint falls under operational failures related to:\n1. **Logistics/Shipping:** (Damaged packaging)\n2. **Order Fulfillment:** (Missing items)\n\nDepending on how granular you want your data to be, you could further sub-categorize this as:\n*   **Shipping & Delivery $\\rightarrow$ Damaged Goods**\n*   **Order Accuracy $\\rightarrow$ Missing Items**\n\n***\n\n**Would you like me to do any of the following with this text?**\n1. **Draft a professional customer service response** to resolve this issue.\n2. **Analyze the sentiment** (e.g., Negative/Frustrated).\n3. **Convert this into a structured format** (like JSON or CSV) for a database.\n4. **Categorize more examples** like this one."
+  },
+  {
+   "category": "Fraud and Scam",
+   "count": 276,
+   "raw": "I encountered a scam where the seller asked for additional payment after placing the order.",
+   "adapted": "I am very sorry to hear that you are dealing with this. Please know that **you are not alone**, and this is a very common type of online fraud known as a **post-purchase scam** or **advance fee fraud**.\n\nHere is a step-by-step guide on what you should do immediately to protect yourself and attempt to recover your funds.\n\n### 1. STOP All Communication and Payment\n*   **Do NOT pay the additional amount.** Legitimate sellers will not ask for extra money via direct transfer, gift cards, or wire transfer after an order is placed. Any \"fees,\" \"taxes,\" or \"shipping insurance\" should have been included in the original checkout price.\n*   **Do not click any links** they send you in messages or emails.\n*   **Cease communication** with the seller immediately.\n\n### 2. Secure Your Payment Method\n*   **Credit/Debit Card:** Contact your bank or card issuer immediately. Tell them you have been defrauded. Ask to **cancel the card** to prevent further charges and request a **chargeback** for the original transaction.\n*   **PayPal/Digital Wallet:** Log in to your account and open a **dispute** for \"Item Not Received\" or \"Fraudulent Transaction.\" Do not close the dispute if the seller promises to refund you later; let the platform handle it.\n*   **Gift Cards/Crypto:** If you paid via gift cards or cryptocurrency, contact the issuer immediately. While these are harder to recover, reporting them quickly can sometimes flag the codes.\n\n### 3. Gather Evidence\nBefore blocking the seller or losing access to the chat, save everything:\n*   Screenshots of the product listing.\n*   Screenshots of all messages (especially where they ask for more money).\n*   Receipts, order confirmations, and transaction IDs.\n*   The seller's profile URL, email address, and phone number.\n\n### 4. Report the Fraud\n*   **The Platform:** If this happened on a marketplace (eBay, Amazon, Facebook Marketplace, Instagram, etc.), report the seller to the platform's support team immediately. They may ban the seller and prevent others from being scammed.\n*   **Consumer Protection Agencies:**\n    *   **USA:** Report to the [FTC (ReportFraud.ftc.gov)](https://reportfraud.ftc.gov).\n    *   **UK:** Report to [Action Fraud](https://www.actionfraud.police.uk).\n    *   **Canada:** Report to the [Canadian Anti-Fraud Centre](https://www.antifraudcentre-centreantifraude.ca).\n    *   **Australia:** Report to [Scamwatch](https://www.scamwatch.gov.au).\n*   **Local Police:** If the amount is significant, file a report with your local police department. You will need this for insurance or bank claims.\n\n### 5. Watch Out for \"Recovery Scams\"\nNow that you have posted about this publicly or searched for help, be wary of anyone contacting you claiming they can **\"hack\" the scammer** or **\"recover your funds\"** for a fee. **These are also scams.** Only your bank or law enforcement can legitimately help recover funds.\n\n### How to Spot This in the Future\n*   **Stay on the Platform:** Never move conversations or payments off the official marketplace (e.g., do not switch from eBay chat to WhatsApp).\n*   **Too Good to Be True:** If the price was significantly lower than everywhere else, it is often a bait for this exact scam.\n*   **Payment Methods:** Legitimate businesses accept credit cards or platform payments. They will not ask for Wire Transfers, Western Union, Gift Cards, or Crypto.\n\n**Please take action on Step 2 (Contacting your bank) as soon as possible, as there are often time limits on filing disputes.**"
+  },
+  {
+   "category": "Customer Service",
+   "count": 259,
+   "raw": "The customer service was outstanding. They resolved my issue within minutes.",
+   "adapted": "Based on the text provided, here is an analysis of the feedback:\n\n*   **Sentiment:** **Positive** \ud83d\ude0a\n*   **Category:** Customer Service\n*   **Key Driver:** Speed and efficiency (\"resolved my issue within minutes\")\n*   **Summary:** The customer is highly satisfied with the support they received, specifically highlighting the quick resolution time."
+  },
+  {
+   "category": "Product Feedback",
+   "count": 247,
+   "raw": "Unfortunately, the product did not meet my expectations. It stopped working after a week.",
+   "adapted": "This is clear **negative product feedback** indicating a reliability issue. Here is an analysis of the comment and a suggested response template if you are managing customer support for this product.\n\n### Feedback Analysis\n*   **Sentiment:** Negative\n*   **Key Issue:** Product failure/defect\n*   **Timeframe:** Failed within 1 week of use\n*   **Customer Expectation:** Durability and functionality were not met.\n\n### Suggested Customer Service Response\nIf you are reaching out to this customer, here is a draft you can use:\n\n> **Subject:** Regarding your recent experience with [Product Name]\n>\n> Dear [Customer Name],\n>\n> Thank you for sharing your feedback. I am sincerely sorry to hear that your product stopped working after only a week. This certainly does not meet our quality standards, and I understand your disappointment.\n>\n> We would like to make this right immediately. Could you please reply with your order number? We can arrange for a full replacement or a refund, whichever you prefer.\n>\n> Thank you for giving us a chance to resolve this.\n>\n> Best regards,\n> [Support Team Name]\n\n### Recommended Next Steps\n1.  **Investigate:** Check if there is a batch issue with products sold during that week.\n2.  **Resolve:** Prioritize this ticket for an immediate refund or replacement to prevent further negative reviews.\n3.  **Follow-up:** Once resolved, ask if the replacement meets expectations to rebuild trust."
+  },
+  {
+   "category": "Operational Issues",
+   "count": 274,
+   "raw": "My order was processed incorrectly, and I received the wrong items.",
+   "adapted": "Since you have categorized this as an **\"Operational Issue,\"** it appears you are either reporting a problem to a support system or creating a sample ticket for a customer service database.\n\nDepending on your goal, here are the three most helpful ways I can respond:\n\n### 1. If you are a customer seeking help:\nI am an AI, not the company you ordered from. To get this resolved, you should contact the company's customer support immediately. **Here is a template you can copy and paste into an email or chat:**\n\n> **Subject:** Incorrect Order Received - Order #[Insert Order Number]\n>\n> **Hello Customer Support Team,**\n>\n> I am writing to report an issue with my recent order #[Insert Order Number]. Unfortunately, the order was processed incorrectly, and I received the wrong items.\n>\n> **Items I ordered:** [List items]\n> **Items I actually received:** [List items]\n>\n> I have attached photos of the items received and the packing slip for your reference. Please let me know how we can resolve this\u2014I would prefer [a replacement of the correct items / a full refund].\n>\n> Thank you,\n> [Your Name]\n> [Your Phone Number]\n\n***\n\n### 2. If you are a business owner/manager looking for a resolution process:\nIf this is a ticket that has landed on your desk, here is the **Standard Operating Procedure (SOP)** to resolve this operational failure:\n\n1.  **Apologize & Validate:** Acknowledge the mistake immediately to lower customer frustration.\n2.  **Verify the Error:** Ask for a photo of the wrong items and the packing slip to determine if the error happened at the *picking* stage (warehouse) or the *entry* stage (system).\n3.  **Immediate Correction:** Ship the correct items via expedited shipping at no cost to the customer.\n4.  **Handle the Wrong Items:** Decide if the cost of shipping the wrong items back is higher than the value of the items. If so, tell the customer to keep them or donate them.\n5.  **Root Cause Analysis:** Log this in your \"Operational Issues\" tracker to see if a specific employee or software glitch is causing repeated errors.\n\n***\n\n### 3. If you are building a dataset for AI training:\nIf you are providing this as a prompt to train a model on how to categorize or respond to \"Operational Issues,\" here is a suggested **ideal response** the AI should generate:\n\n*   **Sentiment:** Empathetic, professional, and solution-oriented.\n*   **Action:** Request order details $\\rightarrow$ Offer replacement/refund $\\rightarrow$ Provide return instructions.\n*   **Classification:** Order Fulfillment Error $\\rightarrow$ Logistics $\\rightarrow$ High Priority."
+  }
+ ],
+ "steps": [
+  {
+   "id": "raw",
+   "file": "data/raw.csv",
+   "completed_at": "2026-10-11T06:08:58"
+  },
+  {
+   "id": "dedupe",
+   "file": "data/unique.csv",
+   "completed_at": "2026-10-11T12:14:36"
+  },
+  {
+   "id": "adapt",
+   "file": "data/adapted.csv",
+   "completed_at": "2026-10-11T12:41:11"
+  },
+  {
+   "id": "evaluate",
+   "file": "data/adaption_evaluation.json",
+   "completed_at": "2026-10-11T12:40:17"
+  },
+  {
+   "id": "analyze",
+   "file": "data/analysis.json",
+   "completed_at": "2026-10-11T12:41:17"
+  }
+ ]
+}
