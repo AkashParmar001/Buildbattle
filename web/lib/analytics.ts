@@ -159,12 +159,44 @@ export const getTopIssues = cache(
 );
 
 export type TrendPoint = { week: number; volume: number };
+export type Trend = {
+  /** Seed volume across the 12-week simulated demo timeline. */
+  simulated: TrendPoint[];
+  /** User-submitted/imported volume bucketed by real created_at (last 12 weeks). */
+  live: TrendPoint[];
+};
+
+const LIVE_WEEKS = 12;
+const WEEK_MS = 7 * 24 * 60 * 60 * 1000;
+
+// Older stored reports saved trend as a bare array (simulated only).
+export function normalizeTrend(raw: Trend | TrendPoint[]): Trend {
+  return Array.isArray(raw) ? { simulated: raw, live: [] } : raw;
+}
+
 export const getTrend = cache(
-  async (filters: AnalyticsFilters = {}): Promise<TrendPoint[]> => {
+  async (filters: AnalyticsFilters = {}): Promise<Trend> => {
     const { feedback } = await loadRows();
     const rows = applyFilters(feedback, filters);
-    if (rows.length === 0) return [];
-    return sumWeekly(rows).map((volume, i) => ({ week: i + 1, volume }));
+    if (rows.length === 0) return { simulated: [], live: [] };
+
+    const simRows = rows.filter((r) => r.simulated);
+    const simulated =
+      simRows.length === 0 ? [] : sumWeekly(simRows).map((volume, i) => ({ week: i + 1, volume }));
+
+    // Live series: real submission timestamps, bucketed into the last 12
+    // calendar weeks ending with the current week (week 12 = most recent).
+    const now = Date.now();
+    const buckets = new Array<number>(LIVE_WEEKS).fill(0);
+    for (const r of rows) {
+      if (r.simulated) continue;
+      const t = r.createdAt ? Date.parse(r.createdAt) : now;
+      const ageWeeks = Math.floor(Math.max(0, now - t) / WEEK_MS);
+      const idx = Math.max(0, LIVE_WEEKS - 1 - ageWeeks);
+      buckets[idx] += r.count;
+    }
+    const live = buckets.map((volume, i) => ({ week: i + 1, volume }));
+    return { simulated, live };
   },
 );
 

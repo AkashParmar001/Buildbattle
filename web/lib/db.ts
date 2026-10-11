@@ -24,6 +24,10 @@ export type FeedbackRecord = {
   topic: string;
   cluster: number;
   weekly: number[];
+  /** False for user-submitted/imported rows (real timestamps). */
+  simulated: boolean;
+  /** Real submission time (ISO); null for simulated seed rows. */
+  createdAt: string | null;
 };
 
 export type ClusterRecord = {
@@ -89,7 +93,17 @@ export function loadSeedAnalysis(): Promise<AnalysisData> {
   seedPromise ??= readFile(
     path.join(process.cwd(), "data", "analysis.json"),
     "utf8",
-  ).then((raw) => JSON.parse(raw) as AnalysisData);
+  )
+    .then((raw) => JSON.parse(raw) as AnalysisData)
+    .then((data) => ({
+      ...data,
+      // Seed rows are all simulated: no real timestamps exist for them.
+      feedback: data.feedback.map((r) => ({
+        ...r,
+        simulated: true,
+        createdAt: null,
+      })),
+    }));
   return seedPromise;
 }
 
@@ -129,6 +143,8 @@ export type FeedbackRow = {
   topic: string;
   cluster_id: number;
   weekly: number[];
+  is_simulated_date: boolean;
+  created_at: string;
 };
 
 export function mapFeedbackRow(row: FeedbackRow): FeedbackRecord {
@@ -143,6 +159,8 @@ export function mapFeedbackRow(row: FeedbackRow): FeedbackRecord {
     topic: row.topic,
     cluster: row.cluster_id,
     weekly: row.weekly,
+    simulated: row.is_simulated_date,
+    createdAt: row.created_at,
   };
 }
 
@@ -153,7 +171,7 @@ export async function getFeedbackRows(): Promise<FeedbackRecord[]> {
     const { data, error } = await supabase
       .from("feedback")
       .select(
-        "id,text,adapted_text,category,duplicate_count,sentiment,sentiment_score,topic,cluster_id,weekly",
+        "id,text,adapted_text,category,duplicate_count,sentiment,sentiment_score,topic,cluster_id,weekly,is_simulated_date,created_at",
       )
       .limit(10000);
     if (error) throw new Error(`Supabase feedback read failed: ${error.message}`);

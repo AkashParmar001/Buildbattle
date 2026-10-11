@@ -7,7 +7,7 @@ import type {
   Kpis,
   Recommendation,
   SentimentSlice,
-  TrendPoint,
+  Trend,
 } from "@/lib/analytics";
 
 // Report snapshots. Supabase `reports` table when configured, otherwise a
@@ -29,7 +29,7 @@ export type ReportSnapshot = {
   kpis: Kpis;
   sentiment: SentimentSlice[];
   recommendations: Recommendation[];
-  trend: TrendPoint[];
+  trend: Trend;
   createdAt: string;
 };
 

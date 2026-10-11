@@ -49,6 +49,8 @@ function toRecord(input: UserFeedbackInput & { id: string }): FeedbackRecord {
     // Real user feedback uses real timestamps, not the simulated timeline:
     // attribute its unit of volume to the latest week.
     weekly: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, volume],
+    simulated: false,
+    createdAt: new Date().toISOString(),
   };
 }
 
@@ -64,7 +66,12 @@ async function readOverlayFile(): Promise<FeedbackRecord[]> {
 export async function getOverlayRows(): Promise<FeedbackRecord[]> {
   if (getSupabase()) return [];
   const file = await readOverlayFile();
-  return [...file, ...memoryOverlay];
+  const normalize = (r: FeedbackRecord): FeedbackRecord => ({
+    ...r,
+    simulated: false,
+    createdAt: r.createdAt ?? new Date(0).toISOString(),
+  });
+  return [...file.map(normalize), ...memoryOverlay.map(normalize)];
 }
 
 export async function keyOfExisting(): Promise<Set<string>> {
@@ -79,7 +86,7 @@ export async function keyOfExisting(): Promise<Set<string>> {
 }
 
 const SELECT_COLUMNS =
-  "id,text,adapted_text,category,duplicate_count,sentiment,sentiment_score,topic,cluster_id,weekly";
+  "id,text,adapted_text,category,duplicate_count,sentiment,sentiment_score,topic,cluster_id,weekly,is_simulated_date,created_at";
 
 // Duplicate handling: if lower(text) already exists, increment its volume
 // instead of inserting. Returns the updated record, or null when no match.
@@ -164,6 +171,7 @@ export async function addUserFeedback(
       cluster_id: record.cluster,
       duplicate_count: record.count,
       weekly: record.weekly,
+      created_at: record.createdAt,
       // quality_score doubles as the LLM-failure marker: 0 = flagged.
       quality_score: input.llmFailed ? 0 : null,
     });

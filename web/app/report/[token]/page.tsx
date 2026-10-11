@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 
+import { normalizeTrend } from "@/lib/analytics";
 import { getReport } from "@/lib/reports";
 import { KpiCard } from "@/components/kpi-card";
 import { RecommendationCard } from "@/components/recommendation-card";
@@ -100,7 +101,7 @@ export default async function ReportPage({
 
       <div className="grid grid-cols-1 gap-4 xl:grid-cols-2 print:grid-cols-2">
         <SentimentDonut data={snapshot.sentiment} />
-        <TrendChart data={snapshot.trend} />
+        <TrendChart data={normalizeTrend(snapshot.trend)} />
       </div>
 
       <div>
