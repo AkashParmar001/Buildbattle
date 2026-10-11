@@ -3,6 +3,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { connection } from "next/server";
 
 import { classifyFeedback } from "@/lib/classify";
+import { refreshClusterStats } from "@/lib/cluster-stats";
 import { getClusterRows } from "@/lib/db";
 import { addUserFeedback, mergeUserFeedback } from "@/lib/feedback-store";
 
@@ -67,6 +68,7 @@ export async function POST(req: NextRequest) {
     // Duplicate handling first: lower(text) already exists -> increment.
     const merged = await mergeUserFeedback(trimmed);
     if (merged) {
+      await refreshClusterStats();
       revalidatePath("/");
       revalidatePath("/feedback");
       return NextResponse.json(
@@ -91,6 +93,7 @@ export async function POST(req: NextRequest) {
       llmFailed: classification.llmFailed,
     });
 
+    await refreshClusterStats();
     revalidatePath("/");
     revalidatePath("/feedback");
 

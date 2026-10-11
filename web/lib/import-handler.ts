@@ -1,4 +1,5 @@
 import { classifyFeedback } from "@/lib/classify";
+import { refreshClusterStats } from "@/lib/cluster-stats";
 import { getClusterRows, getFeedbackRows, getSupabase } from "@/lib/db";
 import {
   addUserFeedback,
@@ -134,6 +135,7 @@ export async function importFeedback(rawRows: unknown): Promise<ImportResult> {
       const bad = results.find((r) => r.error);
       if (bad?.error) throw new Error(`Supabase merge failed: ${bad.error.message}`);
     }
+    await refreshClusterStats();
     return { added, merged, failed };
   }
 
