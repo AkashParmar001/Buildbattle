@@ -2,12 +2,16 @@ import { revalidatePath } from "next/cache";
 import { NextResponse, type NextRequest } from "next/server";
 import { connection } from "next/server";
 
-import { getIssueTrackedClusterIds, trackIssue } from "@/lib/issues";
+import { getIssueTrackedClusterIds, getIssues, trackIssue } from "@/lib/issues";
 import { getClusterRows } from "@/lib/db";
 
 export async function GET() {
   await connection();
-  return NextResponse.json({ trackedClusterIds: await getIssueTrackedClusterIds() });
+  const [issues, trackedClusterIds] = await Promise.all([
+    getIssues(),
+    getIssueTrackedClusterIds(),
+  ]);
+  return NextResponse.json({ issues, trackedClusterIds });
 }
 
 export async function POST(req: NextRequest) {

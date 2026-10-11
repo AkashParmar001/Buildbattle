@@ -30,9 +30,9 @@ python pipeline/03_analyze.py         # -> data/analysis.json (app seed data)
 ```
 
 - Env keys (`ADAPTION_API_KEY`, `ANTHROPIC_API_KEY`, `LLM_MODEL=claude-sonnet-5-5`); `.env`/`.env.local` are gitignored — never commit, never put keys in client code.
-- `02_adaption.py` header is marked VERIFY: `get_status` field/values, `get_evaluation`, and `download` shapes are guesses — check against Adaption docs before trusting.
+- `02_adaption.py` API shapes verified against `adaption==0.14.0` (see header); supports `--resume`. Real run done: grade E→C (+205%); `data/adapted.csv` + `data/adaption_evaluation.json` committed.
 - `03_analyze.py` reads `data/adapted.csv` if present, else `data/unique.csv`; needs `ANTHROPIC_API_KEY`. Fixed choices: K=10 TF-IDF/KMeans clusters, 12-week timeline, `np.random.seed(7)`.
-- Dedupe key is `(review, category)` after `strip()` — a few texts appear under >1 category.
+- Dedupe key is `(review, category)` after `strip()` — no text spans >1 category in this dataset.
 
 ## Data facts (do not change silently)
 
