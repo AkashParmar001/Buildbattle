@@ -33,6 +33,9 @@ yarn-error.log*
 # env files (can opt-in for committing if needed)
 .env*
 
+# local user-submitted feedback overlay (demo writes, not seed data)
+/data/user-feedback.json
+
 # vercel
 .vercel
 

@@ -24,11 +24,13 @@ export function applyFilters(
 }
 
 const loadRows = cache(async () => {
-  const [feedback, clusters] = await Promise.all([
+  const { getOverlayRows } = await import("@/lib/feedback-store");
+  const [feedback, clusters, overlay] = await Promise.all([
     getFeedbackRows(),
     getClusterRows(),
+    getOverlayRows(),
   ]);
-  return { feedback, clusters };
+  return { feedback: [...feedback, ...overlay], clusters };
 });
 
 export type Kpis = {
@@ -141,7 +143,7 @@ export const getTopIssues = cache(
           .reduce((sum, r) => sum + r.count, 0);
         return {
           id,
-          label: stored?.label ?? `Cluster ${id}`,
+          label: stored?.label ?? (id === -1 ? "Unclustered" : `Cluster ${id}`),
           volume,
           share: total === 0 ? 0 : volume / total,
           negativity: volume === 0 ? 0 : neg / volume,
