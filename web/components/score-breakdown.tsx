@@ -1,0 +1,80 @@
+import type { Recommendation } from "@/lib/analytics";
+
+function TermBar({
+  label,
+  value,
+  max,
+  detail,
+}: {
+  label: string;
+  value: number;
+  max: number;
+  detail: string;
+}) {
+  const pct = max === 0 ? 0 : Math.min(100, (value / max) * 100);
+  return (
+    <div>
+      <div className="flex items-baseline justify-between text-xs">
+        <span className="font-medium text-zinc-600 dark:text-zinc-300">
+          {label}
+        </span>
+        <span className="tabular-nums text-zinc-500 dark:text-zinc-400">
+          {detail}
+        </span>
+      </div>
+      <div
+        role="img"
+        aria-label={`${label}: ${detail}`}
+        className="mt-1 h-1.5 w-full overflow-hidden rounded-full bg-zinc-100 dark:bg-zinc-800"
+      >
+        <span
+          className="block h-full rounded-full bg-accent"
+          style={{ width: `${pct}%` }}
+        />
+      </div>
+    </div>
+  );
+}
+
+// Visual explanation of priority = 100 * min(1, volume + negativity + growth),
+// x1.25 when fraud-dominated.
+export function ScoreBreakdown({ item }: { item: Recommendation }) {
+  const { breakdown } = item;
+  const rawSum =
+    breakdown.volumeTerm + breakdown.negativityTerm + breakdown.growthTerm;
+  return (
+    <div className="flex flex-col gap-2 rounded-lg bg-zinc-50 p-3 dark:bg-zinc-900">
+      <p className="text-xs font-medium tracking-wide text-zinc-500 uppercase dark:text-zinc-400">
+        Why priority {item.priority.toFixed(1)}
+      </p>
+      <TermBar
+        label="Volume (40%)"
+        value={breakdown.volumeTerm}
+        max={0.4}
+        detail={`${item.volume.toLocaleString()} reports · ${(item.share * 100).toFixed(1)}% share`}
+      />
+      <TermBar
+        label="Negativity (35%)"
+        value={breakdown.negativityTerm}
+        max={0.35}
+        detail={`${(item.negativity * 100).toFixed(0)}% negative`}
+      />
+      <TermBar
+        label="Growth (25%)"
+        value={breakdown.growthTerm}
+        max={0.25}
+        detail={`${item.growth.toFixed(1)}x recent growth`}
+      />
+      {item.fraudBoosted ? (
+        <p className="text-xs font-medium text-amber-700 dark:text-amber-300">
+          ×1.25 fraud-severity multiplier applied (raw score{" "}
+          {Math.min(1, rawSum).toFixed(3)} → {item.priority.toFixed(1)})
+        </p>
+      ) : (
+        <p className="text-xs text-zinc-500 dark:text-zinc-400">
+          No fraud multiplier — dominant category is {item.dominantCategory}.
+        </p>
+      )}
+    </div>
+  );
+}

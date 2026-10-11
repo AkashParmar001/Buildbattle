@@ -172,3 +172,80 @@ export const getCategories = cache(async (): Promise<string[]> => {
   const { feedback } = await loadRows();
   return [...new Set(feedback.map((r) => r.category))].sort();
 });
+
+export type InsightCluster = ClusterRecord & {
+  sentiment: { positive: number; neutral: number; negative: number };
+  dominantCategory: string;
+};
+
+// Full cluster cards: stored aggregates plus a sentiment breakdown and the
+// dominant category recomputed from the underlying rows (works with the
+// Supabase schema, which stores no per-category counts on clusters).
+export const getInsightClusters = cache(async (): Promise<InsightCluster[]> => {
+  const { feedback, clusters } = await loadRows();
+  const byCluster = new Map<number, FeedbackRecord[]>();
+  for (const r of feedback) {
+    const list = byCluster.get(r.cluster) ?? [];
+    list.push(r);
+    byCluster.set(r.cluster, list);
+  }
+  return clusters
+    .map((c) => {
+      const list = byCluster.get(c.id) ?? [];
+      const sentiment = {
+        positive: list
+          .filter((r) => r.sentiment === "positive")
+          .reduce((s, r) => s + r.count, 0),
+        neutral: list
+          .filter((r) => r.sentiment === "neutral")
+          .reduce((s, r) => s + r.count, 0),
+        negative: list
+          .filter((r) => r.sentiment === "negative")
+          .reduce((s, r) => s + r.count, 0),
+      };
+      const catVolume = new Map<string, number>();
+      for (const r of list) {
+        catVolume.set(r.category, (catVolume.get(r.category) ?? 0) + r.count);
+      }
+      const dominantCategory =
+        [...catVolume.entries()].sort((a, b) => b[1] - a[1])[0]?.[0] ?? "";
+      return { ...c, sentiment, dominantCategory };
+    })
+    .sort((a, b) => b.priority - a.priority);
+});
+
+export type Recommendation = ClusterRecord & {
+  dominantCategory: string;
+  fraudBoosted: boolean;
+  breakdown: { volumeTerm: number; negativityTerm: number; growthTerm: number };
+  maxShare: number;
+  maxGrowth: number;
+};
+
+// Ranked recommendations with the priority score broken into the exact
+// formula terms so the ranking is explainable:
+// 0.4*share/maxShare + 0.35*negativity + 0.25*min(growth/maxGrowth,1),
+// x1.25 when fraud-dominated.
+export const getRecommendations = cache(
+  async (): Promise<Recommendation[]> => {
+    const cards = await getInsightClusters();
+    const maxShare = Math.max(...cards.map((c) => c.share), 0);
+    const maxGrowth = Math.max(...cards.map((c) => c.growth), 0);
+    return cards.map((c) => {
+      const fraudBoosted = c.dominantCategory === "Fraud and Scam";
+      return {
+        ...c,
+        dominantCategory: c.dominantCategory,
+        fraudBoosted,
+        breakdown: {
+          volumeTerm: maxShare === 0 ? 0 : 0.4 * (c.share / maxShare),
+          negativityTerm: 0.35 * c.negativity,
+          growthTerm:
+            maxGrowth === 0 ? 0 : 0.25 * Math.min(c.growth / maxGrowth, 1),
+        },
+        maxShare,
+        maxGrowth,
+      };
+    });
+  },
+);

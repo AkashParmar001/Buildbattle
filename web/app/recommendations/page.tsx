@@ -1,8 +1,15 @@
-import { ListChecks } from "lucide-react";
+import { getRecommendations } from "@/lib/analytics";
+import { getIssueTrackedClusterIds } from "@/lib/issues";
+import { EmptyState } from "@/components/empty-state";
+import { RecommendationCard } from "@/components/recommendation-card";
 
-import { RoutePlaceholder } from "@/components/route-placeholder";
+export default async function RecommendationsPage() {
+  const [items, tracked] = await Promise.all([
+    getRecommendations(),
+    getIssueTrackedClusterIds(),
+  ]);
+  const trackedSet = new Set(tracked);
 
-export default function RecommendationsPage() {
   return (
     <div className="flex flex-col gap-6">
       <div>
@@ -13,11 +20,24 @@ export default function RecommendationsPage() {
           Prioritized actions, each backed by volume and evidence.
         </p>
       </div>
-      <RoutePlaceholder
-        title="Prioritized recommendations land here next"
-        description="Ranked actions with score breakdowns, owners, and the example reviews that justify each priority."
-        icon={ListChecks}
-      />
+
+      {items.length === 0 ? (
+        <EmptyState
+          title="No recommendations yet"
+          description="Recommendations appear here once feedback has been analyzed."
+        />
+      ) : (
+        <div className="flex flex-col gap-4">
+          {items.map((item, i) => (
+            <RecommendationCard
+              key={item.id}
+              item={item}
+              rank={i + 1}
+              tracked={trackedSet.has(item.id)}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 }

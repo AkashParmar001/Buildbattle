@@ -1,21 +1,32 @@
-import { Lightbulb } from "lucide-react";
+import { getInsightClusters } from "@/lib/analytics";
+import { ClusterCard } from "@/components/cluster-card";
+import { EmptyState } from "@/components/empty-state";
 
-import { RoutePlaceholder } from "@/components/route-placeholder";
+export default async function InsightsPage() {
+  const clusters = await getInsightClusters();
 
-export default function InsightsPage() {
   return (
     <div className="flex flex-col gap-6">
       <div>
         <h1 className="text-2xl font-semibold tracking-tight">Insights</h1>
         <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
-          Topic clusters with size, sentiment, trends, and example reviews.
+          {clusters.length} topic clusters with size, sentiment, trends, and
+          example reviews.
         </p>
       </div>
-      <RoutePlaceholder
-        title="Cluster cards land here next"
-        description="One card per feedback cluster: label, summary, volume, sentiment mix, sparkline, and representative reviews."
-        icon={Lightbulb}
-      />
+
+      {clusters.length === 0 ? (
+        <EmptyState
+          title="No clusters yet"
+          description="Clusters appear here once feedback has been analyzed."
+        />
+      ) : (
+        <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
+          {clusters.map((c) => (
+            <ClusterCard key={c.id} cluster={c} />
+          ))}
+        </div>
+      )}
     </div>
   );
 }

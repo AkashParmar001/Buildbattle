@@ -35,6 +35,8 @@ yarn-error.log*
 
 # local user-submitted feedback overlay (demo writes, not seed data)
 /data/user-feedback.json
+/data/user-issues.json
+/data/user-reports.json
 
 # vercel
 .vercel

@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import { getCategories } from "@/lib/analytics";
 import type { Sentiment } from "@/lib/db";
-import { getFeedbackRows } from "@/lib/db";
+import { getClusterRows, getFeedbackRows } from "@/lib/db";
 import { getOverlayRows } from "@/lib/feedback-store";
 import { AddFeedbackModal } from "@/components/add-feedback-modal";
 import { CsvImport } from "@/components/csv-import";
@@ -36,12 +36,14 @@ export default async function FeedbackPage({
     q?: string;
     category?: string;
     sentiment?: string;
+    cluster?: string;
     sort?: string;
     page?: string;
   }>;
 }) {
   const params = await searchParams;
   const categories = await getCategories();
+  const clusters = await getClusterRows();
   const q = params.q?.trim() ?? "";
   const category =
     params.category && categories.includes(params.category)
@@ -55,6 +57,18 @@ export default async function FeedbackPage({
     params.sort && VALID_SORTS.includes(params.sort as SortKey)
       ? (params.sort as SortKey)
       : "volume_desc";
+  const clusterParam =
+    params.cluster !== undefined && params.cluster !== ""
+      ? Number(params.cluster)
+      : undefined;
+  const cluster =
+    clusterParam !== undefined && Number.isInteger(clusterParam)
+      ? clusterParam
+      : undefined;
+  const clusterLabel =
+    cluster !== undefined
+      ? (clusters.find((c) => c.id === cluster)?.label ?? (cluster === -1 ? "Unclustered" : `Cluster ${cluster}`))
+      : undefined;
 
   const [base, overlay] = await Promise.all([
     getFeedbackRows(),
@@ -67,6 +81,7 @@ export default async function FeedbackPage({
     (r) =>
       (!category || r.category === category) &&
       (!sentiment || r.sentiment === sentiment) &&
+      (cluster === undefined || r.cluster === cluster) &&
       (!qLow ||
         r.text.toLowerCase().includes(qLow) ||
         r.topic.toLowerCase().includes(qLow)),
@@ -97,8 +112,14 @@ export default async function FeedbackPage({
   if (q) current.set("q", q);
   if (category) current.set("category", category);
   if (sentiment) current.set("sentiment", sentiment);
+  if (cluster !== undefined) current.set("cluster", String(cluster));
   if (sort !== "volume_desc") current.set("sort", sort);
   const baseQuery = current.toString();
+
+  const clearCluster = new URLSearchParams(current.toString());
+  clearCluster.delete("cluster");
+  clearCluster.delete("page");
+  const clearClusterHref = `/feedback${clearCluster.toString() ? `?${clearCluster.toString()}` : ""}`;
 
   return (
     <div className="flex flex-col gap-6">
@@ -123,6 +144,14 @@ export default async function FeedbackPage({
           categories={categories}
           current={{ category, sentiment }}
         />
+        {cluster !== undefined && (
+          <Link
+            href={clearClusterHref}
+            className="inline-flex h-9 items-center gap-1.5 rounded-full bg-accent/10 px-3 text-xs font-medium text-accent hover:bg-accent/20"
+          >
+            Cluster: {clusterLabel} ✕
+          </Link>
+        )}
       </div>
 
       {pageRows.length === 0 ? (
