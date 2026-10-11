@@ -7,15 +7,15 @@ id,review,category,count
 9af2afce80,The customer service was outstanding. They resolved my issue within minutes.,Customer Service,259
 b389e8b112,I was scammed by this seller. The product I received was not as advertised.,Fraud and Scam,253
 2b67e219b2,"Unfortunately, the customer service was not helpful. My issue remains unresolved.",Customer Service,252
-02a525fa42,Beware of fraudulent activities. I never received my order despite being charged.,Fraud and Scam,250
 ca924a8168,"The delivery was delayed by two weeks, which was very inconvenient.",Operational Issues,250
-33cf333ff0,This site is a scam. They took my money and never sent the product.,Fraud and Scam,247
+02a525fa42,Beware of fraudulent activities. I never received my order despite being charged.,Fraud and Scam,250
 e1e0db2ae7,"Unfortunately, the product did not meet my expectations. It stopped working after a week.",Product Feedback,247
+33cf333ff0,This site is a scam. They took my money and never sent the product.,Fraud and Scam,247
 d730a48807,I suspect fraudulent activity as I was charged multiple times for a single purchase.,Fraud and Scam,243
 35750bbc46,I found the product to be very durable and well-made. Highly recommended!,Product Feedback,240
 ed09992acb,"There were glitches on the website, making it difficult to complete my purchase.",Operational Issues,239
-b4dd8ab286,Great value for money. The product performs very well and is worth the price.,Product Feedback,238
 af67521053,The product quality is excellent. It works exactly as described and exceeds my expectations.,Product Feedback,238
+b4dd8ab286,Great value for money. The product performs very well and is worth the price.,Product Feedback,238
 307998839e,The support staff was knowledgeable and provided excellent assistance.,Customer Service,236
 6e40d8701c,I had a great experience with the support team. They were very helpful and friendly.,Customer Service,231
 2d4533fa13,"I had to wait for a long time to get a response from customer service, which was frustrating.",Customer Service,228
@@ -32,198 +32,189 @@ c4539d658f,No signs of fraudulent activity or scam during my purchase.,Fraud and
 0393898245,Customer service was helpful and provided a quick resolution for my concern.,Customer Service,36
 f9e620569a,Customer service was responsive and provided excellent assistance.,Customer Service,34
 f26679d01a,No fraudulent activity or scam during my purchase.,Fraud and Scam,30
-a768e4fdb6,No signs of fraudulent activity or scam during my transaction.,Fraud and Scam,25
-56bc1d61ff,"The delivery process had some operational issues, but I received a replacement product.",Operational Issues,25
 166ea453f9,"The ordering process was smooth, but the delivery was delayed significantly.",Operational Issues,25
+56bc1d61ff,"The delivery process had some operational issues, but I received a replacement product.",Operational Issues,25
+a768e4fdb6,No signs of fraudulent activity or scam during my transaction.,Fraud and Scam,25
 767fa70c2e,The support team was knowledgeable and provided a satisfactory solution to my issue.,Customer Service,24
 ef7dca3eb7,Customer service was responsive and provided a quick resolution.,Customer Service,22
 b71ca035bd,Customer service was helpful and provided a detailed explanation for my concern.,Customer Service,21
 0441477372,Customer service was responsive and provided a satisfactory solution.,Customer Service,21
 e99b89a90a,The product's performance is reliable and consistent.,Product Feedback,16
 f6d3d563f8,Customer service was not helpful and did not provide a satisfactory solution to my issue.,Customer Service,14
-a40d075250,"I was scammed, I received a product that did not function properly.",Fraud and Scam,13
 53dcec3922,"I was scammed, I received a product that did not meet my expectations.",Fraud and Scam,13
-c97ecd1977,"The product is a must-have, the features are incredibly useful and innovative.",Product Feedback,13
 f70042d890,"I was scammed, I received a product that was not authentic.",Fraud and Scam,13
+c97ecd1977,"The product is a must-have, the features are incredibly useful and innovative.",Product Feedback,13
+a40d075250,"I was scammed, I received a product that did not function properly.",Fraud and Scam,13
 1588078626,"The product is a great value, it performs well for the price.",Product Feedback,12
 4fc11b2841,"I was scammed, I received a product that was not related to my order.",Fraud and Scam,12
 0215a0aca3,Customer service was helpful and provided excellent assistance.,Customer Service,12
 e7269deef5,"The product is a game-changer, the features are incredibly useful and innovative.",Product Feedback,11
-256c65c97a,Customer service was friendly and provided clear instructions for my concern.,Customer Service,11
 154f01e92d,The product's performance is efficient and effective.,Product Feedback,11
+256c65c97a,Customer service was friendly and provided clear instructions for my concern.,Customer Service,11
 6ee3dae03a,Customer service was patient and provided a clear explanation for my concern.,Customer Service,10
-ebf6577a93,"I had a minor issue with the product, but the seller's support team was very responsive and provided a satisfactory solution.",Product Feedback,10
 37f097c16a,Customer service was responsive and provided quick resolution.,Customer Service,10
-e44c40e1cf,The product's features are user-friendly and intuitive.,Product Feedback,9
-f599cf95d1,The customer service was responsive and provided great assistance.,Customer Service,9
+ebf6577a93,"I had a minor issue with the product, but the seller's support team was very responsive and provided a satisfactory solution.",Product Feedback,10
 cf0eb9c9b6,The product met my expectations and provided excellent value for money.,Product Feedback,9
+522d7a4247,The product's design is modern and sleek.,Product Feedback,9
+747abb1fef,"The delivery process was delayed due to operational issues. However, the company provided a replacement product.",Operational Issues,9
+e44c40e1cf,The product's features are user-friendly and intuitive.,Product Feedback,9
 15be78c9e6,The product's features are innovative and very useful. I highly recommend it.,Product Feedback,9
+f599cf95d1,The customer service was responsive and provided great assistance.,Customer Service,9
 9af012998c,The customer service team was unresponsive and unhelpful. My issue remains unresolved.,Customer Service,9
 a940ba7010,I was a victim of a scam. I was charged multiple times for a single purchase.,Fraud and Scam,9
 fdc3bbfd33,The support team was unhelpful and my issue remains unresolved.,Customer Service,9
-522d7a4247,The product's design is modern and sleek.,Product Feedback,9
-747abb1fef,"The delivery process was delayed due to operational issues. However, the company provided a replacement product.",Operational Issues,9
+2c6993a2a5,The customer service team was knowledgeable and provided great assistance.,Customer Service,8
 04001a9e87,"The product is a great investment, it performs well and exceeds my expectations.",Product Feedback,8
 182af5dc52,The product's features are intuitive and easy to use.,Product Feedback,8
+822d2edd87,The product's quality is excellent and it performs as advertised.,Product Feedback,8
+92c122e43d,The customer service was unhelpful and my issue remains unresolved.,Customer Service,8
 298dfd012a,I was scammed and received a product that did not function properly.,Fraud and Scam,8
 6a4c7e55f3,The ordering process was smooth and hassle-free. I received my product on time.,Operational Issues,8
-92c122e43d,The customer service was unhelpful and my issue remains unresolved.,Customer Service,8
-2c6993a2a5,The customer service team was knowledgeable and provided great assistance.,Customer Service,8
-822d2edd87,The product's quality is excellent and it performs as advertised.,Product Feedback,8
 f7b23cdd43,Customer service was unresponsive and took a long time to resolve my issue.,Customer Service,7
 9b9d19e3b6,The product's features are innovative and cutting-edge.,Product Feedback,7
-018a5c4586,The product's design is minimalist and elegant.,Product Feedback,7
-080fffe416,Customer service was helpful and resolved my concern efficiently.,Customer Service,7
-ddf0431085,"The product's design is minimalist and elegant, I love it!",Product Feedback,7
 1d3f51989f,The product's performance is stable and consistent.,Product Feedback,7
-1ce8c4edc4,"I was not a victim of fraud, the seller was transparent and provided a clear refund policy.",Fraud and Scam,6
-a45b0a0892,The product's performance is impressive and exceeds expectations.,Product Feedback,6
-6f3784297a,"Customer service was knowledgeable and patient, they guided me through the purchasing process.",Customer Service,6
-c552840c37,The product's features are innovative and groundbreaking.,Product Feedback,6
-8e63c2e6f1,The product's features are customizable and versatile.,Product Feedback,6
-db9ee1850c,The product's design is ergonomic and comfortable.,Product Feedback,6
-8fa3e75acb,The product's design is functional and practical.,Product Feedback,6
-1663e3efcf,The product's design is minimalistic and elegant.,Product Feedback,6
+018a5c4586,The product's design is minimalist and elegant.,Product Feedback,7
+ddf0431085,"The product's design is minimalist and elegant, I love it!",Product Feedback,7
+080fffe416,Customer service was helpful and resolved my concern efficiently.,Customer Service,7
 0e931baaee,"The delivery was delayed due to unforeseen circumstances, but the seller provided regular updates and a compensation.",Operational Issues,6
-bf99724e6d,The delivery was on time and the packaging was in excellent condition.,Operational Issues,6
 a82b6778b9,The product's design is sleek and modern.,Product Feedback,6
+8fa3e75acb,The product's design is functional and practical.,Product Feedback,6
+bf99724e6d,The delivery was on time and the packaging was in excellent condition.,Operational Issues,6
+db9ee1850c,The product's design is ergonomic and comfortable.,Product Feedback,6
+c552840c37,The product's features are innovative and groundbreaking.,Product Feedback,6
+6f3784297a,"Customer service was knowledgeable and patient, they guided me through the purchasing process.",Customer Service,6
+a45b0a0892,The product's performance is impressive and exceeds expectations.,Product Feedback,6
+8e63c2e6f1,The product's features are customizable and versatile.,Product Feedback,6
+1ce8c4edc4,"I was not a victim of fraud, the seller was transparent and provided a clear refund policy.",Fraud and Scam,6
 dff684806f,"I was scammed by a fraudulent seller, they took my money and never sent the product.",Fraud and Scam,6
+1663e3efcf,The product's design is minimalistic and elegant.,Product Feedback,6
 4eac363931,"I faced several issues while placing my order on the website, but the support team was helpful and resolved them.",Operational Issues,6
-d11f2e3d54,The product's performance is consistent and stable.,Product Feedback,5
-53717251d4,"I was not a victim of fraud, the seller provided a genuine product as advertised.",Fraud and Scam,5
+32e32d9c12,Customer service was knowledgeable and provided excellent assistance throughout the purchasing process.,Customer Service,5
+6c1fd60aeb,The product's performance is powerful and efficient.,Product Feedback,5
+44d7851a38,"I faced several issues while placing my order on the website, it kept crashing.",Operational Issues,5
+3da78834ad,"I had a great experience with the product, it exceeded my expectations in terms of performance.",Product Feedback,5
 035733f880,"I had a great experience with the website, it was user-friendly and easy to navigate.",Operational Issues,5
+af5d76dcd7,"I had a great experience with the support team, they were very helpful and friendly.",Customer Service,5
+5eb4b79a36,The product's design is classic and timeless.,Product Feedback,5
+2726109f7c,"The product's design is functional and practical, I love it!",Product Feedback,5
+6ba27fb29b,The product quality is excellent and exceeds my expectations.,Product Feedback,5
+f7b40a3b86,"The product performed very well and was worth the price, great value for money.",Product Feedback,5
+1e8c38733d,Delivery was on time and the product was in good condition.,Operational Issues,5
+cbcd16e730,"The product's design is modern and sleek, I love it!",Product Feedback,5
+a2a1462306,Customer service was very professional and provided clear instructions throughout the purchasing process.,Customer Service,5
+ca101735e0,The product's features are essential and improve my productivity.,Product Feedback,5
+e1d754755b,The product's design is minimalistic and functional.,Product Feedback,5
+7978543cee,Customer service was knowledgeable and provided a detailed explanation for my concern.,Customer Service,5
+d11f2e3d54,The product's performance is consistent and stable.,Product Feedback,5
+0b07fa951a,The product's features are innovative and very useful for my daily needs.,Product Feedback,5
 04f49dc978,The product's performance is stable and reliable.,Product Feedback,5
-7600421c01,"Beware of fraudulent activities, I never received my order despite being charged.",Fraud and Scam,5
 d86994788a,Customer service was incredibly helpful and resolved my issue promptly.,Customer Service,5
+0a01bbecac,"I was a victim of fraud, the seller provided a low-quality product that did not meet my expectations.",Fraud and Scam,5
+c713e2e31c,"I encountered a minor issue with the product, but the seller was responsive and provided a solution.",Product Feedback,5
+f05b5b28f9,The product exceeded my expectations in terms of quality and performance.,Product Feedback,5
+0b01b1e32e,"The product is a great investment, it performs exceptionally well and exceeds my expectations.",Product Feedback,5
+b4eb5e34d8,The product arrived in perfect condition and met all my expectations.,Product Feedback,5
+28def6eb09,"I was scammed by a fraudulent seller, they provided a low-quality product that did not meet my expectations.",Fraud and Scam,5
+53717251d4,"I was not a victim of fraud, the seller provided a genuine product as advertised.",Fraud and Scam,5
+cb5ab3df0b,"I was a victim of fraud, the seller provided a counterfeit product.",Fraud and Scam,5
+a32e62bbbe,"The delivery was delayed due to unforeseen circumstances, but the seller was transparent about the situation.",Operational Issues,5
+082b7322ad,"The website had some technical issues, but the support team was quick to resolve them.",Operational Issues,5
+3f6f46c92a,"Unfortunately, the customer service was not helpful and my issue remains unresolved.",Customer Service,5
 f447d010fc,Customer service was helpful and provided a comprehensive solution for my issue.,Customer Service,5
 8b6d34e303,Customer service was attentive and provided a detailed explanation for my concern.,Customer Service,5
-7978543cee,Customer service was knowledgeable and provided a detailed explanation for my concern.,Customer Service,5
-6c1fd60aeb,The product's performance is powerful and efficient.,Product Feedback,5
-32e32d9c12,Customer service was knowledgeable and provided excellent assistance throughout the purchasing process.,Customer Service,5
-3f6f46c92a,"Unfortunately, the customer service was not helpful and my issue remains unresolved.",Customer Service,5
-0b07fa951a,The product's features are innovative and very useful for my daily needs.,Product Feedback,5
-0b01b1e32e,"The product is a great investment, it performs exceptionally well and exceeds my expectations.",Product Feedback,5
-082b7322ad,"The website had some technical issues, but the support team was quick to resolve them.",Operational Issues,5
-2726109f7c,"The product's design is functional and practical, I love it!",Product Feedback,5
-e1d754755b,The product's design is minimalistic and functional.,Product Feedback,5
-b4eb5e34d8,The product arrived in perfect condition and met all my expectations.,Product Feedback,5
-f05b5b28f9,The product exceeded my expectations in terms of quality and performance.,Product Feedback,5
-a32e62bbbe,"The delivery was delayed due to unforeseen circumstances, but the seller was transparent about the situation.",Operational Issues,5
-cb5ab3df0b,"I was a victim of fraud, the seller provided a counterfeit product.",Fraud and Scam,5
-1e8c38733d,Delivery was on time and the product was in good condition.,Operational Issues,5
-a2a1462306,Customer service was very professional and provided clear instructions throughout the purchasing process.,Customer Service,5
-c713e2e31c,"I encountered a minor issue with the product, but the seller was responsive and provided a solution.",Product Feedback,5
-3da78834ad,"I had a great experience with the product, it exceeded my expectations in terms of performance.",Product Feedback,5
-af5d76dcd7,"I had a great experience with the support team, they were very helpful and friendly.",Customer Service,5
-44d7851a38,"I faced several issues while placing my order on the website, it kept crashing.",Operational Issues,5
-0a01bbecac,"I was a victim of fraud, the seller provided a low-quality product that did not meet my expectations.",Fraud and Scam,5
-5eb4b79a36,The product's design is classic and timeless.,Product Feedback,5
-28def6eb09,"I was scammed by a fraudulent seller, they provided a low-quality product that did not meet my expectations.",Fraud and Scam,5
-ca101735e0,The product's features are essential and improve my productivity.,Product Feedback,5
-f7b40a3b86,"The product performed very well and was worth the price, great value for money.",Product Feedback,5
-6ba27fb29b,The product quality is excellent and exceeds my expectations.,Product Feedback,5
-cbcd16e730,"The product's design is modern and sleek, I love it!",Product Feedback,5
+7600421c01,"Beware of fraudulent activities, I never received my order despite being charged.",Fraud and Scam,5
+43a06b8a46,I encountered a scam where the seller provided a low-quality product that did not meet my expectations.,Fraud and Scam,4
+c447161ffb,"The product's design is classic and timeless, I love it!",Product Feedback,4
+170af93d43,The product's design is stylish and unique.,Product Feedback,4
+c23f1031bc,The product's design is minimalist and sleek.,Product Feedback,4
+aa3d8ed6e6,The product's features are innovative and useful.,Product Feedback,4
 f108938960,The product's features are user-friendly and convenient.,Product Feedback,4
 1472e72024,The product's features are user-friendly and easy to navigate.,Product Feedback,4
-c23f1031bc,The product's design is minimalist and sleek.,Product Feedback,4
 de7b122ea0,The product's performance is powerful and robust.,Product Feedback,4
-c447161ffb,"The product's design is classic and timeless, I love it!",Product Feedback,4
-aa3d8ed6e6,The product's features are innovative and useful.,Product Feedback,4
-170af93d43,The product's design is stylish and unique.,Product Feedback,4
-43a06b8a46,I encountered a scam where the seller provided a low-quality product that did not meet my expectations.,Fraud and Scam,4
-5710c9eebb,The product's design is modern and stylish.,Product Feedback,3
-f97dc233f7,"Delivery was delayed by a week, which was inconvenient.",Operational Issues,3
-8b1284eaf2,The product's features are innovative and convenient.,Product Feedback,3
-4de7c1bf9d,Customer service was professional and provided a quick resolution for my issue.,Customer Service,3
-ea4c3998dd,The product's performance is excellent and exceeds my expectations.,Product Feedback,3
-0fdcee4a8a,The product's performance is impressive and consistent.,Product Feedback,3
-b05a7511d9,The product's performance is fast and powerful.,Product Feedback,3
-3c2a28e58f,The product's performance is efficient and reliable.,Product Feedback,3
-092c002fa4,The product's durability is impressive and it has been reliable for years.,Product Feedback,3
-e0953deba4,Customer service was friendly and provided a satisfactory explanation for my concern.,Customer Service,3
-f792f9aaf3,Customer service was knowledgeable and provided clear instructions for my concern.,Customer Service,3
-d40ab22fbc,The product's performance is reliable and efficient.,Product Feedback,3
-ab8508080e,Customer service was knowledgeable and provided a quick resolution for my issue.,Customer Service,3
-6582e5924e,Customer service was helpful and resolved my issue promptly.,Customer Service,3
-d35a1d2afa,The product's performance is robust and durable.,Product Feedback,3
 6a0ca83701,The product's design is ergonomic and practical.,Product Feedback,3
 5622bae3ec,The product's design is simple and functional.,Product Feedback,3
-d352d55008,"The product's design is unique and eye-catching, I love it!",Product Feedback,3
-92fbba5d45,The product's design is modern and functional.,Product Feedback,3
+d35a1d2afa,The product's performance is robust and durable.,Product Feedback,3
+8b1284eaf2,The product's features are innovative and convenient.,Product Feedback,3
+0fdcee4a8a,The product's performance is impressive and consistent.,Product Feedback,3
+f792f9aaf3,Customer service was knowledgeable and provided clear instructions for my concern.,Customer Service,3
+5710c9eebb,The product's design is modern and stylish.,Product Feedback,3
 2b779dc52f,The product's design is modern and sophisticated.,Product Feedback,3
-f1a8f5d453,"The product's design is minimalist and sophisticated, I love it!",Product Feedback,3
+4de7c1bf9d,Customer service was professional and provided a quick resolution for my issue.,Customer Service,3
 e68cb00bdc,The product's performance is smooth and seamless.,Product Feedback,3
+3c2a28e58f,The product's performance is efficient and reliable.,Product Feedback,3
+d40ab22fbc,The product's performance is reliable and efficient.,Product Feedback,3
+92fbba5d45,The product's design is modern and functional.,Product Feedback,3
+f97dc233f7,"Delivery was delayed by a week, which was inconvenient.",Operational Issues,3
+ab8508080e,Customer service was knowledgeable and provided a quick resolution for my issue.,Customer Service,3
+6582e5924e,Customer service was helpful and resolved my issue promptly.,Customer Service,3
+ea4c3998dd,The product's performance is excellent and exceeds my expectations.,Product Feedback,3
+b05a7511d9,The product's performance is fast and powerful.,Product Feedback,3
+092c002fa4,The product's durability is impressive and it has been reliable for years.,Product Feedback,3
+d352d55008,"The product's design is unique and eye-catching, I love it!",Product Feedback,3
+f1a8f5d453,"The product's design is minimalist and sophisticated, I love it!",Product Feedback,3
+e0953deba4,Customer service was friendly and provided a satisfactory explanation for my concern.,Customer Service,3
 7b1fd4b344,The product's design is futuristic and high-tech.,Product Feedback,3
-dc7b7dc20d,The product's performance is consistent and reliable.,Product Feedback,2
-1c96976b91,"Delivery was delayed by two weeks, which was very inconvenient.",Operational Issues,2
-5c251848fd,The product's features are innovative and enhance my daily tasks.,Product Feedback,2
-86d13a332c,The product's performance is efficient and powerful.,Product Feedback,2
-cd4bbf1d97,The product's performance is fast and efficient.,Product Feedback,2
-3e794a84f3,The product's performance is impressive and efficient.,Product Feedback,2
-a0b3edff57,The product's performance is accurate and precise.,Product Feedback,2
-7c2945dfff,The product's features are intuitive and user-friendly.,Product Feedback,2
-994505e3cb,"The product's design is traditional and nostalgic, I love it!",Product Feedback,2
-2db2c72de6,The product's design is sleek and aesthetically pleasing.,Product Feedback,2
-534dd28897,The product's design is sleek and minimalist.,Product Feedback,2
-59b97c676e,The product's design is modern and innovative.,Product Feedback,2
-90aec9f1d3,The product's design is stylish and trendy.,Product Feedback,2
-66f98f9e5c,The product's features are efficient and productive.,Product Feedback,2
-ca7df7747d,The product's design is visually appealing and functional.,Product Feedback,2
-a5ed9fcfa6,"The product's design is vintage and classic, I love it!",Product Feedback,2
-47e59f7efd,The product's features are innovative and useful for my daily needs.,Product Feedback,2
-87c35114da,The product's design is timeless and elegant.,Product Feedback,2
 f48684b9c6,"The product's design is artistic and visually appealing, I love it!",Product Feedback,2
-b30379fea1,The product's design is unique and visually appealing.,Product Feedback,2
-01d9755420,The product's design is unique and eye-catching.,Product Feedback,2
-e55a363764,The product's design is stylish and contemporary.,Product Feedback,2
-efaa38a80f,The product's design is modern and elegant.,Product Feedback,2
-590b8d8e5d,The product's quality is top-notch and it performs efficiently.,Product Feedback,2
-bf8a552b9b,The product's design is minimalist and sophisticated.,Product Feedback,2
-200ce96d75,The product's design is minimalist and chic.,Product Feedback,2
-29c02f2ba7,The product's design is minimalistic and chic.,Product Feedback,2
 082bcc6b0d,The product's design is functional and meets my needs.,Product Feedback,2
+590b8d8e5d,The product's quality is top-notch and it performs efficiently.,Product Feedback,2
 22876bd6e3,The product's design is elegant and timeless.,Product Feedback,2
+200ce96d75,The product's design is minimalist and chic.,Product Feedback,2
+bf8a552b9b,The product's design is minimalist and sophisticated.,Product Feedback,2
+59b97c676e,The product's design is modern and innovative.,Product Feedback,2
+534dd28897,The product's design is sleek and minimalist.,Product Feedback,2
+29c02f2ba7,The product's design is minimalistic and chic.,Product Feedback,2
+efaa38a80f,The product's design is modern and elegant.,Product Feedback,2
+2db2c72de6,The product's design is sleek and aesthetically pleasing.,Product Feedback,2
 fb099cafe7,The product's design is eco-friendly and sustainable.,Product Feedback,2
 19aeaf3f01,The product's design is contemporary and trendy.,Product Feedback,2
+dc7b7dc20d,The product's performance is consistent and reliable.,Product Feedback,2
+86d13a332c,The product's performance is efficient and powerful.,Product Feedback,2
+a0b3edff57,The product's performance is accurate and precise.,Product Feedback,2
+b30379fea1,The product's design is unique and visually appealing.,Product Feedback,2
+a5ed9fcfa6,"The product's design is vintage and classic, I love it!",Product Feedback,2
+ca7df7747d,The product's design is visually appealing and functional.,Product Feedback,2
 673da8f88e,The product's design is minimalist and understated.,Product Feedback,2
-8b615101a5,The product's performance is outstanding and exceeds expectations.,Product Feedback,2
+1c96976b91,"Delivery was delayed by two weeks, which was very inconvenient.",Operational Issues,2
+7c2945dfff,The product's features are intuitive and user-friendly.,Product Feedback,2
+cd4bbf1d97,The product's performance is fast and efficient.,Product Feedback,2
 43c150febe,Customer service was helpful and provided a quick resolution for my issue.,Customer Service,2
-5e1da4376e,Customer service was attentive and provided a clear explanation for my concern.,Customer Service,1
+3e794a84f3,The product's performance is impressive and efficient.,Product Feedback,2
+8b615101a5,The product's performance is outstanding and exceeds expectations.,Product Feedback,2
+47e59f7efd,The product's features are innovative and useful for my daily needs.,Product Feedback,2
+5c251848fd,The product's features are innovative and enhance my daily tasks.,Product Feedback,2
+66f98f9e5c,The product's features are efficient and productive.,Product Feedback,2
+01d9755420,The product's design is unique and eye-catching.,Product Feedback,2
+994505e3cb,"The product's design is traditional and nostalgic, I love it!",Product Feedback,2
+87c35114da,The product's design is timeless and elegant.,Product Feedback,2
+90aec9f1d3,The product's design is stylish and trendy.,Product Feedback,2
+e55a363764,The product's design is stylish and contemporary.,Product Feedback,2
+0800099a33,"Customer service was exceptional, they resolved my issue quickly and efficiently.",Customer Service,1
 674fab162c,Customer service was attentive and provided clear instructions for my concern.,Customer Service,1
 8936e1c53a,"Customer service was excellent, they went above and beyond to help me.",Customer Service,1
-0800099a33,"Customer service was exceptional, they resolved my issue quickly and efficiently.",Customer Service,1
-a1ba4b63b8,"Customer service was friendly and efficient, my issue was resolved quickly.",Customer Service,1
-60fa13e19b,Customer service was friendly and provided valuable insights for my query.,Customer Service,1
-4527d355ef,Customer service was friendly and resolved my issue within minutes.,Customer Service,1
-e5444e7b9a,Customer service was helpful and provided a satisfactory solution.,Customer Service,1
-7f39c23477,Customer service was helpful and resolved my issue quickly.,Customer Service,1
-31a29e897a,Customer service was incredibly helpful and resolved my issue within minutes.,Customer Service,1
-7645297176,Customer service was knowledgeable and provided a comprehensive solution for my issue.,Customer Service,1
-35c0f95e45,The product's performance is outstanding and meets my requirements.,Product Feedback,1
-e007078b97,The product's performance is powerful and effective.,Product Feedback,1
-ddddf7d1c9,The product's performance is reliable and dependable.,Product Feedback,1
-dd79637445,The product's performance is responsive and agile.,Product Feedback,1
-1aba9756f6,The product's performance is responsive and fast.,Product Feedback,1
-d7bed6cff0,The product's performance is robust and dependable.,Product Feedback,1
-38c4222036,The product's performance is stable and robust.,Product Feedback,1
-0f9d13ac36,The product's quality is average and does not meet my expectations.,Product Feedback,1
-aa7d93e83e,The product's quality is high and it performs efficiently.,Product Feedback,1
-d05aca3671,"The support team was helpful and friendly, they provided great assistance.",Customer Service,1
-2c0199f1d9,"There were some operational issues, the delivery was delayed and the packaging was damaged.",Operational Issues,1
-1bdcf9988d,"There were some operational issues, the website had glitches and the checkout process was difficult.",Operational Issues,1
-dbf15656fa,"The product's design is colorful and playful, I love it!",Product Feedback,1
-3833d7b623,"The product's design is colorful and vibrant, I love it!",Product Feedback,1
-c3878fad92,"The product's design is contemporary and stylish, I love it!",Product Feedback,1
-37993542a8,"The product's design is cultural and unique, I love it!",Product Feedback,1
-05b6ed91b9,The product's design is ergonomic and stylish.,Product Feedback,1
-363e5c74e7,The product's design is ergonomic and user-friendly.,Product Feedback,1
+73e8d75ebe,The product's design is futuristic and innovative.,Product Feedback,1
+a34b7eeec7,"The product's design is futuristic and innovative, I love it!",Product Feedback,1
 41adcb45e5,The product's design is functional and user-friendly.,Product Feedback,1
 2104a88bda,The product's design is futuristic and advanced.,Product Feedback,1
-a34b7eeec7,"The product's design is futuristic and innovative, I love it!",Product Feedback,1
-73e8d75ebe,The product's design is futuristic and innovative.,Product Feedback,1
-a6cf1b8baf,The product's design is minimalist and functional.,Product Feedback,1
-895d0098d0,The product's design is minimalist and uncluttered.,Product Feedback,1
-495573633b,The product's design is minimalistic and sleek.,Product Feedback,1
+363e5c74e7,The product's design is ergonomic and user-friendly.,Product Feedback,1
+c3878fad92,"The product's design is contemporary and stylish, I love it!",Product Feedback,1
+3833d7b623,"The product's design is colorful and vibrant, I love it!",Product Feedback,1
+05b6ed91b9,The product's design is ergonomic and stylish.,Product Feedback,1
+37993542a8,"The product's design is cultural and unique, I love it!",Product Feedback,1
+a05a0faeba,"The product is of excellent quality, it exceeds my expectations.",Product Feedback,1
+e42cebf7cd,The product is well-made and exceeds my expectations. I'm very satisfied with my purchase.,Product Feedback,1
+4c60a271e1,"The product quality is good, it meets my daily needs.",Product Feedback,1
+24130038a8,The product's design is artistic and creative.,Product Feedback,1
+f7587ee7d6,"The product quality was exceptional, it exceeded my expectations.",Product Feedback,1
+d9a45f5a44,The product's design is artistic and visually appealing.,Product Feedback,1
+dbf15656fa,"The product's design is colorful and playful, I love it!",Product Feedback,1
+5d5a0bf93e,"I faced several issues while placing my order, the website was unresponsive.",Operational Issues,1
+8cae712d71,"I encountered a minor operational issue with the product, but the seller was responsive and provided a solution.",Operational Issues,1
+8634099daa,"The product is innovative and useful, it's worth the investment.",Product Feedback,1
+71c67cf838,"I faced some difficulties while placing my order, the website kept crashing.",Operational Issues,1
+f361c4d657,I encountered a fraudulent seller. They provided a counterfeit product and refused to refund my money.,Fraud and Scam,1
+6f19143bea,"The product is of high quality, it performs well and meets my needs.",Product Feedback,1
+411f8fe548,"I was not a victim of fraud, the seller provided the genuine product as advertised.",Fraud and Scam,1
+b926044d93,"I was scammed, I never received my order despite being charged.",Fraud and Scam,1
 340bff5453,"The ordering process was smooth, but the delivery was delayed.",Operational Issues,1
 fc30324663,"The product arrived with some defects, but the seller was responsive and provided a replacement.",Product Feedback,1
 405e339a20,The product did not meet my expectations and stopped working after a week.,Product Feedback,1
@@ -231,91 +222,100 @@ ed6a20f861,"The product exceeded my expectations, it's very durable and well-mad
 591ad22c5f,The product features are impressive and I'm satisfied with my purchase.,Product Feedback,1
 f3f928acb7,The product features are impressive and have greatly improved my daily tasks.,Product Feedback,1
 cfdcac50ba,"The product is a game-changer, the features are incredibly useful.",Product Feedback,1
-8634099daa,"The product is innovative and useful, it's worth the investment.",Product Feedback,1
-a05a0faeba,"The product is of excellent quality, it exceeds my expectations.",Product Feedback,1
-6f19143bea,"The product is of high quality, it performs well and meets my needs.",Product Feedback,1
-e42cebf7cd,The product is well-made and exceeds my expectations. I'm very satisfied with my purchase.,Product Feedback,1
-4c60a271e1,"The product quality is good, it meets my daily needs.",Product Feedback,1
-f7587ee7d6,"The product quality was exceptional, it exceeded my expectations.",Product Feedback,1
-24130038a8,The product's design is artistic and creative.,Product Feedback,1
-d9a45f5a44,The product's design is artistic and visually appealing.,Product Feedback,1
-20f5f7bddd,The product's design is simple and intuitive.,Product Feedback,1
-7cfab61657,"The product's design is simple and straightforward, I love it!",Product Feedback,1
-fa2979acf4,The product's design is simple yet effective.,Product Feedback,1
-4e09cbc051,The product's design is simple yet elegant.,Product Feedback,1
-a759673bae,The product's design is sleek and contemporary.,Product Feedback,1
-404f272678,The product's design is sleek and elegant.,Product Feedback,1
-e3c3a87677,The product's design is sleek and futuristic.,Product Feedback,1
-bc7db94f69,"The product's design is sleek and modern, I love it!",Product Feedback,1
-00c9439d15,The product's design is sleek and user-friendly.,Product Feedback,1
-71db9ed04e,"The product's design is sophisticated and refined, I love it!",Product Feedback,1
-8e142411b3,The product's design is stylish and modern.,Product Feedback,1
-29cf5e4164,The product's design is timeless and classic.,Product Feedback,1
-b352e22f33,The product's design is traditional and nostalgic.,Product Feedback,1
+f6d05ea37c,"I encountered a fraudulent activity, the seller asked for additional payment.",Fraud and Scam,1
 748f943024,"I was scammed, I never received the product despite being charged.",Fraud and Scam,1
-65081cddfb,"I was scammed, I received a counterfeit product despite authentic packaging.",Fraud and Scam,1
-70127cc9e1,"I was unfortunately scammed, the product I received was not as advertised.",Fraud and Scam,1
-040e99f42e,No fraudulent activity detected during my purchase.,Fraud and Scam,1
-245e3f3eb0,The customer service team was friendly and helpful. They resolved my issue promptly.,Customer Service,1
-9b363112f0,"The customer service was helpful and efficient, they resolved my issue promptly.",Customer Service,1
-b1452a6398,The customer service was outstanding and resolved my issue within minutes.,Customer Service,1
-c9dd487b2b,"The customer service was unresponsive, my issue remains unresolved.",Customer Service,1
-a3bb3d97a6,"The delivery process had some operational issues, but the product was worth it.",Operational Issues,1
 64192a06cd,"The delivery was delayed due to unforeseen circumstances, but I was informed promptly.",Operational Issues,1
+a3bb3d97a6,"The delivery process had some operational issues, but the product was worth it.",Operational Issues,1
+c9dd487b2b,"The customer service was unresponsive, my issue remains unresolved.",Customer Service,1
+b1452a6398,The customer service was outstanding and resolved my issue within minutes.,Customer Service,1
+9b363112f0,"The customer service was helpful and efficient, they resolved my issue promptly.",Customer Service,1
+1bdcf9988d,"There were some operational issues, the website had glitches and the checkout process was difficult.",Operational Issues,1
+2c0199f1d9,"There were some operational issues, the delivery was delayed and the packaging was damaged.",Operational Issues,1
+d05aca3671,"The support team was helpful and friendly, they provided great assistance.",Customer Service,1
+aa7d93e83e,The product's quality is high and it performs efficiently.,Product Feedback,1
+9b992c0b48,"I was a victim of fraud, the seller requested additional payment after purchase.",Fraud and Scam,1
+5060572ab5,"I had a terrible experience with the support team, they were unhelpful.",Customer Service,1
+245e3f3eb0,The customer service team was friendly and helpful. They resolved my issue promptly.,Customer Service,1
+040e99f42e,No fraudulent activity detected during my purchase.,Fraud and Scam,1
+70127cc9e1,"I was unfortunately scammed, the product I received was not as advertised.",Fraud and Scam,1
+65081cddfb,"I was scammed, I received a counterfeit product despite authentic packaging.",Fraud and Scam,1
+a1ba4b63b8,"Customer service was friendly and efficient, my issue was resolved quickly.",Customer Service,1
+60fa13e19b,Customer service was friendly and provided valuable insights for my query.,Customer Service,1
+0f9d13ac36,The product's quality is average and does not meet my expectations.,Product Feedback,1
+4527d355ef,Customer service was friendly and resolved my issue within minutes.,Customer Service,1
+5e1da4376e,Customer service was attentive and provided a clear explanation for my concern.,Customer Service,1
+7cfab61657,"The product's design is simple and straightforward, I love it!",Product Feedback,1
+a759673bae,The product's design is sleek and contemporary.,Product Feedback,1
+4e09cbc051,The product's design is simple yet elegant.,Product Feedback,1
+e3c3a87677,The product's design is sleek and futuristic.,Product Feedback,1
+404f272678,The product's design is sleek and elegant.,Product Feedback,1
+f93190fa5b,Fraudulent activity was detected during my transaction.,Fraud and Scam,1
+1278300037,Delivery was on time and the packaging was intact.,Operational Issues,1
+1d7cb120a3,Delivery was on time and the packaging was in good condition.,Operational Issues,1
+c0a94c76bf,Delivery was slightly delayed but the company kept me informed.,Operational Issues,1
+e8d0942f7d,Delivery was on time and the product was in pristine condition.,Operational Issues,1
+a6cf1b8baf,The product's design is minimalist and functional.,Product Feedback,1
+6a2edfb4ae,The product's features are customizable and personalizable.,Product Feedback,1
+6ed7fef809,The product's features are customizable and adaptable.,Product Feedback,1
+86b4838826,The product's features are advanced and sophisticated.,Product Feedback,1
+4914432f72,The product's features are advanced and innovative.,Product Feedback,1
+5add6f2a70,The product's features are advanced and high-tech.,Product Feedback,1
+1766de4716,The product's features are advanced and cutting-edge.,Product Feedback,1
+b8919a2ae5,The product's features are accessible and inclusive.,Product Feedback,1
+324b4e96cc,The product's durability is impressive and it has been reliable for months.,Product Feedback,1
+5c728bfbf9,The product's design is vintage and retro.,Product Feedback,1
+62312b0085,The product's durability is impressive and exceeds my expectations.,Product Feedback,1
+f45576cb32,The product's durability is commendable and it has been reliable for weeks.,Product Feedback,1
+ff2ccf8290,The product's design is visually appealing and easy to use.,Product Feedback,1
+2e54b298e8,The product's design is vintage and unique.,Product Feedback,1
+b352e22f33,The product's design is traditional and nostalgic.,Product Feedback,1
 1ae1177c6e,"The product's design is vibrant and eye-catching, I love it!",Product Feedback,1
 eb1f3fcbbf,The product's design is vibrant and eye-catching.,Product Feedback,1
-5c728bfbf9,The product's design is vintage and retro.,Product Feedback,1
-2e54b298e8,The product's design is vintage and unique.,Product Feedback,1
-ff2ccf8290,The product's design is visually appealing and easy to use.,Product Feedback,1
-f45576cb32,The product's durability is commendable and it has been reliable for weeks.,Product Feedback,1
-62312b0085,The product's durability is impressive and exceeds my expectations.,Product Feedback,1
-324b4e96cc,The product's durability is impressive and it has been reliable for months.,Product Feedback,1
-b8919a2ae5,The product's features are accessible and inclusive.,Product Feedback,1
-1766de4716,The product's features are advanced and cutting-edge.,Product Feedback,1
-5add6f2a70,The product's features are advanced and high-tech.,Product Feedback,1
-4914432f72,The product's features are advanced and innovative.,Product Feedback,1
-86b4838826,The product's features are advanced and sophisticated.,Product Feedback,1
-6ed7fef809,The product's features are customizable and adaptable.,Product Feedback,1
-6a2edfb4ae,The product's features are customizable and personalizable.,Product Feedback,1
-bbe3f7e0fd,The product's features are functional and practical.,Product Feedback,1
-ccf59c86be,The product's features are game-changing and exceeded expectations.,Product Feedback,1
-53711d3a70,The product's features are impressive and exceeded my expectations.,Product Feedback,1
-108cae584e,The product's features are innovative and convenient for my daily needs.,Product Feedback,1
-f6d05ea37c,"I encountered a fraudulent activity, the seller asked for additional payment.",Fraud and Scam,1
-f361c4d657,I encountered a fraudulent seller. They provided a counterfeit product and refused to refund my money.,Fraud and Scam,1
-8cae712d71,"I encountered a minor operational issue with the product, but the seller was responsive and provided a solution.",Operational Issues,1
-5d5a0bf93e,"I faced several issues while placing my order, the website was unresponsive.",Operational Issues,1
-71c67cf838,"I faced some difficulties while placing my order, the website kept crashing.",Operational Issues,1
-5060572ab5,"I had a terrible experience with the support team, they were unhelpful.",Customer Service,1
-9b992c0b48,"I was a victim of fraud, the seller requested additional payment after purchase.",Fraud and Scam,1
-411f8fe548,"I was not a victim of fraud, the seller provided the genuine product as advertised.",Fraud and Scam,1
-b926044d93,"I was scammed, I never received my order despite being charged.",Fraud and Scam,1
-b3fe54ffe4,Customer service was not helpful. My issue remains unresolved.,Customer Service,1
-d5a4522c3b,Customer service was outstanding and resolved my issue swiftly.,Customer Service,1
-03881967d9,Customer service was outstanding and resolved my issue within minutes.,Customer Service,1
-1a18eb9bec,Customer service was outstanding. They resolved my issue within minutes.,Customer Service,1
-8a8bcc409d,Customer service was patient and provided a comprehensive solution for my issue.,Customer Service,1
-101e1fb3e0,Customer service was patient and provided a detailed explanation for my concern.,Customer Service,1
-a6c233e4ec,Customer service was responsive and resolved my issue promptly.,Customer Service,1
-7bab746a0c,Customer service was unresponsive to my inquiry. I'm disappointed with the experience.,Customer Service,1
+71db9ed04e,"The product's design is sophisticated and refined, I love it!",Product Feedback,1
+00c9439d15,The product's design is sleek and user-friendly.,Product Feedback,1
+8e142411b3,The product's design is stylish and modern.,Product Feedback,1
+bc7db94f69,"The product's design is sleek and modern, I love it!",Product Feedback,1
+29cf5e4164,The product's design is timeless and classic.,Product Feedback,1
 25c6ba6651,Delivery was delayed by a week and the product was damaged upon arrival.,Operational Issues,1
-1d7cb120a3,Delivery was on time and the packaging was in good condition.,Operational Issues,1
-1278300037,Delivery was on time and the packaging was intact.,Operational Issues,1
-e8d0942f7d,Delivery was on time and the product was in pristine condition.,Operational Issues,1
-c0a94c76bf,Delivery was slightly delayed but the company kept me informed.,Operational Issues,1
-f93190fa5b,Fraudulent activity was detected during my transaction.,Fraud and Scam,1
+895d0098d0,The product's design is minimalist and uncluttered.,Product Feedback,1
+495573633b,The product's design is minimalistic and sleek.,Product Feedback,1
+20f5f7bddd,The product's design is simple and intuitive.,Product Feedback,1
 9847200daf,"I encountered a fraudulent activity, the product I received was not as advertised.",Fraud and Scam,1
+fa2979acf4,The product's design is simple yet effective.,Product Feedback,1
+101e1fb3e0,Customer service was patient and provided a detailed explanation for my concern.,Customer Service,1
+108cae584e,The product's features are innovative and convenient for my daily needs.,Product Feedback,1
+bbe3f7e0fd,The product's features are functional and practical.,Product Feedback,1
+53711d3a70,The product's features are impressive and exceeded my expectations.,Product Feedback,1
+ccf59c86be,The product's features are game-changing and exceeded expectations.,Product Feedback,1
+ba3785ed7c,The product's innovative features have greatly improved my daily tasks.,Product Feedback,1
+488f00e050,The product's features are user-friendly and easy to use.,Product Feedback,1
+9359aeb5d5,The product's features are versatile and adaptable.,Product Feedback,1
+2dbf3678c6,The product's features are versatile and multifunctional.,Product Feedback,1
 5523845f42,The product's features are innovative and very useful.,Product Feedback,1
 22edaf1b11,The product's features are practical and efficient.,Product Feedback,1
 795dc03e53,The product's features are practical and useful.,Product Feedback,1
 93434416f8,The product's features are unique and useful for my needs.,Product Feedback,1
-488f00e050,The product's features are user-friendly and easy to use.,Product Feedback,1
-9359aeb5d5,The product's features are versatile and adaptable.,Product Feedback,1
-2dbf3678c6,The product's features are versatile and multifunctional.,Product Feedback,1
-ba3785ed7c,The product's innovative features have greatly improved my daily tasks.,Product Feedback,1
-728e6c32cc,The product's performance is efficient and saves me time.,Product Feedback,1
-e9d33be082,The product's performance is exceptional and exceeds expectations.,Product Feedback,1
+a6c233e4ec,Customer service was responsive and resolved my issue promptly.,Customer Service,1
+7bab746a0c,Customer service was unresponsive to my inquiry. I'm disappointed with the experience.,Customer Service,1
+d5a4522c3b,Customer service was outstanding and resolved my issue swiftly.,Customer Service,1
+b3fe54ffe4,Customer service was not helpful. My issue remains unresolved.,Customer Service,1
+03881967d9,Customer service was outstanding and resolved my issue within minutes.,Customer Service,1
+1a18eb9bec,Customer service was outstanding. They resolved my issue within minutes.,Customer Service,1
+8a8bcc409d,Customer service was patient and provided a comprehensive solution for my issue.,Customer Service,1
 f9e8a330a3,The product's performance is exceptional and exceeds my expectations.,Product Feedback,1
-6235850c71,The product's performance is exceptional and meets my expectations.,Product Feedback,1
+7f39c23477,Customer service was helpful and resolved my issue quickly.,Customer Service,1
+e5444e7b9a,Customer service was helpful and provided a satisfactory solution.,Customer Service,1
 1ceef46e6d,The product's performance is fast and responsive.,Product Feedback,1
 6aba2dacec,The product's performance is impressive and exceeded my expectations.,Product Feedback,1
+e9d33be082,The product's performance is exceptional and exceeds expectations.,Product Feedback,1
+728e6c32cc,The product's performance is efficient and saves me time.,Product Feedback,1
+6235850c71,The product's performance is exceptional and meets my expectations.,Product Feedback,1
+31a29e897a,Customer service was incredibly helpful and resolved my issue within minutes.,Customer Service,1
+e007078b97,The product's performance is powerful and effective.,Product Feedback,1
+35c0f95e45,The product's performance is outstanding and meets my requirements.,Product Feedback,1
+7645297176,Customer service was knowledgeable and provided a comprehensive solution for my issue.,Customer Service,1
+ddddf7d1c9,The product's performance is reliable and dependable.,Product Feedback,1
+1aba9756f6,The product's performance is responsive and fast.,Product Feedback,1
+dd79637445,The product's performance is responsive and agile.,Product Feedback,1
+d7bed6cff0,The product's performance is robust and dependable.,Product Feedback,1
+38c4222036,The product's performance is stable and robust.,Product Feedback,1
