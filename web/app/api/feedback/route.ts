@@ -4,10 +4,35 @@ import { connection } from "next/server";
 
 import { classifyFeedback } from "@/lib/classify";
 import { getClusterRows } from "@/lib/db";
-import { addUserFeedback } from "@/lib/feedback-store";
+import { addUserFeedback, mergeUserFeedback } from "@/lib/feedback-store";
+
+// Simple in-memory per-IP rate limit (per-instance; documented limitation).
+const RATE_WINDOW_MS = 60_000;
+const RATE_MAX = 20;
+const rateHits = new Map<string, { count: number; resetAt: number }>();
+
+function rateLimited(key: string): boolean {
+  const now = Date.now();
+  const entry = rateHits.get(key);
+  if (!entry || now > entry.resetAt) {
+    rateHits.set(key, { count: 1, resetAt: now + RATE_WINDOW_MS });
+    return false;
+  }
+  entry.count += 1;
+  return entry.count > RATE_MAX;
+}
 
 export async function POST(req: NextRequest) {
   await connection();
+  const ip =
+    req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "local";
+  if (rateLimited(ip)) {
+    return NextResponse.json(
+      { error: "Too many submissions. Try again in a minute." },
+      { status: 429 },
+    );
+  }
+
   let body: unknown;
   try {
     body = await req.json();
@@ -18,9 +43,16 @@ export async function POST(req: NextRequest) {
     text?: unknown;
     category?: unknown;
   };
-  if (typeof text !== "string" || text.trim().length < 3) {
+  const trimmed = typeof text === "string" ? text.trim() : "";
+  if (trimmed.length < 10) {
     return NextResponse.json(
-      { error: "Review text must be at least 3 characters." },
+      { error: "Review text must be at least 10 characters." },
+      { status: 400 },
+    );
+  }
+  if (trimmed.length > 1000) {
+    return NextResponse.json(
+      { error: "Review text must be at most 1000 characters." },
       { status: 400 },
     );
   }
@@ -30,30 +62,48 @@ export async function POST(req: NextRequest) {
       { status: 400 },
     );
   }
-  if (text.length > 2000) {
+
+  try {
+    // Duplicate handling first: lower(text) already exists -> increment.
+    const merged = await mergeUserFeedback(trimmed);
+    if (merged) {
+      revalidatePath("/");
+      revalidatePath("/feedback");
+      return NextResponse.json(
+        { record: merged, merged: true, llmFallback: false },
+        { status: 200 },
+      );
+    }
+
+    const clusters = await getClusterRows();
+    const classification = await classifyFeedback(
+      trimmed,
+      category.trim(),
+      clusters,
+    );
+    const record = await addUserFeedback({
+      text: trimmed,
+      category: category.trim(),
+      sentiment: classification.sentiment,
+      score: classification.score,
+      topic: classification.topic,
+      cluster: classification.cluster,
+      llmFailed: classification.llmFailed,
+    });
+
+    revalidatePath("/");
+    revalidatePath("/feedback");
+
     return NextResponse.json(
-      { error: "Review text must be under 2000 characters." },
-      { status: 400 },
+      { record, merged: false, llmFallback: classification.llmFailed },
+      { status: 201 },
+    );
+  } catch (err) {
+    return NextResponse.json(
+      {
+        error: `Could not save feedback: ${err instanceof Error ? err.message : "unknown error"}`,
+      },
+      { status: 500 },
     );
   }
-
-  const clusters = await getClusterRows();
-  const classification = await classifyFeedback(
-    text.trim(),
-    category.trim(),
-    clusters,
-  );
-  const record = await addUserFeedback({
-    text: text.trim(),
-    category: category.trim(),
-    sentiment: classification.sentiment,
-    score: classification.score,
-    topic: classification.topic,
-    cluster: classification.cluster,
-  });
-
-  revalidatePath("/");
-  revalidatePath("/feedback");
-
-  return NextResponse.json({ record }, { status: 201 });
 }

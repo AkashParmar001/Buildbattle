@@ -1,5 +1,5 @@
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
-import { readFile } from "node:fs/promises";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 
 // Server-side only. Never import this module from client components.
@@ -93,7 +93,32 @@ export function loadSeedAnalysis(): Promise<AnalysisData> {
   return seedPromise;
 }
 
-type FeedbackRow = {
+// Merge adjustments: in fallback mode a duplicate submission of a seed text
+// increments its volume. The committed seed file stays untouched; deltas live
+// in a gitignored overlay and are applied on read (read fresh each call —
+// not memoised — so later increments show up).
+const MERGE_FILE = path.join(process.cwd(), "data", "user-merges.json");
+
+export async function loadMergeAdjustments(): Promise<Record<string, number>> {
+  try {
+    return JSON.parse(await readFile(MERGE_FILE, "utf8")) as Record<
+      string,
+      number
+    >;
+  } catch {
+    return {};
+  }
+}
+
+export async function addMergeAdjustment(text: string): Promise<void> {
+  const key = text.trim().toLowerCase();
+  const current = await loadMergeAdjustments();
+  current[key] = (current[key] ?? 0) + 1;
+  await mkdir(path.dirname(MERGE_FILE), { recursive: true });
+  await writeFile(MERGE_FILE, JSON.stringify(current, null, 1));
+}
+
+export type FeedbackRow = {
   id: string;
   text: string;
   adapted_text: string | null;
@@ -106,7 +131,7 @@ type FeedbackRow = {
   weekly: number[];
 };
 
-function mapFeedbackRow(row: FeedbackRow): FeedbackRecord {
+export function mapFeedbackRow(row: FeedbackRow): FeedbackRecord {
   return {
     id: row.id,
     text: row.text,
@@ -130,7 +155,16 @@ export async function getFeedbackRows(): Promise<FeedbackRecord[]> {
     if (error) throw new Error(`Supabase feedback read failed: ${error.message}`);
     return (data as FeedbackRow[]).map(mapFeedbackRow);
   }
-  return (await loadSeedAnalysis()).feedback;
+  const seed = await loadSeedAnalysis();
+  const adjustments = await loadMergeAdjustments();
+  const keys = Object.keys(adjustments);
+  if (keys.length === 0) return seed.feedback;
+  // Apply volume merges onto matching seed texts (count only — seed weekly
+  // arrays stay simulated; live volume is shown as the separate Live series).
+  return seed.feedback.map((r) => {
+    const delta = adjustments[r.text.trim().toLowerCase()];
+    return delta ? { ...r, count: r.count + delta } : r;
+  });
 }
 
 export async function getClusterRows(): Promise<ClusterRecord[]> {

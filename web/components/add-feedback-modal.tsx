@@ -13,11 +13,13 @@ export function AddFeedbackModal({ categories }: AddFeedbackModalProps) {
   const [text, setText] = useState("");
   const [category, setCategory] = useState(categories[0] ?? "");
   const [error, setError] = useState<string | null>(null);
+  const [status, setStatus] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
+    setStatus(null);
     setSaving(true);
     try {
       const res = await fetch("/api/feedback", {
@@ -25,10 +27,21 @@ export function AddFeedbackModal({ categories }: AddFeedbackModalProps) {
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ text, category }),
       });
-      const json = (await res.json()) as { error?: string };
+      const json = (await res.json()) as {
+        error?: string;
+        merged?: boolean;
+        llmFallback?: boolean;
+      };
       if (!res.ok) {
         setError(json.error ?? "Could not save feedback.");
         return;
+      }
+      if (json.merged) {
+        setStatus("Duplicate merged into the existing review (+1 volume).");
+      } else if (json.llmFallback) {
+        setStatus("Saved — LLM was unavailable, classified as neutral/unclustered.");
+      } else {
+        setStatus("Saved.");
       }
       setText("");
       dialogRef.current?.close();
@@ -58,6 +71,7 @@ export function AddFeedbackModal({ categories }: AddFeedbackModalProps) {
         }}
         onClose={() => {
           setError(null);
+          setStatus(null);
           setSaving(false);
         }}
       >
@@ -73,8 +87,8 @@ export function AddFeedbackModal({ categories }: AddFeedbackModalProps) {
               value={text}
               onChange={(e) => setText(e.target.value)}
               required
-              minLength={3}
-              maxLength={2000}
+              minLength={10}
+              maxLength={1000}
               rows={4}
               placeholder="What did the customer say?"
               className="rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm dark:border-zinc-800 dark:bg-zinc-900"
@@ -101,6 +115,11 @@ export function AddFeedbackModal({ categories }: AddFeedbackModalProps) {
               {error}
             </p>
           )}
+          {!error && status && (
+            <p role="status" className="text-sm text-zinc-600 dark:text-zinc-300">
+              {status}
+            </p>
+          )}
           <div className="flex justify-end gap-2">
             <button
               type="button"
@@ -111,7 +130,7 @@ export function AddFeedbackModal({ categories }: AddFeedbackModalProps) {
             </button>
             <button
               type="submit"
-              disabled={saving || text.trim().length < 3}
+              disabled={saving || text.trim().length < 10}
               className="h-9 rounded-lg bg-accent px-4 text-sm font-medium text-white hover:opacity-90 disabled:opacity-50"
             >
               {saving ? "Saving…" : "Save"}

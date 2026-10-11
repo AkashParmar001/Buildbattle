@@ -2,7 +2,14 @@ import { randomUUID } from "node:crypto";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 
-import { getSupabase, type FeedbackRecord } from "@/lib/db";
+import {
+  addMergeAdjustment,
+  getSupabase,
+  loadSeedAnalysis,
+  mapFeedbackRow,
+  type FeedbackRecord,
+  type FeedbackRow,
+} from "@/lib/db";
 
 // User-submitted/imported feedback. With Supabase configured it lives in the
 // `feedback` table; otherwise it is appended to data/user-feedback.json next
@@ -15,6 +22,8 @@ export type UserFeedbackInput = {
   score: number;
   topic: string;
   cluster: number;
+  /** True when an LLM was configured but the classification call failed. */
+  llmFailed?: boolean;
 };
 
 const OVERLAY_FILE = path.join(process.cwd(), "data", "user-feedback.json");
@@ -65,6 +74,73 @@ export async function keyOfExisting(): Promise<Set<string>> {
   );
 }
 
+const SELECT_COLUMNS =
+  "id,text,adapted_text,category,duplicate_count,sentiment,sentiment_score,topic,cluster_id,weekly";
+
+// Duplicate handling: if lower(text) already exists, increment its volume
+// instead of inserting. Returns the updated record, or null when no match.
+export async function mergeUserFeedback(
+  text: string,
+): Promise<FeedbackRecord | null> {
+  const key = text.trim().toLowerCase();
+  const supabase = getSupabase();
+  if (supabase) {
+    // Scan (fetch) and match case-insensitively in JS: avoids SQL LIKE
+    // escaping pitfalls; row counts here are small (hundreds to low thousands).
+    const { data, error } = await supabase
+      .from("feedback")
+      .select(SELECT_COLUMNS)
+      .limit(10000);
+    if (error) throw new Error(`Supabase feedback read failed: ${error.message}`);
+    const match = (data as FeedbackRow[])
+      .map(mapFeedbackRow)
+      .find((r) => r.text.trim().toLowerCase() === key);
+    if (!match) return null;
+    const { data: updated, error: updateError } = await supabase
+      .from("feedback")
+      .update({ duplicate_count: match.count + 1 })
+      .eq("id", match.id)
+      .select(SELECT_COLUMNS)
+      .single();
+    if (updateError) {
+      throw new Error(`Supabase duplicate merge failed: ${updateError.message}`);
+    }
+    return mapFeedbackRow(updated as FeedbackRow);
+  }
+
+  // Fallback: duplicate of an overlay row -> bump it in place.
+  const file = await readOverlayFile();
+  const inFile = file.find((r) => r.text.trim().toLowerCase() === key);
+  if (inFile) {
+    inFile.count += 1;
+    try {
+      await mkdir(path.dirname(OVERLAY_FILE), { recursive: true });
+      await writeFile(OVERLAY_FILE, JSON.stringify(file, null, 1));
+    } catch (err) {
+      throw new Error(
+        `Could not persist duplicate merge: ${err instanceof Error ? err.message : "write failed"}`,
+      );
+    }
+    return inFile;
+  }
+  const inMemory = memoryOverlay.find((r) => r.text.trim().toLowerCase() === key);
+  if (inMemory) {
+    inMemory.count += 1;
+    return inMemory;
+  }
+
+  // Fallback: duplicate of a seed text -> delta overlay (seed file untouched).
+  const seed = await loadSeedAnalysis();
+  const seedMatch = seed.feedback.find(
+    (r) => r.text.trim().toLowerCase() === key,
+  );
+  if (seedMatch) {
+    await addMergeAdjustment(key);
+    return { ...seedMatch, count: seedMatch.count + 1 };
+  }
+  return null;
+}
+
 export async function addUserFeedback(
   input: UserFeedbackInput,
 ): Promise<FeedbackRecord> {
@@ -76,7 +152,7 @@ export async function addUserFeedback(
       text: record.text,
       adapted_text: null,
       category: record.category,
-      source: "user",
+      source: "manual",
       is_simulated_date: false,
       sentiment: record.sentiment,
       sentiment_score: record.score,
@@ -84,6 +160,8 @@ export async function addUserFeedback(
       cluster_id: record.cluster,
       duplicate_count: 1,
       weekly: record.weekly,
+      // quality_score doubles as the LLM-failure marker: 0 = flagged.
+      quality_score: input.llmFailed ? 0 : null,
     });
     if (error) throw new Error(`Supabase insert failed: ${error.message}`);
     return record;

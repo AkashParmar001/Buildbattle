@@ -9,6 +9,8 @@ export type Classification = {
   score: number;
   topic: string;
   cluster: number;
+  /** True when an LLM key was configured but the call failed. */
+  llmFailed: boolean;
 };
 
 const NEG = new Set(
@@ -153,10 +155,12 @@ export function nearestCluster(text: string, clusters: ClusterRecord[]): number 
   return bestScore > 0 ? best : -1;
 }
 
+// null = no key configured (heuristic mode); "failed" = key present but the
+// call or parse failed; object = LLM classification.
 async function llmClassify(
   text: string,
   category: string,
-): Promise<Omit<Classification, "cluster"> | null> {
+): Promise<Omit<Classification, "cluster" | "llmFailed"> | null | "failed"> {
   const key = process.env.ANTHROPIC_API_KEY;
   if (!key) return null;
   try {
@@ -178,25 +182,27 @@ async function llmClassify(
         ],
       }),
     });
-    if (!res.ok) return null;
+    if (!res.ok) return "failed";
     const json = (await res.json()) as {
       content?: { text?: string }[];
     };
     const raw = json.content?.[0]?.text?.replace(/^```(?:json)?|```$/g, "").trim();
-    if (!raw) return null;
+    if (!raw) return "failed";
     const parsed = JSON.parse(raw) as {
       sentiment: Classification["sentiment"];
       score: number;
       topic: string;
     };
-    if (!["positive", "neutral", "negative"].includes(parsed.sentiment)) return null;
+    if (!["positive", "neutral", "negative"].includes(parsed.sentiment)) {
+      return "failed";
+    }
     return {
       sentiment: parsed.sentiment,
       score: Math.max(-1, Math.min(1, Number(parsed.score) || 0)),
       topic: String(parsed.topic).slice(0, 60),
     };
   } catch {
-    return null;
+    return "failed";
   }
 }
 
@@ -206,11 +212,22 @@ export async function classifyFeedback(
   clusters: ClusterRecord[],
 ): Promise<Classification> {
   const llm = await llmClassify(text, category);
+  // LLM was supposed to answer but failed: neutral + unclustered + flagged.
+  if (llm === "failed") {
+    return {
+      sentiment: "neutral",
+      score: 0,
+      topic: "unclassified",
+      cluster: -1,
+      llmFailed: true,
+    };
+  }
   const sentiment = llm ?? heuristicSentiment(text);
   return {
     sentiment: sentiment.sentiment,
     score: sentiment.score,
     topic: llm?.topic ?? heuristicTopic(text, category, sentiment.sentiment),
     cluster: nearestCluster(text, clusters),
+    llmFailed: false,
   };
 }
