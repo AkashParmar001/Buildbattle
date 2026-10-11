@@ -20,14 +20,14 @@ export function ReportActions({ url }: { url: string }) {
       <button
         type="button"
         onClick={() => window.print()}
-        className="inline-flex h-9 items-center rounded-lg bg-accent px-4 text-sm font-medium text-white hover:opacity-90"
+        className="inline-flex h-9 items-center rounded-lg bg-accent px-4 text-sm font-medium text-accent-foreground hover:opacity-90"
       >
         Export PDF
       </button>
       <button
         type="button"
         onClick={() => void copy()}
-        className="inline-flex h-9 items-center rounded-lg border border-zinc-200 px-4 text-sm font-medium hover:bg-zinc-100 dark:border-zinc-800 dark:hover:bg-zinc-800"
+        className="inline-flex h-9 items-center rounded-lg border border-border px-4 text-sm font-medium hover:bg-muted"
       >
         {copied ? "Copied!" : "Copy share link"}
       </button>

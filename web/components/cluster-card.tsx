@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import type { InsightCluster } from "@/lib/analytics";
+import { priorityTextClass, priorityTier, sentimentColors } from "@/lib/colors";
 import { SimulatedBadge } from "@/components/simulated-badge";
 import { Sparkline } from "@/components/sparkline";
 import { Card, CardContent } from "@/components/ui/card";
@@ -20,11 +21,17 @@ function SentimentBar({
     <div
       role="img"
       aria-label={`Sentiment: positive ${pct(positive).toFixed(1)} percent, neutral ${pct(neutral).toFixed(1)} percent, negative ${pct(negative).toFixed(1)} percent`}
-      className="flex h-2 w-full overflow-hidden rounded-full bg-zinc-100 dark:bg-zinc-800"
+      className="flex h-2 w-full overflow-hidden rounded-full bg-muted"
     >
-      <span style={{ width: `${pct(positive)}%` }} className="bg-emerald-500" />
-      <span style={{ width: `${pct(neutral)}%` }} className="bg-zinc-400" />
-      <span style={{ width: `${pct(negative)}%` }} className="bg-rose-500" />
+      <span
+        style={{ width: `${pct(positive)}%`, backgroundColor: sentimentColors.positive }}
+      />
+      <span
+        style={{ width: `${pct(neutral)}%`, backgroundColor: sentimentColors.neutral }}
+      />
+      <span
+        style={{ width: `${pct(negative)}%`, backgroundColor: sentimentColors.negative }}
+      />
     </div>
   );
 }
@@ -38,18 +45,20 @@ export function ClusterCard({ cluster }: { cluster: InsightCluster }) {
             <h2 className="text-base font-semibold tracking-tight">
               {cluster.label}
             </h2>
-            <p className="mt-0.5 text-xs text-zinc-500 dark:text-zinc-400">
+            <p className="mt-0.5 text-xs text-muted-foreground">
               {cluster.volume.toLocaleString()} reports ·{" "}
               {(cluster.share * 100).toFixed(1)}% of volume ·{" "}
               {cluster.dominantCategory}
             </p>
           </div>
-          <span className="inline-flex shrink-0 items-center rounded-full bg-accent/10 px-2.5 py-1 text-xs font-semibold text-accent">
+          <span
+            className={`inline-flex shrink-0 items-center rounded-full bg-muted px-2.5 py-1 text-xs font-semibold tabular-nums ${priorityTextClass[priorityTier(cluster.priority)]}`}
+          >
             Priority {cluster.priority.toFixed(1)}
           </span>
         </div>
 
-        <p className="text-sm leading-6 text-zinc-600 dark:text-zinc-300">
+        <p className="text-sm leading-6 text-muted-foreground">
           {cluster.summary}
         </p>
 
@@ -59,7 +68,7 @@ export function ClusterCard({ cluster }: { cluster: InsightCluster }) {
             neutral={cluster.sentiment.neutral}
             negative={cluster.sentiment.negative}
           />
-          <div className="flex justify-between text-xs text-zinc-500 dark:text-zinc-400">
+          <div className="flex justify-between text-xs text-muted-foreground">
             <span>
               {(cluster.negativity * 100).toFixed(0)}% negative
             </span>
@@ -76,14 +85,14 @@ export function ClusterCard({ cluster }: { cluster: InsightCluster }) {
         </div>
 
         <div>
-          <p className="mb-1.5 text-xs font-medium tracking-wide text-zinc-500 uppercase dark:text-zinc-400">
+          <p className="mb-1.5 text-xs font-medium tracking-wide text-muted-foreground uppercase">
             Example reviews
           </p>
           <ul className="flex flex-col gap-1.5">
             {cluster.examples.slice(0, 3).map((ex, i) => (
               <li
                 key={i}
-                className="rounded-lg bg-zinc-50 px-3 py-2 text-xs leading-5 text-zinc-600 dark:bg-zinc-900 dark:text-zinc-300"
+                className="rounded-lg bg-muted px-3 py-2 text-xs leading-5 text-muted-foreground"
               >
                 “{ex}”
               </li>

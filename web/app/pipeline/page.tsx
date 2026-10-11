@@ -25,13 +25,13 @@ function StepCard({
   return (
     <li className="flex gap-3">
       <div className="flex flex-col items-center">
-        <span className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-accent/10 text-xs font-bold text-accent">
+        <span className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-muted text-xs font-bold text-muted-foreground">
           {n}
         </span>
         {!last && (
           <span
             aria-hidden="true"
-            className="w-px flex-1 bg-zinc-200 dark:bg-zinc-800"
+            className="w-px flex-1 bg-muted"
           />
         )}
       </div>
@@ -40,10 +40,10 @@ function StepCard({
           <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-500" />
           <div className="min-w-0">
             <p className="text-sm font-semibold">{title}</p>
-            <p className="text-xs text-zinc-500 dark:text-zinc-400">{detail}</p>
+            <p className="text-xs text-muted-foreground">{detail}</p>
           </div>
           {completedAt && (
-            <span className="ml-auto text-xs whitespace-nowrap text-zinc-400 dark:text-zinc-500">
+            <span className="ml-auto text-xs whitespace-nowrap text-muted-foreground">
               {new Date(completedAt).toLocaleString()}
             </span>
           )}
@@ -74,7 +74,7 @@ export default async function PipelinePage() {
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
           <h1 className="text-2xl font-semibold tracking-tight">Pipeline</h1>
-          <p className="mt-1 max-w-2xl text-sm text-zinc-500 dark:text-zinc-400">
+          <p className="mt-1 max-w-2xl text-sm text-muted-foreground">
             Raw feedback → dedupe → Adaption refinement → sentiment &amp;
             topics → clusters → priority → recommendations. Every number below
             comes from a committed data file — nothing invented.
@@ -135,38 +135,38 @@ export default async function PipelinePage() {
             Adaption: what was sent &amp; settings
           </h2>
           <dl className="grid grid-cols-1 gap-2 text-xs sm:grid-cols-2">
-            <div className="rounded-lg bg-zinc-50 px-3 py-2 dark:bg-zinc-900">
-              <dt className="font-medium text-zinc-500 dark:text-zinc-400">
+            <div className="rounded-lg bg-muted px-3 py-2">
+              <dt className="font-medium text-muted-foreground">
                 What was sent
               </dt>
               <dd className="mt-0.5">
                 {adaption.input_rows} deduped reviews from data/unique.csv
               </dd>
             </div>
-            <div className="rounded-lg bg-zinc-50 px-3 py-2 dark:bg-zinc-900">
-              <dt className="font-medium text-zinc-500 dark:text-zinc-400">
+            <div className="rounded-lg bg-muted px-3 py-2">
+              <dt className="font-medium text-muted-foreground">
                 Column mapping
               </dt>
               <dd className="mt-0.5 font-mono">
                 {JSON.stringify(adaption.column_mapping)}
               </dd>
             </div>
-            <div className="rounded-lg bg-zinc-50 px-3 py-2 dark:bg-zinc-900">
-              <dt className="font-medium text-zinc-500 dark:text-zinc-400">
+            <div className="rounded-lg bg-muted px-3 py-2">
+              <dt className="font-medium text-muted-foreground">
                 Brand controls
               </dt>
               <dd className="mt-0.5 font-mono">
                 {JSON.stringify(adaption.brand_controls)}
               </dd>
             </div>
-            <div className="rounded-lg bg-zinc-50 px-3 py-2 dark:bg-zinc-900">
-              <dt className="font-medium text-zinc-500 dark:text-zinc-400">
+            <div className="rounded-lg bg-muted px-3 py-2">
+              <dt className="font-medium text-muted-foreground">
                 What came back
               </dt>
               <dd className="mt-0.5">{adaption.output}</dd>
             </div>
           </dl>
-          <p className="text-xs leading-5 text-zinc-500 dark:text-zinc-400">
+          <p className="text-xs leading-5 text-muted-foreground">
             Dataset {adaption.dataset_id}. Downstream sentiment and clustering
             run on the original review text: this run produced improved{" "}
             <em>responses</em> (chosen / rejected pairs), not rewritten
@@ -180,25 +180,25 @@ export default async function PipelinePage() {
         <h2 className="text-base font-semibold tracking-tight">
           Raw vs refined — 5 examples
         </h2>
-        <p className="mt-0.5 text-xs text-zinc-500 dark:text-zinc-400">
+        <p className="mt-0.5 text-xs text-muted-foreground">
           Original review → Adaption-improved response, with report volume.
         </p>
         <div className="mt-3 flex flex-col gap-3">
           {showcase.examples.map((ex, i) => (
             <Card key={i}>
               <CardContent className="flex flex-col gap-2">
-                <p className="text-xs font-medium text-zinc-500 dark:text-zinc-400">
+                <p className="text-xs font-medium text-muted-foreground">
                   {ex.category} · {ex.count.toLocaleString()} reports
                 </p>
                 <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
-                  <div className="min-w-0 rounded-lg border border-zinc-200 p-3 break-words dark:border-zinc-800">
-                    <p className="mb-1 text-[11px] font-semibold tracking-wide text-zinc-400 uppercase">
+                  <div className="min-w-0 rounded-lg border border-border p-3 break-words">
+                    <p className="mb-1 text-[11px] font-semibold tracking-wide text-muted-foreground uppercase">
                       Raw review
                     </p>
                     <p className="text-xs leading-5">{ex.raw}</p>
                   </div>
-                  <div className="min-w-0 rounded-lg border border-accent/30 bg-accent/[0.03] p-3 break-words">
-                    <p className="mb-1 text-[11px] font-semibold tracking-wide text-accent uppercase">
+                  <div className="min-w-0 rounded-lg border border-border bg-muted p-3 break-words">
+                    <p className="mb-1 text-[11px] font-semibold tracking-wide text-muted-foreground uppercase">
                       Refined (improved response)
                     </p>
                     <p className="text-xs leading-5 whitespace-pre-line">
@@ -222,7 +222,7 @@ export default async function PipelinePage() {
               <div className="overflow-x-auto">
                 <table className="w-full min-w-[420px] text-xs">
                   <thead>
-                    <tr className="border-b border-zinc-200 text-left text-zinc-500 dark:border-zinc-800 dark:text-zinc-400">
+                    <tr className="border-b border-border text-left text-muted-foreground">
                       <th className="py-2 pr-3 font-medium">Version</th>
                       <th className="py-2 pr-3 font-medium">Rows</th>
                       <th className="py-2 pr-3 font-medium">Accuracy</th>
@@ -233,7 +233,7 @@ export default async function PipelinePage() {
                     {evalRows.map((r) => (
                       <tr
                         key={r.version}
-                        className="border-b border-zinc-100 last:border-0 dark:border-zinc-900"
+                        className="border-b border-border last:border-0"
                       >
                         <td className="py-2 pr-3 font-medium">{r.version}</td>
                         <td className="py-2 pr-3">{r.rows}</td>
@@ -244,20 +244,20 @@ export default async function PipelinePage() {
                   </tbody>
                 </table>
               </div>
-              <p className="text-xs leading-5 text-zinc-500 dark:text-zinc-400">
+              <p className="text-xs leading-5 text-muted-foreground">
                 Same TF-IDF/LogisticRegression classifier trained on raw vs
                 refined texts, tested on held-out raw texts ({adaptionEval.test}
                 ; train {adaptionEval.train_rows}, test{" "}
                 {adaptionEval.test_rows}).
               </p>
-              <p className="text-xs leading-5 font-medium text-zinc-700 dark:text-zinc-200">
+              <p className="text-xs leading-5 font-medium text-foreground">
                 {gainPlain !== null && Math.abs(gainPlain) < 0.005
                   ? `Gain ≈ 0 (${gainPlain >= 0 ? "+" : ""}${gainPlain.toFixed(4)} accuracy) — refined text is identical to raw in this run, so no classifier lift was measured. Stated plainly, as required.`
                   : `Measured accuracy delta: ${gainPlain !== null ? `${gainPlain >= 0 ? "+" : ""}${gainPlain.toFixed(4)}` : "n/a"}.`}
               </p>
             </>
           ) : (
-            <p className="text-xs text-zinc-500 dark:text-zinc-400">
+            <p className="text-xs text-muted-foreground">
               data/adaption_eval.json is not present — no classifier comparison
               has been measured, so no gain is claimed.
             </p>
@@ -277,13 +277,13 @@ export default async function PipelinePage() {
                 <ArrowDown className="h-3 w-3 rotate-[-90deg]" />{" "}
                 {adaptionEvaluation.quality.grade_after}
               </span>
-              <span className="text-sm text-zinc-500 dark:text-zinc-400">
+              <span className="text-sm text-muted-foreground">
                 {adaptionEvaluation.quality.score_before} →{" "}
                 {adaptionEvaluation.quality.score_after} (+
                 {adaptionEvaluation.quality.improvement_percent}%)
               </span>
             </div>
-            <p className="text-xs leading-5 text-zinc-500 dark:text-zinc-400">
+            <p className="text-xs leading-5 text-muted-foreground">
               From data/adaption_evaluation.json: evaluated on{" "}
               {adaptionEvaluation.raw_results?.metrics?.row_counts?.input ??
                 adaption.eval_rows}{" "}
@@ -314,7 +314,7 @@ export default async function PipelinePage() {
               Planned, not run (dataset below minimum, credit budget)
             </span>
           </div>
-          <p className="text-xs leading-5 text-zinc-500 dark:text-zinc-400">
+          <p className="text-xs leading-5 text-muted-foreground">
             Feedback → Adaptive Data → AutoScientist → custom classifier
             replaces LLM calls. Fine-tuning was NOT run and no trained model
             exists; the training set below is exportable for that future step.
@@ -323,7 +323,7 @@ export default async function PipelinePage() {
             <a
               href="/api/pipeline/training-set"
               download
-              className="inline-flex h-9 items-center gap-2 rounded-lg bg-accent px-4 text-sm font-medium text-white hover:opacity-90"
+              className="inline-flex h-9 items-center gap-2 rounded-lg bg-accent px-4 text-sm font-medium text-accent-foreground hover:opacity-90"
             >
               <Download className="h-4 w-4" />
               Export training set (JSONL)
@@ -334,7 +334,7 @@ export default async function PipelinePage() {
 
       <div className="flex flex-wrap items-center gap-2">
         <SimulatedBadge />
-        <p className="text-xs text-zinc-500 dark:text-zinc-400">
+        <p className="text-xs text-muted-foreground">
           Weekly trends are simulated demo data — source feedback has no dates.
         </p>
       </div>

@@ -23,7 +23,7 @@ export default async function IssuesPage() {
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
           <h1 className="text-2xl font-semibold tracking-tight">Issues</h1>
-          <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
+          <p className="mt-1 text-sm text-muted-foreground">
             {issues.length === 0
               ? "Track clusters as issues from open to resolved."
               : `${issues.length} tracked issue${issues.length === 1 ? "" : "s"} — status and notes persist across refreshes.`}
@@ -31,7 +31,7 @@ export default async function IssuesPage() {
         </div>
         <Link
           href="/recommendations"
-          className="inline-flex h-9 items-center rounded-lg border border-zinc-200 px-4 text-sm font-medium hover:bg-zinc-100 dark:border-zinc-800 dark:hover:bg-zinc-800"
+          className="inline-flex h-9 items-center rounded-lg border border-border px-4 text-sm font-medium hover:bg-muted"
         >
           Track from recommendations
         </Link>
@@ -52,7 +52,7 @@ export default async function IssuesPage() {
                   <h2 className="text-sm font-semibold tracking-tight">
                     {col.title}
                   </h2>
-                  <span className="rounded-full bg-zinc-100 px-2 py-0.5 text-xs font-medium tabular-nums text-zinc-600 dark:bg-zinc-800 dark:text-zinc-300">
+                  <span className="rounded-full bg-muted px-2 py-0.5 text-xs font-medium tabular-nums text-muted-foreground">
                     {colIssues.length}
                   </span>
                 </div>
@@ -71,7 +71,7 @@ export default async function IssuesPage() {
                     />
                   ))}
                   {colIssues.length === 0 && (
-                    <p className="rounded-xl border border-dashed border-zinc-200 px-4 py-6 text-center text-xs text-zinc-400 dark:border-zinc-800 dark:text-zinc-500">
+                    <p className="rounded-xl border border-dashed border-border px-4 py-6 text-center text-xs text-muted-foreground">
                       Nothing here yet.
                     </p>
                   )}

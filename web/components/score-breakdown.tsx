@@ -15,20 +15,20 @@ function TermBar({
   return (
     <div>
       <div className="flex items-baseline justify-between text-xs">
-        <span className="font-medium text-zinc-600 dark:text-zinc-300">
+        <span className="font-medium text-muted-foreground">
           {label}
         </span>
-        <span className="tabular-nums text-zinc-500 dark:text-zinc-400">
+        <span className="tabular-nums text-muted-foreground">
           {detail}
         </span>
       </div>
       <div
         role="img"
         aria-label={`${label}: ${detail}`}
-        className="mt-1 h-1.5 w-full overflow-hidden rounded-full bg-zinc-100 dark:bg-zinc-800"
+        className="mt-1 h-1.5 w-full overflow-hidden rounded-full bg-muted"
       >
         <span
-          className="block h-full rounded-full bg-accent"
+          className="block h-full rounded-full bg-muted-foreground"
           style={{ width: `${pct}%` }}
         />
       </div>
@@ -43,8 +43,8 @@ export function ScoreBreakdown({ item }: { item: Recommendation }) {
   const rawSum =
     breakdown.volumeTerm + breakdown.negativityTerm + breakdown.growthTerm;
   return (
-    <div className="flex flex-col gap-2 rounded-lg bg-zinc-50 p-3 dark:bg-zinc-900">
-      <p className="text-xs font-medium tracking-wide text-zinc-500 uppercase dark:text-zinc-400">
+    <div className="flex flex-col gap-2 rounded-lg bg-muted p-3">
+      <p className="text-xs font-medium tracking-wide text-muted-foreground uppercase">
         Why priority {item.priority.toFixed(1)}
       </p>
       <TermBar
@@ -71,7 +71,7 @@ export function ScoreBreakdown({ item }: { item: Recommendation }) {
           {Math.min(1, rawSum).toFixed(3)} → {item.priority.toFixed(1)})
         </p>
       ) : (
-        <p className="text-xs text-zinc-500 dark:text-zinc-400">
+        <p className="text-xs text-muted-foreground">
           No fraud multiplier — dominant category is {item.dominantCategory}.
         </p>
       )}

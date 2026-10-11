@@ -6,13 +6,13 @@ export default function NotFound() {
       <h1 className="text-lg font-semibold tracking-tight">
         Page not found
       </h1>
-      <p className="text-sm leading-6 text-zinc-500 dark:text-zinc-400">
+      <p className="text-sm leading-6 text-muted-foreground">
         This link may be mistyped — or a shared report token that no longer
         exists on this device.
       </p>
       <Link
         href="/"
-        className="inline-flex h-9 items-center rounded-lg bg-accent px-4 text-sm font-medium text-white hover:opacity-90"
+        className="inline-flex h-9 items-center rounded-lg bg-accent px-4 text-sm font-medium text-accent-foreground hover:opacity-90"
       >
         Back to dashboard
       </Link>

@@ -72,12 +72,12 @@ export function LoadSampleButton() {
         type="button"
         onClick={() => void load()}
         disabled={busy}
-        className="inline-flex h-9 items-center rounded-lg border border-zinc-200 px-4 text-sm font-medium text-zinc-700 hover:bg-zinc-100 disabled:opacity-50 dark:border-zinc-800 dark:text-zinc-200 dark:hover:bg-zinc-800"
+        className="inline-flex h-9 items-center rounded-lg border border-border px-4 text-sm font-medium text-foreground hover:bg-muted disabled:opacity-50"
       >
         {busy ? "Loading…" : "Load sample data"}
       </button>
       {done && (
-        <span role="status" className="text-xs text-zinc-500 dark:text-zinc-400">
+        <span role="status" className="text-xs text-muted-foreground">
           {done}
         </span>
       )}

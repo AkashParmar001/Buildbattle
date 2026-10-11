@@ -16,7 +16,7 @@ export default async function RecommendationsPage() {
         <h1 className="text-2xl font-semibold tracking-tight">
           Recommendations
         </h1>
-        <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
+        <p className="mt-1 text-sm text-muted-foreground">
           Prioritized actions, each backed by volume and evidence.
         </p>
       </div>

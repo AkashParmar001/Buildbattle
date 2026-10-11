@@ -42,7 +42,7 @@ export function ReportButton({
         type="button"
         onClick={() => void generate()}
         disabled={busy}
-        className="inline-flex h-9 shrink-0 items-center rounded-lg border border-zinc-200 px-4 text-sm font-medium text-zinc-700 hover:bg-zinc-100 disabled:opacity-50 dark:border-zinc-800 dark:text-zinc-200 dark:hover:bg-zinc-800"
+        className="inline-flex h-9 shrink-0 items-center rounded-lg border border-border px-4 text-sm font-medium text-foreground hover:bg-muted disabled:opacity-50"
       >
         {busy ? "Generating…" : "Share report"}
       </button>

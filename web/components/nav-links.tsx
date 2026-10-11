@@ -26,7 +26,7 @@ export function SidebarNav() {
               "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
               active
                 ? "bg-accent/10 text-accent"
-                : "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-900 dark:hover:text-zinc-100",
+                : "text-muted-foreground hover:bg-muted hover:text-foreground",
             )}
           >
             <Icon className="h-4 w-4 shrink-0" />
@@ -44,7 +44,7 @@ export function MobileNav() {
   return (
     <nav
       aria-label="Primary"
-      className="flex gap-1 overflow-x-auto border-b border-zinc-200 bg-white px-3 py-2 md:hidden dark:border-zinc-800 dark:bg-zinc-950 print:hidden"
+      className="flex gap-1 overflow-x-auto border-b border-border bg-card px-3 py-2 md:hidden print:hidden"
     >
       {NAV_ITEMS.map(({ href, label, icon: Icon }) => {
         const active = isActive(pathname, href);
@@ -57,7 +57,7 @@ export function MobileNav() {
               "flex shrink-0 items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium transition-colors",
               active
                 ? "bg-accent/10 text-accent"
-                : "text-zinc-600 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-900",
+                : "text-muted-foreground hover:bg-muted",
             )}
           >
             <Icon className="h-3.5 w-3.5" />

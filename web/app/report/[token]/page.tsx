@@ -36,16 +36,16 @@ export default async function ReportPage({
       : "All feedback";
 
   return (
-    <div className="mx-auto flex w-full max-w-4xl flex-col gap-6 print:max-w-none print:gap-4">
+    <div className="light mx-auto flex w-full max-w-4xl flex-col gap-6 print:max-w-none print:gap-4">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
-          <p className="text-xs font-semibold tracking-wide text-accent uppercase">
+          <p className="text-xs font-semibold tracking-wide text-muted-foreground uppercase">
             InsightFlow executive report
           </p>
           <h1 className="mt-1 text-2xl font-semibold tracking-tight">
             Customer feedback snapshot
           </h1>
-          <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
+          <p className="mt-1 text-sm text-muted-foreground">
             {filterLabel} ·{" "}
             {new Date(snapshot.createdAt).toLocaleString()} · token{" "}
             <span className="font-mono">{token.slice(0, 8)}…</span>
@@ -126,7 +126,7 @@ export default async function ReportPage({
           <div className="flex flex-wrap items-center gap-2">
             <SimulatedBadge />
           </div>
-          <ul className="list-disc space-y-1 pl-5 text-xs leading-5 text-zinc-600 dark:text-zinc-300">
+          <ul className="list-disc space-y-1 pl-5 text-xs leading-5 text-muted-foreground">
             <li>
               Source: {snapshot.meta.total_rows.toLocaleString()} deduplicated
               feedback reports ({snapshot.meta.unique} unique texts, volume =

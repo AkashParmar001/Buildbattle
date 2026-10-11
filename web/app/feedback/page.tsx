@@ -126,7 +126,7 @@ export default async function FeedbackPage({
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
           <h1 className="text-2xl font-semibold tracking-tight">Feedback</h1>
-          <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
+          <p className="mt-1 text-sm text-muted-foreground">
             {sorted.length.toLocaleString()} texts ·{" "}
             {totalVolume.toLocaleString()} reports
           </p>
@@ -167,31 +167,31 @@ export default async function FeedbackPage({
         <>
           <FeedbackTable rows={pageRows} baseQuery={baseQuery} sort={sort} />
           <div className="flex items-center justify-between text-sm">
-            <p className="text-zinc-500 dark:text-zinc-400">
+            <p className="text-muted-foreground">
               Page {page} of {totalPages}
             </p>
             <div className="flex gap-2">
               {page > 1 ? (
                 <Link
                   href={pageHref(current, page - 1)}
-                  className="rounded-lg border border-zinc-200 px-3 py-1.5 font-medium hover:bg-zinc-100 dark:border-zinc-800 dark:hover:bg-zinc-800"
+                  className="rounded-lg border border-border px-3 py-1.5 font-medium hover:bg-muted"
                 >
                   Previous
                 </Link>
               ) : (
-                <span className="rounded-lg border border-zinc-100 px-3 py-1.5 text-zinc-300 dark:border-zinc-900 dark:text-zinc-700">
+                <span className="rounded-lg border border-border px-3 py-1.5 text-muted-foreground">
                   Previous
                 </span>
               )}
               {page < totalPages ? (
                 <Link
                   href={pageHref(current, page + 1)}
-                  className="rounded-lg border border-zinc-200 px-3 py-1.5 font-medium hover:bg-zinc-100 dark:border-zinc-800 dark:hover:bg-zinc-800"
+                  className="rounded-lg border border-border px-3 py-1.5 font-medium hover:bg-muted"
                 >
                   Next
                 </Link>
               ) : (
-                <span className="rounded-lg border border-zinc-100 px-3 py-1.5 text-zinc-300 dark:border-zinc-900 dark:text-zinc-700">
+                <span className="rounded-lg border border-border px-3 py-1.5 text-muted-foreground">
                   Next
                 </span>
               )}

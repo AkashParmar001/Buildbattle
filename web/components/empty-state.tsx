@@ -17,11 +17,11 @@ export function EmptyState({
   return (
     <Card>
       <CardContent className="flex flex-col items-center gap-2 px-6 py-12 text-center">
-        <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-zinc-100 text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400">
+        <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-muted text-muted-foreground">
           <Icon className="h-5 w-5" />
         </span>
         <h2 className="text-base font-semibold tracking-tight">{title}</h2>
-        <p className="max-w-md text-sm leading-6 text-zinc-500 dark:text-zinc-400">
+        <p className="max-w-md text-sm leading-6 text-muted-foreground">
           {description}
         </p>
       </CardContent>

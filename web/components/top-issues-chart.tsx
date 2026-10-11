@@ -11,6 +11,7 @@ import {
 } from "recharts";
 
 import type { TopIssue } from "@/lib/analytics";
+import { chartColors } from "@/lib/colors";
 import { Card, CardContent } from "@/components/ui/card";
 
 export function TopIssuesChart({ data }: { data: TopIssue[] }) {
@@ -25,13 +26,13 @@ export function TopIssuesChart({ data }: { data: TopIssue[] }) {
         <h2 className="text-sm font-semibold tracking-tight">
           Top issues by volume
         </h2>
-        <p className="mt-0.5 text-xs text-zinc-500 dark:text-zinc-400">
+        <p className="mt-0.5 text-xs text-muted-foreground">
           Ranked by priority score
         </p>
         <figure
           role="img"
           aria-label={`Top issues: ${data.map((d) => `${d.label}, ${d.volume} reports`).join("; ")}`}
-          className="mt-2 h-64 text-zinc-500 dark:text-zinc-400"
+          className="mt-2 h-64 text-muted-foreground"
         >
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={chartData} layout="vertical" margin={{ left: 8, right: 16 }}>
@@ -53,12 +54,18 @@ export function TopIssuesChart({ data }: { data: TopIssue[] }) {
                   payload?.[0]?.payload?.label ?? ""
                 }
                 contentStyle={{
-                  backgroundColor: "var(--background)",
+                  backgroundColor: "var(--card)",
+                  borderColor: "var(--border)",
                   borderRadius: 8,
                   fontSize: 12,
+                  color: "var(--card-foreground)",
                 }}
               />
-              <Bar dataKey="volume" fill="#6366f1" radius={[0, 4, 4, 0]} />
+              <Bar
+                dataKey="volume"
+                fill={chartColors.bar}
+                radius={[0, 4, 4, 0]}
+              />
             </BarChart>
           </ResponsiveContainer>
         </figure>

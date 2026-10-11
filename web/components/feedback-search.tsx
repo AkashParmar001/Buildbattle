@@ -33,7 +33,7 @@ export function FeedbackSearch({ current }: { current: string }) {
         onChange={(e) => setValue(e.target.value)}
         placeholder="Search text or topic…"
         aria-label="Search feedback"
-        className="h-9 w-full rounded-lg border border-zinc-200 bg-white px-3 text-sm text-zinc-900 placeholder:text-zinc-400 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-100"
+        className="h-9 w-full rounded-lg border border-border bg-card px-3 text-sm text-foreground placeholder:text-muted-foreground"
       />
     </label>
   );

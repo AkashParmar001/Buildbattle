@@ -1,3 +1,5 @@
+import { chartColors } from "@/lib/colors";
+
 type SparklineProps = {
   data: number[];
   label: string;
@@ -20,12 +22,11 @@ export function Sparkline({ data, label }: SparklineProps) {
       viewBox={`0 0 ${w} ${h}`}
       role="img"
       aria-label={label}
-      className="text-accent"
     >
       <polyline
         points={points}
         fill="none"
-        stroke="currentColor"
+        stroke={chartColors.simulated}
         strokeWidth="2"
         strokeLinejoin="round"
         strokeLinecap="round"

@@ -12,13 +12,13 @@ export default function Error({
       <h1 className="text-lg font-semibold tracking-tight">
         Something went wrong
       </h1>
-      <p className="text-sm leading-6 text-zinc-500 dark:text-zinc-400">
+      <p className="text-sm leading-6 text-muted-foreground">
         {error.message || "This section could not be loaded. Your data is safe — try again."}
       </p>
       <button
         type="button"
         onClick={reset}
-        className="inline-flex h-9 items-center rounded-lg bg-accent px-4 text-sm font-medium text-white hover:opacity-90"
+        className="inline-flex h-9 items-center rounded-lg bg-accent px-4 text-sm font-medium text-accent-foreground hover:opacity-90"
       >
         Try again
       </button>

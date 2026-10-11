@@ -3,13 +3,8 @@
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 
 import type { SentimentSlice } from "@/lib/analytics";
+import { sentimentColors } from "@/lib/colors";
 import { Card, CardContent } from "@/components/ui/card";
-
-const COLORS: Record<SentimentSlice["sentiment"], string> = {
-  positive: "#10b981",
-  neutral: "#a1a1aa",
-  negative: "#f43f5e",
-};
 
 export function SentimentDonut({ data }: { data: SentimentSlice[] }) {
   const total = data.reduce((sum, d) => sum + d.volume, 0);
@@ -19,7 +14,7 @@ export function SentimentDonut({ data }: { data: SentimentSlice[] }) {
         <h2 className="text-sm font-semibold tracking-tight">
           Sentiment mix
         </h2>
-        <p className="mt-0.5 text-xs text-zinc-500 dark:text-zinc-400">
+        <p className="mt-0.5 text-xs text-muted-foreground">
           Share of feedback volume
         </p>
         <figure
@@ -39,7 +34,7 @@ export function SentimentDonut({ data }: { data: SentimentSlice[] }) {
                 strokeWidth={0}
               >
                 {data.map((d) => (
-                  <Cell key={d.sentiment} fill={COLORS[d.sentiment]} />
+                  <Cell key={d.sentiment} fill={sentimentColors[d.sentiment]} />
                 ))}
               </Pie>
               <Tooltip
@@ -48,10 +43,11 @@ export function SentimentDonut({ data }: { data: SentimentSlice[] }) {
                   String(name),
                 ]}
                 contentStyle={{
-                  backgroundColor: "var(--background)",
-                  borderColor: "var(--background)",
+                  backgroundColor: "var(--card)",
+                  borderColor: "var(--border)",
                   borderRadius: 8,
                   fontSize: 12,
+                  color: "var(--card-foreground)",
                 }}
               />
             </PieChart>
@@ -61,12 +57,12 @@ export function SentimentDonut({ data }: { data: SentimentSlice[] }) {
           {data.map((d) => (
             <li
               key={d.sentiment}
-              className="flex items-center gap-1.5 text-xs text-zinc-600 dark:text-zinc-300"
+              className="flex items-center gap-1.5 text-xs text-muted-foreground"
             >
               <span
                 aria-hidden="true"
                 className="h-2.5 w-2.5 rounded-full"
-                style={{ backgroundColor: COLORS[d.sentiment] }}
+                style={{ backgroundColor: sentimentColors[d.sentiment] }}
               />
               <span className="font-medium capitalize">{d.sentiment}</span>
               <span className="tabular-nums">

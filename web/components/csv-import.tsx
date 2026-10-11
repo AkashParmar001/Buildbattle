@@ -92,14 +92,14 @@ export function CsvImport({ categories }: CsvImportProps) {
       <button
         type="button"
         onClick={() => dialogRef.current?.showModal()}
-        className="inline-flex h-9 shrink-0 items-center rounded-lg border border-zinc-200 px-4 text-sm font-medium text-zinc-700 hover:bg-zinc-100 dark:border-zinc-800 dark:text-zinc-200 dark:hover:bg-zinc-800"
+        className="inline-flex h-9 shrink-0 items-center rounded-lg border border-border px-4 text-sm font-medium text-foreground hover:bg-muted"
       >
         Import CSV
       </button>
       <dialog
         ref={dialogRef}
         aria-labelledby="import-csv-title"
-        className="w-full max-w-lg rounded-xl border border-zinc-200 bg-white p-0 text-zinc-900 backdrop:bg-black/40 open:flex open:flex-col dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-100"
+        className="w-full max-w-lg rounded-xl border border-border bg-card p-0 text-foreground backdrop:bg-black/40 open:flex open:flex-col"
         onClick={(e) => {
           if (e.target === dialogRef.current) dialogRef.current?.close();
         }}
@@ -115,9 +115,9 @@ export function CsvImport({ categories }: CsvImportProps) {
               const f = e.dataTransfer.files?.[0];
               if (f) void onFile(f);
             }}
-            className="flex cursor-pointer flex-col items-center gap-1 rounded-lg border border-dashed border-zinc-300 px-4 py-6 text-center text-sm text-zinc-500 dark:border-zinc-700 dark:text-zinc-400"
+            className="flex cursor-pointer flex-col items-center gap-1 rounded-lg border border-dashed border-border px-4 py-6 text-center text-sm text-muted-foreground"
           >
-            <span className="font-medium text-zinc-700 dark:text-zinc-200">
+            <span className="font-medium text-foreground">
               Drag a CSV here, or click to choose
             </span>
             <span>Columns needed: review text + category</span>
@@ -134,7 +134,7 @@ export function CsvImport({ categories }: CsvImportProps) {
 
           {fileName !== "" && (
             <>
-              <p className="text-xs text-zinc-500 dark:text-zinc-400">
+              <p className="text-xs text-muted-foreground">
                 {fileName} — {dataRows.length.toLocaleString()} rows
                 {overLimit && (
                   <span className="font-medium text-amber-600 dark:text-amber-400">
@@ -146,13 +146,13 @@ export function CsvImport({ categories }: CsvImportProps) {
               </p>
               <div className="grid grid-cols-2 gap-3">
                 <label className="flex flex-col gap-1.5">
-                  <span className="text-xs font-medium text-zinc-500 dark:text-zinc-400">
+                  <span className="text-xs font-medium text-muted-foreground">
                     Review column
                   </span>
                   <select
                     value={reviewCol}
                     onChange={(e) => setReviewCol(Number(e.target.value))}
-                    className="h-9 rounded-lg border border-zinc-200 bg-white px-2 text-sm dark:border-zinc-800 dark:bg-zinc-900"
+                    className="h-9 rounded-lg border border-border bg-card px-2 text-sm"
                   >
                     {headers.map((h, i) => (
                       <option key={i} value={i}>
@@ -162,13 +162,13 @@ export function CsvImport({ categories }: CsvImportProps) {
                   </select>
                 </label>
                 <label className="flex flex-col gap-1.5">
-                  <span className="text-xs font-medium text-zinc-500 dark:text-zinc-400">
+                  <span className="text-xs font-medium text-muted-foreground">
                     Category column
                   </span>
                   <select
                     value={categoryCol}
                     onChange={(e) => setCategoryCol(Number(e.target.value))}
-                    className="h-9 rounded-lg border border-zinc-200 bg-white px-2 text-sm dark:border-zinc-800 dark:bg-zinc-900"
+                    className="h-9 rounded-lg border border-border bg-card px-2 text-sm"
                   >
                     {headers.map((h, i) => (
                       <option key={i} value={i}>
@@ -179,17 +179,17 @@ export function CsvImport({ categories }: CsvImportProps) {
                 </label>
               </div>
               <div>
-                <p className="mb-1 text-xs font-medium text-zinc-500 dark:text-zinc-400">
+                <p className="mb-1 text-xs font-medium text-muted-foreground">
                   Preview (first 5 rows)
                 </p>
                 <ul className="flex flex-col gap-1.5">
                   {preview.map((r) => (
                     <li
                       key={r.i}
-                      className="rounded-lg bg-zinc-50 px-3 py-2 text-xs leading-5 dark:bg-zinc-900"
+                      className="rounded-lg bg-muted px-3 py-2 text-xs leading-5"
                     >
                       <span>{(r.cells[reviewCol] ?? "").slice(0, 120)}</span>
-                      <span className="mt-0.5 block font-medium text-zinc-500 dark:text-zinc-400">
+                      <span className="mt-0.5 block font-medium text-muted-foreground">
                         {(r.cells[categoryCol] ?? "").trim() ||
                           categories[0] }
                       </span>
@@ -214,7 +214,7 @@ export function CsvImport({ categories }: CsvImportProps) {
             <button
               type="button"
               onClick={() => dialogRef.current?.close()}
-              className="h-9 rounded-lg px-4 text-sm font-medium text-zinc-600 hover:bg-zinc-100 dark:text-zinc-300 dark:hover:bg-zinc-800"
+              className="h-9 rounded-lg px-4 text-sm font-medium text-muted-foreground hover:bg-muted"
             >
               Close
             </button>
@@ -222,7 +222,7 @@ export function CsvImport({ categories }: CsvImportProps) {
               type="button"
               onClick={() => void onImport()}
               disabled={busy || dataRows.length === 0}
-              className="h-9 rounded-lg bg-accent px-4 text-sm font-medium text-white hover:opacity-90 disabled:opacity-50"
+              className="h-9 rounded-lg bg-accent px-4 text-sm font-medium text-accent-foreground hover:opacity-90 disabled:opacity-50"
             >
               {busy ? "Importing…" : overLimit ? `Import first ${ROW_LIMIT.toLocaleString()}` : "Import"}
             </button>

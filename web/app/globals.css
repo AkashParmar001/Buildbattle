@@ -2,23 +2,65 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* Ink and Indigo — calm neutral base, one confident accent.
+   Sentiment/category/priority hues live in web/lib/colors.ts. */
 :root {
-  --background: #ffffff;
-  --foreground: #18181b;
+  --background: #f8fafc;
+  --foreground: #0f172a;
+  --card: #ffffff;
+  --card-foreground: #0f172a;
+  --border: #e2e8f0;
+  --muted: #f1f5f9;
+  --muted-foreground: #64748b;
   --accent: #4f46e5;
+  --accent-hover: #4338ca;
+  --accent-foreground: #ffffff;
+  --ring: #4f46e5;
 }
 
 .dark {
-  --background: #09090b;
-  --foreground: #f4f4f5;
+  --background: #0b1020;
+  --foreground: #e8ecf8;
+  --card: #121830;
+  --card-foreground: #e8ecf8;
+  --border: #232c4a;
+  --muted: #1a2140;
+  --muted-foreground: #94a3b8;
   --accent: #818cf8;
+  --accent-hover: #a5b4fc;
+  --accent-foreground: #0b1020;
+  --ring: #818cf8;
+}
+
+/* Forced-light scope: the shareable report renders with light tokens
+   regardless of the visitor's theme (and prints on white). */
+.light {
+  --background: #f8fafc;
+  --foreground: #0f172a;
+  --card: #ffffff;
+  --card-foreground: #0f172a;
+  --border: #e2e8f0;
+  --muted: #f1f5f9;
+  --muted-foreground: #64748b;
+  --accent: #4f46e5;
+  --accent-hover: #4338ca;
+  --accent-foreground: #ffffff;
+  --ring: #4f46e5;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-border: var(--border);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
   --color-accent: var(--accent);
-  --font-sans: var(--font-geist-sans);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-ring: var(--ring);
+  --font-sans: var(--font-inter);
   --font-mono: var(--font-geist-mono);
 }
 
@@ -28,20 +70,25 @@ body {
 }
 
 @media print {
-  :root {
+  :root,
+  .light {
     --background: #ffffff;
-    --foreground: #18181b;
+    --foreground: #0f172a;
+    --card: #ffffff;
+    --border: #e2e8f0;
   }
   body {
     background: #fff;
   }
   .dark {
     --background: #ffffff;
-    --foreground: #18181b;
+    --foreground: #0f172a;
+    --card: #ffffff;
+    --card-foreground: #0f172a;
   }
 }
 
 :focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--ring);
   outline-offset: 2px;
 }

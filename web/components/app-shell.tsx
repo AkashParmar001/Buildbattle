@@ -12,11 +12,11 @@ function SidebarNavFallback() {
 export async function AppShell({ children }: { children: ReactNode }) {
   const source = await getDataSource();
   return (
-    <div className="flex min-h-screen bg-zinc-50 text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100">
+    <div className="flex min-h-screen bg-background text-foreground">
       {/* Desktop sidebar */}
-      <aside className="hidden w-60 shrink-0 flex-col border-r border-zinc-200 bg-white md:flex dark:border-zinc-800 dark:bg-zinc-950 print:hidden">
-        <div className="flex h-16 items-center gap-2 border-b border-zinc-200 px-5 dark:border-zinc-800">
-          <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-accent text-sm font-bold text-white">
+      <aside className="hidden w-60 shrink-0 flex-col border-r border-border bg-card md:flex print:hidden">
+        <div className="flex h-16 items-center gap-2 border-b border-border px-5">
+          <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-accent text-sm font-bold text-accent-foreground">
             I
           </span>
           <span className="text-base font-semibold tracking-tight">
@@ -26,7 +26,7 @@ export async function AppShell({ children }: { children: ReactNode }) {
         <Suspense fallback={<SidebarNavFallback />}>
           <SidebarNav />
         </Suspense>
-        <p className="flex items-center gap-1.5 border-t border-zinc-200 p-4 text-xs leading-5 text-zinc-400 dark:border-zinc-800 dark:text-zinc-500">
+        <p className="flex items-center gap-1.5 border-t border-border p-4 text-xs leading-5 text-muted-foreground">
           <span
             aria-hidden="true"
             className={
@@ -41,15 +41,15 @@ export async function AppShell({ children }: { children: ReactNode }) {
 
       {/* Main column */}
       <div className="flex min-w-0 flex-1 flex-col">
-        <header className="sticky top-0 z-10 flex h-16 items-center gap-3 border-b border-zinc-200 bg-white/90 px-4 backdrop-blur sm:px-6 dark:border-zinc-800 dark:bg-zinc-950/90 print:hidden">
-          <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-accent text-sm font-bold text-white md:hidden">
+        <header className="sticky top-0 z-10 flex h-16 items-center gap-3 border-b border-border bg-card/90 px-4 backdrop-blur sm:px-6 print:hidden">
+          <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-accent text-sm font-bold text-accent-foreground md:hidden">
             I
           </span>
           <span className="text-base font-semibold tracking-tight md:hidden">
             InsightFlow
           </span>
           <div className="ml-auto flex items-center gap-2">
-            <span className="hidden rounded-full border border-zinc-200 px-3 py-1 text-xs font-medium text-zinc-500 sm:inline dark:border-zinc-800 dark:text-zinc-400">
+            <span className="hidden rounded-full border border-border px-3 py-1 text-xs font-medium text-muted-foreground sm:inline">
               Frontend Arena Build Battle 2026
             </span>
             <ThemeToggle />
@@ -63,7 +63,7 @@ export async function AppShell({ children }: { children: ReactNode }) {
 
         <main className="min-w-0 flex-1 p-4 sm:p-6 print:p-0">{children}</main>
 
-        <footer className="flex items-center gap-1.5 px-4 pb-4 text-xs text-zinc-400 md:hidden dark:text-zinc-500 print:hidden">
+        <footer className="flex items-center gap-1.5 px-4 pb-4 text-xs text-muted-foreground md:hidden print:hidden">
           <span
             aria-hidden="true"
             className={
