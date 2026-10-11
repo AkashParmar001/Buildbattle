@@ -26,17 +26,26 @@ export function IssueCard({
   const [status, setStatus] = useState<IssueStatus>(issue.status);
   const [notes, setNotes] = useState(issue.notes);
   const [saving, setSaving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const dirty = status !== issue.status || notes !== issue.notes;
 
   async function save() {
     setSaving(true);
+    setError(null);
     try {
       const res = await fetch(`/api/issues/${issue.id}`, {
         method: "PATCH",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ status, notes }),
       });
-      if (res.ok) router.refresh();
+      if (!res.ok) {
+        const json = (await res.json().catch(() => ({}))) as { error?: string };
+        setError(json.error ?? "Could not save changes.");
+        return;
+      }
+      router.refresh();
+    } catch {
+      setError("Network error. Please try again.");
     } finally {
       setSaving(false);
     }
@@ -99,6 +108,11 @@ export function IssueCard({
         >
           {saving ? "Saving…" : "Save changes"}
         </button>
+        {error && (
+          <p role="alert" className="text-xs text-rose-600 dark:text-rose-400">
+            {error}
+          </p>
+        )}
       </CardContent>
     </Card>
   );

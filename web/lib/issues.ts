@@ -119,10 +119,11 @@ export async function updateIssue(
       .from("issues")
       .update({ ...(patch.status ? { status: patch.status } : {}), ...(patch.notes !== undefined ? { notes: patch.notes } : {}) })
       .eq("id", id)
-      .select("id,cluster_id,title,status,notes,created_at")
-      .single();
+      .select("id,cluster_id,title,status,notes,created_at");
     if (error) throw new Error(`Supabase issue update failed: ${error.message}`);
-    return mapRow(data as IssueRow);
+    const rows = data as IssueRow[];
+    if (!rows.length) throw new Error("Issue not found.");
+    return mapRow(rows[0]);
   }
   const file = await readOverlayFile();
   const all = [...file, ...memoryOverlay];

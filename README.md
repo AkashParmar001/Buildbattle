@@ -86,13 +86,26 @@ npm run lint; npm run build
 npm run seed    # needs web/.env.local with Supabase keys; loads analysis.json
 ```
 
+Supabase wiring (once):
+
+1. Create a project, then run `db/schema.sql` in the SQL editor (creates
+   `feedback`, `clusters`, `issues`, `reports`; RLS is intentionally disabled —
+   this is an unauthenticated demo, see limitations).
+2. Put the project URL + key in `web/.env.local`:
+   `SUPABASE_URL`, and `SUPABASE_SERVICE_ROLE_KEY` (preferred) or
+   `SUPABASE_ANON_KEY` (works while RLS is off). Never commit this file.
+3. `npm run seed` loads `data/analysis.json` into the tables (idempotent).
+4. Without any Supabase env vars the app falls back to seed JSON + gitignored
+   `web/data/user-*.json` overlays — the footer shows which source is live.
+
 ## Environment variables
 
 | File | Key | Needed for |
 | ---- | --- | ---------- |
 | `.env` (root) | `ADAPTION_API_KEY` | `02_adaption.py --go` |
 | `.env` (root) | `ANTHROPIC_API_KEY`, `LLM_MODEL` | `03_analyze.py` real LLM run |
-| `web/.env.local` | `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` | live DB + `npm run seed` |
+| `web/.env.local` | `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` or `SUPABASE_ANON_KEY` | live DB + `npm run seed` |
+| `web/.env.local` | `ANTHROPIC_API_KEY` | LLM classification for new submissions (server-side only; heuristic fallback when absent) |
 
 Without Supabase keys the app serves seed data; user-submitted feedback,
 issues and reports then persist to gitignored local JSON overlays
@@ -100,11 +113,20 @@ issues and reports then persist to gitignored local JSON overlays
 
 ## Known limitations
 
+- **No authentication.** All APIs (submit, import, issues, reports) are open;
+  there are no user accounts, and RLS is disabled on the demo tables so the
+  anon key can write. Do not put real customer data in this deployment.
+- **Rate limiting is per-instance**: 20 submissions/minute per IP, held in
+  memory — it resets on redeploy and is not shared across serverless instances.
 - The 12-week timeline is **simulated** (source feedback has no dates) —
-  every chart using it carries a "Simulated demo timeline" badge. Only
-  user-submitted/imported feedback uses real timestamps.
+  every chart using it carries a "Simulated demo timeline" badge. The trend
+  chart splits this into the simulated seed series and a live series bucketed
+  by real `created_at` (user submissions/imports, last 12 weeks).
 - Seed cluster labels/summaries are deterministic templates from real numbers,
   not LLM prose — replaced by the real `03_analyze.py` run once an Anthropic
   key is available.
 - Priority formula: `100 × min(1, 0.4·share/maxShare + 0.35·negativity +
-  0.25·min(growth/maxGrowth,1))`, ×1.25 when fraud-dominated.
+  0.25·min(growth/maxGrowth,1))`, ×1.25 when fraud-dominated (so boosted
+  scores can exceed 100 — displayed as computed, never rounded up).
+- CSV imports are capped at 2,000 rows per batch; server reads are capped at
+  10,000 rows (PostgREST defaults to 1,000 otherwise).

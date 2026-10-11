@@ -7,11 +7,18 @@ import { getClusterRows } from "@/lib/db";
 
 export async function GET() {
   await connection();
-  const [issues, trackedClusterIds] = await Promise.all([
-    getIssues(),
-    getIssueTrackedClusterIds(),
-  ]);
-  return NextResponse.json({ issues, trackedClusterIds });
+  try {
+    const [issues, trackedClusterIds] = await Promise.all([
+      getIssues(),
+      getIssueTrackedClusterIds(),
+    ]);
+    return NextResponse.json({ issues, trackedClusterIds });
+  } catch (err) {
+    return NextResponse.json(
+      { error: err instanceof Error ? err.message : "Could not load issues." },
+      { status: 500 },
+    );
+  }
 }
 
 export async function POST(req: NextRequest) {

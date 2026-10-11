@@ -32,30 +32,37 @@ export async function POST(req: NextRequest) {
       : {}),
   };
 
-  const [meta, kpis, sentimentMix, recommendations, trend] = await Promise.all([
-    loadSeedAnalysis().then((a) => a.meta),
-    getKpis(filters),
-    getSentimentDistribution(filters),
-    getRecommendations().then((recs) =>
-      // Recommendations stay global (priority ranking is dataset-wide);
-      // dashboard filters apply to KPIs, sentiment and trend.
-      recs.slice(0, 5),
-    ),
-    getTrend(filters),
-  ]);
+  try {
+    const [meta, kpis, sentimentMix, recommendations, trend] = await Promise.all([
+      loadSeedAnalysis().then((a) => a.meta),
+      getKpis(filters),
+      getSentimentDistribution(filters),
+      getRecommendations().then((recs) =>
+        // Recommendations stay global (priority ranking is dataset-wide);
+        // dashboard filters apply to KPIs, sentiment and trend.
+        recs.slice(0, 5),
+      ),
+      getTrend(filters),
+    ]);
 
-  const report = await createReport({
-    filters,
-    meta,
-    kpis,
-    sentiment: sentimentMix,
-    recommendations,
-    trend,
-    createdAt: new Date().toISOString(),
-  });
+    const report = await createReport({
+      filters,
+      meta,
+      kpis,
+      sentiment: sentimentMix,
+      recommendations,
+      trend,
+      createdAt: new Date().toISOString(),
+    });
 
-  return NextResponse.json(
-    { token: report.token, url: `/report/${report.token}` },
-    { status: 201 },
-  );
+    return NextResponse.json(
+      { token: report.token, url: `/report/${report.token}` },
+      { status: 201 },
+    );
+  } catch (err) {
+    return NextResponse.json(
+      { error: err instanceof Error ? err.message : "Report creation failed." },
+      { status: 500 },
+    );
+  }
 }

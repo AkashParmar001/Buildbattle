@@ -48,9 +48,11 @@ export async function PATCH(
     revalidatePath("/issues");
     return NextResponse.json({ issue });
   } catch (err) {
+    const message = err instanceof Error ? err.message : "Update failed.";
+    const notFound = message.includes("not found");
     return NextResponse.json(
-      { error: err instanceof Error ? err.message : "Update failed." },
-      { status: 404 },
+      { error: message },
+      { status: notFound ? 404 : 500 },
     );
   }
 }

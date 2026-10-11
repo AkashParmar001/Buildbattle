@@ -11,13 +11,22 @@ type RecheckResult = {
 
 export function RecheckButton() {
   const [result, setResult] = useState<RecheckResult | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
 
   async function recheck() {
     setBusy(true);
+    setError(null);
     try {
       const res = await fetch("/api/pipeline/recheck", { method: "POST" });
-      setResult((await res.json()) as RecheckResult);
+      const json = (await res.json()) as RecheckResult & { error?: string };
+      if (!res.ok || json.error) {
+        setError(json.error ?? "Re-check failed.");
+        return;
+      }
+      setResult(json);
+    } catch {
+      setError("Network error. Please try again.");
     } finally {
       setBusy(false);
     }
@@ -43,6 +52,11 @@ export function RecheckButton() {
           {result.ok ? "✓ " : "✕ "}
           {result.steps.filter((s) => s.present).length}/
           {result.steps.length} artifacts present. {result.note}
+        </p>
+      )}
+      {error && (
+        <p role="alert" className="text-sm text-rose-600 dark:text-rose-400">
+          {error}
         </p>
       )}
     </div>
