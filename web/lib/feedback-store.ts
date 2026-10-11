@@ -24,6 +24,9 @@ export type UserFeedbackInput = {
   cluster: number;
   /** True when an LLM was configured but the classification call failed. */
   llmFailed?: boolean;
+  /** Additional same-text occurrences folded into this row's count. */
+  extraCount?: number;
+  source?: "manual" | "csv";
 };
 
 const OVERLAY_FILE = path.join(process.cwd(), "data", "user-feedback.json");
@@ -32,19 +35,20 @@ const OVERLAY_FILE = path.join(process.cwd(), "data", "user-feedback.json");
 const memoryOverlay: FeedbackRecord[] = [];
 
 function toRecord(input: UserFeedbackInput & { id: string }): FeedbackRecord {
+  const volume = 1 + (input.extraCount ?? 0);
   return {
     id: input.id,
     text: input.text,
     adaptedText: null,
     category: input.category,
-    count: 1,
+    count: volume,
     sentiment: input.sentiment,
     score: input.score,
     topic: input.topic,
     cluster: input.cluster,
     // Real user feedback uses real timestamps, not the simulated timeline:
     // attribute its unit of volume to the latest week.
-    weekly: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    weekly: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, volume],
   };
 }
 
@@ -152,13 +156,13 @@ export async function addUserFeedback(
       text: record.text,
       adapted_text: null,
       category: record.category,
-      source: "manual",
+      source: input.source ?? "manual",
       is_simulated_date: false,
       sentiment: record.sentiment,
       sentiment_score: record.score,
       topic: record.topic,
       cluster_id: record.cluster,
-      duplicate_count: 1,
+      duplicate_count: record.count,
       weekly: record.weekly,
       // quality_score doubles as the LLM-failure marker: 0 = flagged.
       quality_score: input.llmFailed ? 0 : null,

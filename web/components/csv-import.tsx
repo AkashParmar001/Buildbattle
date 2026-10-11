@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 
-import { dedupeRows, mapRows, parseCsv } from "@/components/csv-parse";
+import { mapRows, parseCsv } from "@/components/csv-parse";
 
 const ROW_LIMIT = 2000;
 
@@ -61,24 +61,23 @@ export function CsvImport({ categories }: CsvImportProps) {
         categoryCol,
         categories[0] ?? "Product Feedback",
       );
-      const { rows } = dedupeRows(mapped);
-      const res = await fetch("/api/feedback/import", {
+      const res = await fetch("/api/import", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ rows: rows.slice(0, ROW_LIMIT) }),
+        body: JSON.stringify({ rows: mapped.slice(0, ROW_LIMIT) }),
       });
       const json = (await res.json()) as {
         error?: string;
-        inserted?: number;
-        skippedDuplicates?: number;
-        skippedInvalid?: number;
+        added?: number;
+        merged?: number;
+        failed?: number;
       };
       if (!res.ok) {
         setError(json.error ?? "Import failed.");
         return;
       }
       setStatus(
-        `Imported ${json.inserted} reviews (${json.skippedDuplicates} duplicates, ${json.skippedInvalid} invalid skipped).`,
+        `Imported ${json.added} reviews (${json.merged} merged as duplicates, ${json.failed} invalid skipped).`,
       );
       router.refresh();
     } catch {

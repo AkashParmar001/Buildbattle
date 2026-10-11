@@ -149,9 +149,13 @@ export function mapFeedbackRow(row: FeedbackRow): FeedbackRecord {
 export async function getFeedbackRows(): Promise<FeedbackRecord[]> {
   const supabase = getSupabase();
   if (supabase) {
-    const { data, error } = await supabase.from("feedback").select(
-      "id,text,adapted_text,category,duplicate_count,sentiment,sentiment_score,topic,cluster_id,weekly",
-    );
+    // Explicit limit: PostgREST defaults to 1000 rows otherwise.
+    const { data, error } = await supabase
+      .from("feedback")
+      .select(
+        "id,text,adapted_text,category,duplicate_count,sentiment,sentiment_score,topic,cluster_id,weekly",
+      )
+      .limit(10000);
     if (error) throw new Error(`Supabase feedback read failed: ${error.message}`);
     return (data as FeedbackRow[]).map(mapFeedbackRow);
   }
