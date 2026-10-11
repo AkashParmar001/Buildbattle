@@ -157,7 +157,6 @@ export const getTopIssues = cache(
 );
 
 export type TrendPoint = { week: number; volume: number };
-
 export const getTrend = cache(
   async (filters: AnalyticsFilters = {}): Promise<TrendPoint[]> => {
     const { feedback } = await loadRows();
@@ -166,3 +165,8 @@ export const getTrend = cache(
     return sumWeekly(rows).map((volume, i) => ({ week: i + 1, volume }));
   },
 );
+
+export const getCategories = cache(async (): Promise<string[]> => {
+  const { feedback } = await loadRows();
+  return [...new Set(feedback.map((r) => r.category))].sort();
+});
