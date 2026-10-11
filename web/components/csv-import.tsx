@@ -101,6 +101,9 @@ export function CsvImport({ categories }: CsvImportProps) {
         ref={dialogRef}
         aria-labelledby="import-csv-title"
         className="w-full max-w-lg rounded-xl border border-zinc-200 bg-white p-0 text-zinc-900 backdrop:bg-black/40 open:flex open:flex-col dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-100"
+        onClick={(e) => {
+          if (e.target === dialogRef.current) dialogRef.current?.close();
+        }}
       >
         <div className="flex max-h-[85vh] flex-col gap-4 overflow-y-auto p-6">
           <h2 id="import-csv-title" className="text-base font-semibold tracking-tight">

@@ -53,6 +53,9 @@ export function AddFeedbackModal({ categories }: AddFeedbackModalProps) {
         ref={dialogRef}
         aria-labelledby="add-feedback-title"
         className="w-full max-w-md rounded-xl border border-zinc-200 bg-white p-0 text-zinc-900 backdrop:bg-black/40 open:flex open:flex-col dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-100"
+        onClick={(e) => {
+          if (e.target === dialogRef.current) dialogRef.current?.close();
+        }}
         onClose={() => {
           setError(null);
           setSaving(false);
