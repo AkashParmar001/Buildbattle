@@ -11,6 +11,7 @@ import type { Sentiment } from "@/lib/db";
 import { EmptyState } from "@/components/empty-state";
 import { FilterBar } from "@/components/filter-bar";
 import { KpiCard } from "@/components/kpi-card";
+import { ReportButton } from "@/components/report-button";
 import { SentimentDonut } from "@/components/sentiment-donut";
 import { TopIssuesChart } from "@/components/top-issues-chart";
 import { TrendChart } from "@/components/trend-chart";
@@ -49,7 +50,10 @@ export default async function DashboardPage({
             KPIs, sentiment, top issues, and the 12-week trend — all filterable.
           </p>
         </div>
-        <FilterBar categories={categories} current={filters} />
+        <div className="flex flex-wrap items-center gap-2">
+          <FilterBar categories={categories} current={filters} />
+          <ReportButton filters={filters} />
+        </div>
       </div>
 
       {kpis.totalVolume === 0 ? (

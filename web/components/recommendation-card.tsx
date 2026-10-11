@@ -72,7 +72,7 @@ export function RecommendationCard({
           </ul>
         </div>
 
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2 print:hidden">
           <TrackButton clusterId={item.id} initialTracked={tracked} />
           <Link
             href={`/feedback?cluster=${item.id}`}
