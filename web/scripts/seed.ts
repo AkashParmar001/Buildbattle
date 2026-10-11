@@ -34,10 +34,13 @@ function loadAnalysis() {
 
 async function main() {
   const url = process.env.SUPABASE_URL;
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  // Service-role preferred (bypasses RLS); anon works when RLS is off,
+  // mirroring web/lib/db.ts. Never commit these keys.
+  const key =
+    process.env.SUPABASE_SERVICE_ROLE_KEY ?? process.env.SUPABASE_ANON_KEY;
   if (!url || !key) {
     throw new Error(
-      "Missing SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY in web/.env.local",
+      "Missing SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY/SUPABASE_ANON_KEY in web/.env.local",
     );
   }
   const supabase = createClient(url, key);
