@@ -10,6 +10,7 @@ import {
 import type { Sentiment } from "@/lib/db";
 import { EmptyState } from "@/components/empty-state";
 import { FilterBar } from "@/components/filter-bar";
+import { HeroStrip } from "@/components/hero-strip";
 import { KpiCard } from "@/components/kpi-card";
 import { ReportButton } from "@/components/report-button";
 import { SentimentDonut } from "@/components/sentiment-donut";
@@ -55,6 +56,8 @@ export default async function DashboardPage({
           <ReportButton filters={filters} />
         </div>
       </div>
+
+      <HeroStrip />
 
       {kpis.totalVolume === 0 ? (
         <EmptyState

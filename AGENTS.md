@@ -54,3 +54,13 @@ python pipeline/03_analyze.py         # -> data/analysis.json (app seed data)
 
 - After each task in `web/`: `npm run lint` then `npm run build`; fix errors before reporting done. Analytics sanity: `/api/analytics` total rows must equal 7000.
 - One git commit per completed task, clear message. Check `.env*` never committed. Branch `master` is currently empty (unborn) — first commit creates it.
+
+## Adaption and AutoScientist (honest scope)
+- Adaption is used in the data stage: the deduped dataset is refined through Adaptive Data
+  (raw -> v1 -> v2). `data/adaption_eval.json` holds a measured comparison (same classifier
+  trained on raw vs refined data, tested on held-out raw texts). Show the numbers as measured,
+  even if gains are small. Never invent or round up results.
+- AutoScientist (fine-tuning) was NOT run: dataset is below the minimum and the credit budget
+  is 8. It appears only as a labelled roadmap ("planned, not run") plus an exportable
+  fine-tuning-ready JSONL (`data/autoscientist_sft.jsonl`).
+- Never claim a trained model exists.

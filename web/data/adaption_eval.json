@@ -1,0 +1,21 @@
+{
+ "method": "Same TF-IDF(1,2)/LogisticRegression classifier trained on raw vs refined texts, tested on held-out raw texts (25% stratified split, random_state=7). Refined = adapted_text column; this run's adapted_text is identical to review, so ~0 gain is expected and reported plainly.",
+ "test": "stratified 25% holdout of 320 unique texts, evaluated on raw review text",
+ "rows": 320,
+ "train_rows": 240,
+ "test_rows": 80,
+ "results": [
+  {
+   "version": "raw",
+   "rows": 240,
+   "accuracy": 0.9625,
+   "macro_f1": 0.9607
+  },
+  {
+   "version": "v1 (refined)",
+   "rows": 240,
+   "accuracy": 0.9625,
+   "macro_f1": 0.9607
+  }
+ ]
+}
