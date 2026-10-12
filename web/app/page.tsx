@@ -10,8 +10,7 @@ import {
   loadAdaptionEvaluation,
   loadAutoScientistRun,
 } from "@/lib/showcase";
-import { HeroGalaxy } from "@/components/landing/hero-galaxy";
-import type { GalaxyCluster } from "@/components/landing/galaxy";
+import { HeroScene } from "@/components/landing/hero-scene";
 import { Story, type StoryStep } from "@/components/landing/story";
 import { Statement } from "@/components/landing/statement";
 import { FeatureRows } from "@/components/landing/feature-rows";
@@ -51,9 +50,11 @@ export default async function LandingPage() {
       loadAutoScientistRun(),
     ]);
 
-  const galaxyClusters: GalaxyCluster[] = clusters
-    .slice(0, 8)
-    .map((c) => ({ label: c.label, volume: c.volume }));
+  const galaxyClusters = clusters.map((c) => ({
+    label: c.label,
+    volume: c.volume,
+    share: c.share,
+  }));
   const totalRows = seed.meta.total_rows;
   const unique = seed.meta.unique;
   const quality = adaptionEvaluation?.quality;
@@ -150,7 +151,10 @@ export default async function LandingPage() {
           </div>
 
           <div className="relative h-72 w-full sm:h-96 lg:h-[420px]">
-            <HeroGalaxy clusters={galaxyClusters} sentimentMix={sentimentMix} />
+            <HeroScene
+              clusters={galaxyClusters}
+              sentimentMix={sentimentMix}
+            />
           </div>
         </div>
       </section>
