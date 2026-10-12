@@ -4,3 +4,4 @@ __pycache__/
 *.pyc
 data/adaption_state.json
 data/adapted_download.csv
+data/autoscientist_artifact*

@@ -107,3 +107,57 @@ export function loadAdaptionEvaluation(): Promise<AdaptionEvaluation | null> {
   );
   return adaptionEvaluationPromise;
 }
+
+export type AutoScientistRun = {
+  id: string;
+  dataset_id: string;
+  model: string;
+  status: "pending" | "running" | "succeeded" | "failed" | "cancelled";
+  created_at: string;
+  completed_at: string | null;
+  iterations_completed: number;
+  max_iterations: number;
+  target_win_rate: number;
+  best_win_rate: number | null;
+  training_method: "instruction" | "alignment";
+  best_hyperparams: {
+    training_type?: string | null;
+    n_epochs?: number | null;
+    learning_rate?: number | null;
+    batch_size?: string | number | null;
+    lora_r?: number | null;
+    lora_alpha?: number | null;
+    lora_dropout?: number | null;
+    lora_trainable_modules?: string | null;
+    lr_scheduler_type?: string | null;
+    warmup_ratio?: number | null;
+    weight_decay?: number | null;
+    [key: string]: unknown;
+  } | null;
+  column_mapping: {
+    prompt?: string | null;
+    completion?: string | null;
+    chosen?: string | null;
+    rejected?: string | null;
+    [key: string]: unknown;
+  } | null;
+  download_available: boolean;
+  error: string | null;
+  duration_seconds?: number;
+  fetched_at?: string;
+};
+
+let autoScientistPromise: Promise<AutoScientistRun | null> | undefined;
+
+// AutoScientist run fetched from the platform by pipeline/05_autoscientist.py.
+// Null when the artifact is absent (run never fetched).
+export function loadAutoScientistRun(): Promise<AutoScientistRun | null> {
+  autoScientistPromise ??= readFile(
+    path.join(process.cwd(), "data", "autoscientist_run.json"),
+    "utf8",
+  ).then(
+    (raw) => JSON.parse(raw) as AutoScientistRun,
+    () => null,
+  );
+  return autoScientistPromise;
+}

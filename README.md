@@ -26,7 +26,8 @@ the app works with every external API down.
     hood (`?overlay=hood`), theme toggle, data-source pill
 - **Under the hood** (`/app?overlay=hood`) — the Adaption showcase: summary
   strip, 7-step pipeline trail, settings, 5 raw-vs-improved examples,
-  measured eval table, grade E→C card, AutoScientist roadmap (planned, not run)
+  measured eval table, grade E→C card, AutoScientist run results (measured
+  win rate vs target, iterations, hyperparameters)
 - **Reports** (`/report/[token]`) — print-friendly forced-light snapshot of
   KPIs + top 5 recommendations (PDF via print stylesheet)
 
@@ -66,6 +67,24 @@ so downstream sentiment/clustering deliberately runs on the original review
 text (`adapted.csv` keeps `adapted_text == review`); swapping replies in as
 feedback would corrupt the analysis.
 
+## How AutoScientist is used
+
+AutoScientist (Adaption's fine-tuning loop) was run on the platform against
+the uploaded dataset (`product_service_feedback`, 320 rows). Measured result
+(run `f0d99208`, succeeded 2026-10-12, synced by `pipeline/05_autoscientist.py`
+into `data/autoscientist_run.json`):
+
+- Model `Qwen/Qwen3.5-0.8B`, supervised (instruction) LoRA
+- 3/3 iterations, ~2h 34m, best hyperparameters: LoRA r=32 α=64, lr 1e-4,
+  cosine schedule, 5 epochs
+- **Best win rate 0.5668 against a 0.70 target — below target**, shown
+  exactly as measured (never rounded up)
+
+The trained artifact is downloadable from the Adaption platform
+(`download_available: true`); the app reports metadata only.
+`data/autoscientist_sft.jsonl` remains the exportable 320-row classification
+training set (a training export, not a trained model).
+
 ## How to run
 
 Pipeline (from repo root):
@@ -81,6 +100,7 @@ python pipeline/02_adaption.py --go   # real run (costs money)
 python pipeline/03_seed_local.py      # no keys needed (heuristic labels)
 # ...or, with ANTHROPIC_API_KEY: python pipeline/03_analyze.py  (real LLM run)
 python pipeline/04_showcase.py        # refresh web/data/showcase.json
+python pipeline/05_autoscientist.py   # sync AutoScientist run from platform
 Copy-Item data/analysis.json web/data/analysis.json
 ```
 

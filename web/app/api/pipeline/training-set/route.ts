@@ -3,8 +3,9 @@ import { connection } from "next/server";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 
-// Serves the exportable fine-tuning-ready JSONL (planned AutoScientist
-// input, not a trained model) as a file download. Server-side only.
+// Serves the exportable fine-tuning-ready JSONL (320-row classification
+// set — a training export, not a trained model) as a file download.
+// Server-side only.
 export async function GET() {
   await connection();
   const full = path.join(process.cwd(), "data", "autoscientist_sft.jsonl");

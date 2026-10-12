@@ -7,6 +7,7 @@ import { useEffect, useState, type ReactNode } from "react";
 import type {
   AdaptionEval,
   AdaptionEvaluation,
+  AutoScientistRun,
   ShowcaseData,
 } from "@/lib/showcase";
 import { categoryColor } from "@/lib/colors";
@@ -20,7 +21,15 @@ type ShowcasePayload = {
   showcase: ShowcaseData;
   adaptionEval: AdaptionEval | null;
   adaptionEvaluation: AdaptionEvaluation | null;
+  autoscientist: AutoScientistRun | null;
 };
+
+function durationLabel(seconds?: number): string {
+  if (!seconds || seconds < 0) return "—";
+  const h = Math.floor(seconds / 3600);
+  const m = Math.floor((seconds % 3600) / 60);
+  return h > 0 ? `${h}h ${m}m` : `${m}m`;
+}
 
 function StepCard({
   n,
@@ -95,6 +104,7 @@ export function HoodModal() {
   const showcase = data?.showcase;
   const adaptionEval = data?.adaptionEval ?? null;
   const adaptionEvaluation = data?.adaptionEvaluation ?? null;
+  const autoscientist = data?.autoscientist ?? null;
   const evalRows = adaptionEval?.results ?? [];
   const delta =
     evalRows.length >= 2 ? evalRows[1].accuracy - evalRows[0].accuracy : null;
@@ -121,7 +131,7 @@ export function HoodModal() {
             </h2>
             <p className="text-xs text-muted-foreground">
               Raw → dedupe → Adaption → sentiment → clusters → priority →
-              recommendations. Every number from a committed data file.
+              AutoScientist. Every number from a committed data file.
             </p>
           </div>
           <button
@@ -516,19 +526,115 @@ export function HoodModal() {
                   <CardContent className="flex flex-col gap-3">
                     <div className="flex flex-wrap items-center gap-2">
                       <h3 className="text-base font-semibold tracking-tight">
-                        Roadmap
+                        AutoScientist fine-tuning
                       </h3>
-                      <span className="rounded-full bg-amber-100 px-2.5 py-0.5 text-[11px] font-semibold text-amber-700 dark:bg-amber-950 dark:text-amber-300">
-                        AutoScientist: planned, not run (dataset below
-                        minimum, credit budget)
-                      </span>
+                      {autoscientist ? (
+                        <span
+                          className={`rounded-full px-2.5 py-0.5 text-[11px] font-semibold ${
+                            autoscientist.status === "succeeded"
+                              ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300"
+                              : autoscientist.status === "failed"
+                                ? "bg-red-100 text-red-700 dark:bg-red-950 dark:text-red-300"
+                                : "bg-amber-100 text-amber-700 dark:bg-amber-950 dark:text-amber-300"
+                          }`}
+                        >
+                          {autoscientist.status}
+                        </span>
+                      ) : (
+                        <span className="rounded-full bg-amber-100 px-2.5 py-0.5 text-[11px] font-semibold text-amber-700 dark:bg-amber-950 dark:text-amber-300">
+                          run artifact not fetched
+                        </span>
+                      )}
+                      {autoscientist && (
+                        <span className="text-xs tabular-nums text-muted-foreground">
+                          {autoscientist.model} ·{" "}
+                          {autoscientist.training_method === "instruction"
+                            ? "supervised fine-tuning"
+                            : "preference optimization"}{" "}
+                          ({autoscientist.best_hyperparams?.training_type ?? "full"})
+                        </span>
+                      )}
                     </div>
-                    <p className="text-xs leading-5 text-muted-foreground">
-                      Feedback → Adaptive Data → AutoScientist → custom
-                      classifier replaces LLM calls. Fine-tuning was NOT run
-                      and no trained model exists; the training set below is
-                      exportable for that future step.
-                    </p>
+
+                    {autoscientist ? (
+                      <>
+                        <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+                          <SummaryStat
+                            label="Iterations"
+                            value={`${Math.round(autoscientist.iterations_completed)} / ${Math.round(autoscientist.max_iterations)}`}
+                            hint="loop completed"
+                          />
+                          <SummaryStat
+                            label="Duration"
+                            value={durationLabel(autoscientist.duration_seconds)}
+                            hint="created → completed"
+                          />
+                          <SummaryStat
+                            label="Best win rate"
+                            value={autoscientist.best_win_rate ?? "—"}
+                            hint="as reported"
+                          />
+                          <SummaryStat
+                            label="Target"
+                            value={autoscientist.target_win_rate}
+                            hint="platform target"
+                          />
+                        </div>
+
+                        {autoscientist.best_win_rate !== null &&
+                          autoscientist.best_win_rate <
+                            autoscientist.target_win_rate && (
+                              <p className="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs leading-5 text-amber-800 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-200">
+                                Best win rate{" "}
+                                <span className="tabular-nums font-semibold">
+                                  {autoscientist.best_win_rate}
+                                </span>{" "}
+                                finished below the{" "}
+                                <span className="tabular-nums font-semibold">
+                                  {autoscientist.target_win_rate}
+                                </span>{" "}
+                                target — shown exactly as measured, never
+                                rounded up.
+                              </p>
+                            )}
+
+                        <p className="text-xs leading-5 text-muted-foreground">
+                          Run{" "}
+                          <span className="font-mono">
+                            {autoscientist.id.slice(0, 8)}
+                          </span>{" "}
+                          on dataset{" "}
+                          <span className="font-mono">
+                            {autoscientist.dataset_id.slice(0, 8)}
+                          </span>{" "}
+                          {autoscientist.created_at &&
+                            `(${new Date(autoscientist.created_at).toLocaleDateString()})`}
+                          . Trained columns:{" "}
+                          <span className="font-mono">
+                            {autoscientist.column_mapping?.prompt ?? "—"} →{" "}
+                            {autoscientist.column_mapping?.completion ?? "—"}
+                          </span>{" "}
+                          (as reported by the run).{" "}
+                          {autoscientist.best_hyperparams &&
+                            `${autoscientist.best_hyperparams.n_epochs ?? "—"} epochs, lr ${autoscientist.best_hyperparams.learning_rate ?? "—"}, batch ${String(autoscientist.best_hyperparams.batch_size ?? "—")}, LoRA r=${autoscientist.best_hyperparams.lora_r ?? "—"} α=${autoscientist.best_hyperparams.lora_alpha ?? "—"}, ${autoscientist.best_hyperparams.lr_scheduler_type ?? "—"} scheduler.`}{" "}
+                          {autoscientist.download_available
+                            ? "Trained artifact is downloadable from the Adaption platform."
+                            : "No downloadable artifact for this run."}
+                          {autoscientist.error &&
+                            ` Error: ${autoscientist.error}`}
+                        </p>
+                      </>
+                    ) : (
+                      <p className="text-xs leading-5 text-muted-foreground">
+                        The run was completed on the Adaption platform; its
+                        artifact is not in this checkout. Run{" "}
+                        <span className="font-mono">
+                          python pipeline/05_autoscientist.py
+                        </span>{" "}
+                        to sync the measured results.
+                      </p>
+                    )}
+
                     <div>
                       <a
                         href="/api/pipeline/training-set"

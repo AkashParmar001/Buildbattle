@@ -4,6 +4,7 @@ import { connection } from "next/server";
 import {
   loadAdaptionEval,
   loadAdaptionEvaluation,
+  loadAutoScientistRun,
   loadShowcase,
 } from "@/lib/showcase";
 
@@ -11,12 +12,19 @@ import {
 export async function GET() {
   await connection();
   try {
-    const [showcase, adaptionEval, adaptionEvaluation] = await Promise.all([
-      loadShowcase(),
-      loadAdaptionEval(),
-      loadAdaptionEvaluation(),
-    ]);
-    return NextResponse.json({ showcase, adaptionEval, adaptionEvaluation });
+    const [showcase, adaptionEval, adaptionEvaluation, autoscientist] =
+      await Promise.all([
+        loadShowcase(),
+        loadAdaptionEval(),
+        loadAdaptionEvaluation(),
+        loadAutoScientistRun(),
+      ]);
+    return NextResponse.json({
+      showcase,
+      adaptionEval,
+      adaptionEvaluation,
+      autoscientist,
+    });
   } catch (err) {
     return NextResponse.json(
       {
