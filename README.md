@@ -9,10 +9,13 @@ the app works with every external API down.
 
 ## Features
 
-- **Landing** (`/`) — hero galaxy (canvas particles drift into the real
-  top-cluster labels) + scroll story through the pipeline numbers
-  (7,000 → 320 → Adaption E→C → clusters → decisions); static SVG under
-  `prefers-reduced-motion`
+- **Landing** (`/`) — Editorial Noir 10-section narrative: serif hero with a
+  WebGL point-cloud scene (ogl; scattered cloud locks into the real cluster
+  constellation on scroll), theme marquee, scroll-highlighted statement,
+  pinned 5-step pipeline story (7,000 → 320 → Adaption E→C → clusters →
+  decisions), feature rows, framed live issue map, counters, product-language
+  How it works (measured numbers only); static gradient fallback + plain
+  sections under `prefers-reduced-motion` / touch
 - **Command Center** (`/app`) — one filterable surface:
   - **Decision brief** — "Fix this first" with score breakdown, why, evidence
   - **KPI row** — total / unique / negativity / top priority (count-up)
@@ -22,9 +25,9 @@ the app works with every external API down.
   - **Priority queue** — ranked, explainable, reorder-animates on filter change
   - **Trends** — sentiment donut + simulated-vs-live 12-week chart
   - Top bar: Feedback drawer (`?overlay=feedback`, search/sort/paginate +
-    add/CSV/sample loaders), Issues board (`?overlay=issues`), Under the
-    hood (`?overlay=hood`), theme toggle, data-source pill
-- **Under the hood** (`/app?overlay=hood`) — the Adaption showcase: summary
+    add/CSV/sample loaders), Issues board (`?overlay=issues`), How it
+    works (`?overlay=hood`), theme toggle, data-source pill
+- **How it works** (`/app?overlay=hood`) — plain-language explainer: summary
   strip, 7-step pipeline trail, settings, 5 raw-vs-improved examples,
   measured eval table, grade E→C card, AutoScientist run results (measured
   win rate vs target, iterations, hyperparameters)

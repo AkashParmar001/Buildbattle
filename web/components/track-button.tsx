@@ -20,7 +20,7 @@ export function TrackButton({
     return (
       <Link
         href="/app?overlay=issues"
-        className="inline-flex h-9 items-center rounded-lg border border-emerald-300 px-4 text-sm font-medium text-emerald-700 dark:border-emerald-800 dark:text-emerald-300"
+        className="inline-flex h-9 items-center border border-foreground bg-foreground px-4 text-sm font-medium text-background hover:opacity-85"
       >
         ✓ Tracked — view issues
       </Link>
