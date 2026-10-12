@@ -15,7 +15,6 @@ import {
 import type { Trend } from "@/lib/analytics";
 import { chartColors } from "@/lib/colors";
 import { SimulatedBadge } from "@/components/simulated-badge";
-import { Card, CardContent } from "@/components/ui/card";
 
 export function TrendChart({ data }: { data: Trend }) {
   const reduce = useReducedMotion();
@@ -34,14 +33,13 @@ export function TrendChart({ data }: { data: Trend }) {
     }));
 
   return (
-    <Card>
-      <CardContent>
+    <div className="flex flex-col border-t border-rule pt-4">
         <div className="flex flex-wrap items-center gap-2">
           <div>
-            <h2 className="text-sm font-semibold tracking-tight">
+            <h2 className="font-display text-xl tracking-tight">
               Feedback volume trend
             </h2>
-            <p className="mt-0.5 text-xs text-muted-foreground">
+            <p className="mt-0.5 font-mono text-[11px] text-stone uppercase">
               Simulated: 12-week timeline. Live: real submission dates, last 12
               weeks.
             </p>
@@ -112,7 +110,6 @@ export function TrendChart({ data }: { data: Trend }) {
             </ResponsiveContainer>
           )}
         </figure>
-      </CardContent>
-    </Card>
+    </div>
   );
 }

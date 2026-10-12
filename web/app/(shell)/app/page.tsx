@@ -21,6 +21,7 @@ import { KpiCard } from "@/components/kpi-card";
 import { PriorityQueue } from "@/components/priority-queue";
 import { ReportButton } from "@/components/report-button";
 import { Reveal } from "@/components/reveal";
+import { SectionLabel } from "@/components/section-label";
 import { SentimentDonut } from "@/components/sentiment-donut";
 import { TrendChart } from "@/components/trend-chart";
 
@@ -70,15 +71,18 @@ export default async function CommandCenterPage({
   const negativeVolume = Math.round(kpis.pctNegative * kpis.totalVolume);
 
   return (
-    <div className="flex flex-col gap-6">
-      <div className="flex flex-wrap items-end justify-between gap-3">
+    <div className="flex flex-col">
+      <div className="flex flex-wrap items-end justify-between gap-3 pb-6">
         <div>
-          <h1 className="text-2xl font-semibold tracking-tight">
+          <p className="font-mono text-[11px] tracking-[0.18em] text-stone uppercase">
             Command Center
+          </p>
+          <h1 className="mt-1 font-display text-3xl leading-tight tracking-tight sm:text-4xl">
+            What to fix first
           </h1>
-          <p className="mt-1 text-sm text-muted-foreground">
-            What to fix first, why, and the evidence behind it — filterable
-            end to end.
+          <p className="mt-1 max-w-lg text-sm text-muted-foreground">
+            Ranked decisions with the evidence behind them — filterable end to
+            end.
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-2">
@@ -94,11 +98,13 @@ export default async function CommandCenterPage({
         />
       ) : (
         <>
+          <SectionLabel index={1} label="Decision brief" className="mb-4" />
           <Reveal>
             <DecisionBrief item={top} tracked={trackedIds.has(top.id)} />
           </Reveal>
 
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+          <SectionLabel index={2} label="At a glance" className="mt-10 mb-4" />
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4">
             <Reveal delay={0.02}>
               <KpiCard
                 title="Total feedback"
@@ -148,34 +154,40 @@ export default async function CommandCenterPage({
             </Reveal>
           </div>
 
+          <SectionLabel index={3} label="Issue map" className="mt-10 mb-4" />
           <Reveal>
-            <Suspense
-              fallback={
-                <div
-                  aria-busy="true"
-                  aria-label="Loading issue map"
-                  className="h-96 rounded-xl border border-border animate-shimmer"
-                />
-              }
-            >
-              <IssueMap clusters={clusters} />
-            </Suspense>
+            <div className="overflow-hidden border border-rule">
+              <Suspense
+                fallback={
+                  <div
+                    aria-busy="true"
+                    aria-label="Loading issue map"
+                    className="h-96 animate-shimmer"
+                  />
+                }
+              >
+                <IssueMap clusters={clusters} />
+              </Suspense>
+            </div>
           </Reveal>
 
-          <section className="flex flex-col gap-4">
-            <div>
-              <h2 className="text-lg font-semibold tracking-tight">
-                Priority queue
-              </h2>
-              <p className="mt-0.5 text-sm text-muted-foreground">
-                Ranked by volume share, negativity and growth — fraud themes
-                weighted higher.
-              </p>
-            </div>
-            <PriorityQueue items={recommendations} trackedIds={trackedIds} />
-          </section>
+          <SectionLabel
+            index={4}
+            label="Priority queue"
+            className="mt-10 mb-1"
+          />
+          <p className="mb-3 max-w-xl text-sm text-muted-foreground">
+            Ranked by volume share, negativity and growth — fraud themes
+            weighted higher.
+          </p>
+          <PriorityQueue items={recommendations} trackedIds={trackedIds} />
 
-          <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
+          <SectionLabel
+            index={5}
+            label="Sentiment & trends"
+            className="mt-10 mb-4"
+          />
+          <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
             <Reveal>
               <SentimentDonut data={sentimentMix} />
             </Reveal>

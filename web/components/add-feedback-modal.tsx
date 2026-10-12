@@ -79,7 +79,7 @@ export function AddFeedbackModal({ categories }: AddFeedbackModalProps) {
         }}
       >
         <form onSubmit={submit} className="flex flex-col gap-4 p-6">
-          <h2 id="add-feedback-title" className="text-base font-semibold tracking-tight">
+          <h2 id="add-feedback-title" className="font-display text-lg tracking-tight">
             Add feedback
           </h2>
           <label className="flex flex-col gap-1.5">

@@ -140,7 +140,7 @@ export function HoodModal() {
       <div className="absolute inset-x-0 bottom-0 top-6 mx-auto flex w-full max-w-3xl flex-col overflow-hidden rounded-t-2xl border border-border bg-background shadow-2xl sm:top-10">
         <div className="flex items-center gap-3 border-b border-border px-4 py-3 sm:px-6">
           <div className="min-w-0">
-            <h2 className="text-base font-semibold tracking-tight">
+            <h2 className="font-display text-lg tracking-tight">
               How it works
             </h2>
             <p className="text-xs text-muted-foreground">
@@ -313,7 +313,7 @@ export function HoodModal() {
               >
                 <Card>
                   <CardContent className="flex flex-col gap-3">
-                    <h3 className="text-base font-semibold tracking-tight">
+                    <h3 className="font-display text-lg tracking-tight">
                       The refinement engine
                     </h3>
                     <dl className="grid grid-cols-1 gap-2 text-xs sm:grid-cols-2">
@@ -358,7 +358,7 @@ export function HoodModal() {
                   show: { opacity: 1, y: 0 },
                 }}
               >
-                <h3 className="text-base font-semibold tracking-tight">
+                <h3 className="font-display text-lg tracking-tight">
                   Raw vs refined — 5 examples
                 </h3>
                 <p className="mt-0.5 text-xs text-muted-foreground">
@@ -410,7 +410,7 @@ export function HoodModal() {
               >
                 <Card>
                   <CardContent className="flex flex-col gap-3">
-                    <h3 className="text-base font-semibold tracking-tight">
+                    <h3 className="font-display text-lg tracking-tight">
                       Trained classifier — measured
                     </h3>
                     {adaptionEval ? (
@@ -486,7 +486,7 @@ export function HoodModal() {
                   <Card>
                     <CardContent className="flex flex-col gap-3">
                       <div className="flex flex-wrap items-center gap-2">
-                        <h3 className="text-base font-semibold tracking-tight">
+                        <h3 className="font-display text-lg tracking-tight">
                           Adaption quality score
                         </h3>
                         <span className="inline-flex items-center gap-1 rounded-full bg-emerald-100 px-3 py-1 text-sm font-bold text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300">
@@ -534,7 +534,7 @@ export function HoodModal() {
                 <Card>
                   <CardContent className="flex flex-col gap-3">
                     <div className="flex flex-wrap items-center gap-2">
-                      <h3 className="text-base font-semibold tracking-tight">
+                      <h3 className="font-display text-lg tracking-tight">
                         Trained response model
                       </h3>
                       {autoscientist ? (

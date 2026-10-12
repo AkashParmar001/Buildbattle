@@ -1,8 +1,6 @@
 import type { LucideIcon } from "lucide-react";
 import type { ReactNode } from "react";
 
-import { Card, CardContent } from "@/components/ui/card";
-
 type KpiCardProps = {
   title: string;
   value: ReactNode;
@@ -10,23 +8,21 @@ type KpiCardProps = {
   icon: LucideIcon;
 };
 
+// Editorial KPI: hairline top rule, mono label, oversized serif numeral —
+// no card chrome.
 export function KpiCard({ title, value, sub, icon: Icon }: KpiCardProps) {
   return (
-    <Card>
-      <CardContent className="flex items-start justify-between gap-3">
-        <div className="min-w-0">
-          <p className="text-xs font-medium tracking-wide text-muted-foreground uppercase">
-            {title}
-          </p>
-          <p className="mt-1 truncate text-2xl font-semibold tracking-tight tabular-nums">
-            {value}
-          </p>
-          <p className="mt-1 truncate text-xs text-muted-foreground">{sub}</p>
-        </div>
-        <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-muted text-muted-foreground">
-          <Icon className="h-4 w-4" />
-        </span>
-      </CardContent>
-    </Card>
+    <div className="flex flex-col gap-1 border-t border-rule pt-4">
+      <div className="flex items-center justify-between gap-2">
+        <p className="font-mono text-[11px] tracking-[0.18em] text-stone uppercase">
+          {title}
+        </p>
+        <Icon aria-hidden="true" className="h-3.5 w-3.5 shrink-0 text-stone" />
+      </div>
+      <p className="truncate font-display text-4xl leading-none tracking-tight tabular-nums lg:text-5xl">
+        {value}
+      </p>
+      <p className="truncate text-xs text-muted-foreground">{sub}</p>
+    </div>
   );
 }

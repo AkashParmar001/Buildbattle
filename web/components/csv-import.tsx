@@ -107,7 +107,7 @@ export function CsvImport({ categories }: CsvImportProps) {
         }}
       >
         <div className="flex max-h-[85vh] flex-col gap-4 overflow-y-auto p-6">
-          <h2 id="import-csv-title" className="text-base font-semibold tracking-tight">
+          <h2 id="import-csv-title" className="font-display text-lg tracking-tight">
             Import feedback CSV
           </h2>
           <label

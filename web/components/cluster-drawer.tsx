@@ -83,7 +83,7 @@ export function ClusterDrawer({
             />
           </motion.div>
           <div className="min-w-0">
-            <h2 className="text-base font-semibold tracking-tight">
+            <h2 className="font-display text-lg tracking-tight">
               {cluster.label}
             </h2>
             <p className="text-xs tabular-nums text-muted-foreground">

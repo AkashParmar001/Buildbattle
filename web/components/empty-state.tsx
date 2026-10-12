@@ -20,7 +20,7 @@ export function EmptyState({
         <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-muted text-muted-foreground">
           <Icon className="h-5 w-5" />
         </span>
-        <h2 className="text-base font-semibold tracking-tight">{title}</h2>
+        <h2 className="font-display text-lg tracking-tight">{title}</h2>
         <p className="max-w-md text-sm leading-6 text-muted-foreground">
           {description}
         </p>

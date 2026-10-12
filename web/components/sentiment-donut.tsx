@@ -5,18 +5,16 @@ import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 
 import type { SentimentSlice } from "@/lib/analytics";
 import { sentimentColors } from "@/lib/colors";
-import { Card, CardContent } from "@/components/ui/card";
 
 export function SentimentDonut({ data }: { data: SentimentSlice[] }) {
   const reduce = useReducedMotion();
   const total = data.reduce((sum, d) => sum + d.volume, 0);
   return (
-    <Card>
-      <CardContent>
-        <h2 className="text-sm font-semibold tracking-tight">
+    <div className="flex flex-col border-t border-rule pt-4">
+        <h2 className="font-display text-xl tracking-tight">
           Sentiment mix
         </h2>
-        <p className="mt-0.5 text-xs text-muted-foreground">
+        <p className="mt-0.5 font-mono text-[11px] text-stone uppercase">
           Share of feedback volume
         </p>
         <figure
@@ -75,7 +73,6 @@ export function SentimentDonut({ data }: { data: SentimentSlice[] }) {
           ))}
         </ul>
         <p className="sr-only">Total {total.toLocaleString()} reports.</p>
-      </CardContent>
-    </Card>
+    </div>
   );
 }

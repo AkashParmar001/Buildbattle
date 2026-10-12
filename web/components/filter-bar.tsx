@@ -42,7 +42,7 @@ export function FilterBar({ categories, current }: FilterBarProps) {
             { scroll: false },
           )
         }
-        className="h-9 rounded-lg border border-border bg-card px-3 text-sm font-medium text-foreground"
+        className="h-9 border border-rule bg-card px-3 text-sm font-medium text-foreground"
       >
         <option value="">All categories</option>
         {categories.map((c) => (
@@ -64,7 +64,7 @@ export function FilterBar({ categories, current }: FilterBarProps) {
             { scroll: false },
           )
         }
-        className="h-9 rounded-lg border border-border bg-card px-3 text-sm font-medium text-foreground"
+        className="h-9 border border-rule bg-card px-3 text-sm font-medium text-foreground"
       >
         <option value="">All sentiments</option>
         {SENTIMENTS.map((s) => (
@@ -78,7 +78,7 @@ export function FilterBar({ categories, current }: FilterBarProps) {
         <button
           type="button"
           onClick={() => router.replace(pathname, { scroll: false })}
-          className="h-9 rounded-lg px-3 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
+          className="h-9 px-3 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
         >
           Reset
         </button>

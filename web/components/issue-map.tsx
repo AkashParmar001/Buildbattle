@@ -135,7 +135,7 @@ export function IssueMap({ clusters }: { clusters: InsightCluster[] }) {
       <CardContent>
         <div className="flex flex-wrap items-center gap-2">
           <div>
-            <h2 className="text-sm font-semibold tracking-tight">Issue map</h2>
+            <h2 className="font-display text-base tracking-tight">Issue map</h2>
             <p className="mt-0.5 text-xs text-muted-foreground">
               Bubble size = volume share · color = dominant sentiment · pulse =
               priority ≥ 70. Click a bubble for the full breakdown.

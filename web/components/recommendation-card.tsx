@@ -23,7 +23,7 @@ export function RecommendationCard({
             <p className="text-xs font-semibold tracking-wide text-muted-foreground uppercase">
               #{rank} priority
             </p>
-            <h2 className="mt-0.5 text-lg font-semibold tracking-tight">
+            <h2 className="mt-0.5 font-display text-lg tracking-tight">
               {item.label}
             </h2>
             <p className="mt-0.5 text-xs tabular-nums text-muted-foreground">

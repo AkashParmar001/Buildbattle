@@ -92,7 +92,7 @@ export function IssuesPanel() {
       <div className="absolute inset-y-0 right-0 flex w-full max-w-5xl flex-col border-l border-border bg-background shadow-2xl">
         <div className="flex items-center gap-3 border-b border-border px-4 py-3 sm:px-6">
           <div className="min-w-0">
-            <h2 className="text-base font-semibold tracking-tight">
+            <h2 className="font-display text-lg tracking-tight">
               Tracked issues
             </h2>
             <p className="text-xs text-muted-foreground">

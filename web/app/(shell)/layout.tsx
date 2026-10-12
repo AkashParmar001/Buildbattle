@@ -30,13 +30,13 @@ export default async function ShellLayout({
         {children}
       </main>
 
-      <footer className="flex items-center gap-1.5 px-4 pb-5 text-xs text-muted-foreground sm:px-6 print:hidden">
+      <footer className="flex items-center gap-1.5 border-t border-rule px-4 pb-5 pt-4 font-mono text-[11px] text-muted-foreground sm:px-6 print:hidden">
         <span
           aria-hidden="true"
           className={
             source === "supabase"
-              ? "inline-block h-2 w-2 shrink-0 rounded-full bg-emerald-500"
-              : "inline-block h-2 w-2 shrink-0 rounded-full bg-amber-500"
+              ? "inline-block h-2 w-2 shrink-0 rounded-full bg-[#5DD6A2]"
+              : "inline-block h-2 w-2 shrink-0 rounded-full bg-[#8B867B]"
           }
         />
         Data source: {source === "supabase" ? "Live database" : "Local snapshot"}

@@ -9,7 +9,6 @@ import { ReportActions } from "@/components/report-actions";
 import { SentimentDonut } from "@/components/sentiment-donut";
 import { SimulatedBadge } from "@/components/simulated-badge";
 import { TrendChart } from "@/components/trend-chart";
-import { Card, CardContent } from "@/components/ui/card";
 import { Flame, Inbox, Meh, Tags } from "lucide-react";
 
 // Tokenized share links read from the database/overlay at request time —
@@ -42,13 +41,13 @@ export default async function ReportPage({
       : "All feedback";
 
   return (
-    <div className="light mx-auto flex w-full max-w-4xl flex-col gap-6 px-4 py-6 sm:px-6 print:max-w-none print:gap-4 print:p-0">
-      <div className="flex flex-wrap items-start justify-between gap-3">
+    <div className="light mx-auto flex w-full max-w-4xl flex-col px-4 py-6 sm:px-6 print:max-w-none print:p-0">
+      <div className="flex flex-wrap items-start justify-between gap-3 pb-6">
         <div>
-          <p className="text-xs font-semibold tracking-wide text-muted-foreground uppercase">
+          <p className="font-mono text-[11px] tracking-[0.18em] text-muted-foreground uppercase">
             InsightFlow executive report
           </p>
-          <h1 className="mt-1 text-2xl font-semibold tracking-tight">
+          <h1 className="mt-1 font-display text-3xl tracking-tight">
             Customer feedback snapshot
           </h1>
           <p className="mt-1 text-sm text-muted-foreground">
@@ -60,23 +59,21 @@ export default async function ReportPage({
         <ReportActions url={`/report/${token}`} />
       </div>
 
-      <Card>
-        <CardContent className="flex flex-col gap-2">
-          <h2 className="text-sm font-semibold tracking-tight">
-            Executive summary
-          </h2>
-          <p className="text-sm leading-6">
-            Across {kpis.totalVolume.toLocaleString()} reports (
-            {kpis.uniqueTexts.toLocaleString()} unique texts),{" "}
-            {(kpis.pctNegative * 100).toFixed(1)}% of volume is negative.
-            {top
-              ? ` The top priority is “${top.label}” (score ${top.priority.toFixed(1)}, ${top.volume.toLocaleString()} reports), owned by ${top.owner}.`
-              : " No priority issue identified."}
-          </p>
-        </CardContent>
-      </Card>
+      <section className="flex flex-col gap-2 border-t border-rule pt-5">
+        <h2 className="font-display text-lg tracking-tight">
+          Executive summary
+        </h2>
+        <p className="text-sm leading-6">
+          Across {kpis.totalVolume.toLocaleString()} reports (
+          {kpis.uniqueTexts.toLocaleString()} unique texts),{" "}
+          {(kpis.pctNegative * 100).toFixed(1)}% of volume is negative.
+          {top
+            ? ` The top priority is “${top.label}” (score ${top.priority.toFixed(1)}, ${top.volume.toLocaleString()} reports), owned by ${top.owner}.`
+            : " No priority issue identified."}
+        </p>
+      </section>
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4 print:grid-cols-4">
+      <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4 print:grid-cols-4">
         <KpiCard
           title="Total feedback"
           value={kpis.totalVolume.toLocaleString()}
@@ -105,16 +102,16 @@ export default async function ReportPage({
         />
       </div>
 
-      <div className="grid grid-cols-1 gap-4 xl:grid-cols-2 print:grid-cols-2">
+      <div className="mt-8 grid grid-cols-1 gap-6 xl:grid-cols-2 print:grid-cols-2">
         <SentimentDonut data={snapshot.sentiment} />
         <TrendChart data={normalizeTrend(snapshot.trend)} />
       </div>
 
-      <div>
-        <h2 className="text-base font-semibold tracking-tight">
+      <section className="mt-8 border-t border-rule pt-5">
+        <h2 className="font-display text-lg tracking-tight">
           Top recommendations
         </h2>
-        <div className="mt-3 flex flex-col gap-4">
+        <div className="mt-3 flex flex-col">
           {snapshot.recommendations.map((item, i) => (
             <RecommendationCard
               key={item.id}
@@ -124,37 +121,35 @@ export default async function ReportPage({
             />
           ))}
         </div>
-      </div>
+      </section>
 
-      <Card>
-        <CardContent className="flex flex-col gap-2">
-          <h2 className="text-sm font-semibold tracking-tight">Methodology</h2>
-          <div className="flex flex-wrap items-center gap-2">
-            <SimulatedBadge />
-          </div>
-          <ul className="list-disc space-y-1 pl-5 text-xs leading-5 text-muted-foreground">
-            <li>
-              Source: {snapshot.meta.total_rows.toLocaleString()} deduplicated
-              feedback reports ({snapshot.meta.unique} unique texts, volume =
-              duplicate count), refined through adaptive data before analysis.
-            </li>
-            <li>
-              The 12-week trend is a simulated timeline — feedback has no real
-              dates. Only user-submitted or imported feedback carries real
-              timestamps.
-            </li>
-            <li>
-              {snapshot.meta.unique} unique reviews refined and evaluated
-              (quality grade E → C, +205%); downstream analysis runs on review
-              text with volume-weighted metrics.
-            </li>
-            <li>
-              Priority combines volume share, negativity and growth, with
-              fraud-dominated themes weighted higher.
-            </li>
-          </ul>
-        </CardContent>
-      </Card>
+      <section className="mt-8 flex flex-col gap-2 border-t border-rule pt-5">
+        <h2 className="font-display text-lg tracking-tight">Methodology</h2>
+        <div className="flex flex-wrap items-center gap-2">
+          <SimulatedBadge />
+        </div>
+        <ul className="list-disc space-y-1 pl-5 text-xs leading-5 text-muted-foreground">
+          <li>
+            Source: {snapshot.meta.total_rows.toLocaleString()} deduplicated
+            feedback reports ({snapshot.meta.unique} unique texts, volume =
+            duplicate count), refined through adaptive data before analysis.
+          </li>
+          <li>
+            The 12-week trend is a simulated timeline — feedback has no real
+            dates. Only user-submitted or imported feedback carries real
+            timestamps.
+          </li>
+          <li>
+            {snapshot.meta.unique} unique reviews refined and evaluated
+            (quality grade E → C, +205%); downstream analysis runs on review
+            text with volume-weighted metrics.
+          </li>
+          <li>
+            Priority combines volume share, negativity and growth, with
+            fraud-dominated themes weighted higher.
+          </li>
+        </ul>
+      </section>
     </div>
   );
 }
