@@ -11,6 +11,8 @@ type SplitRevealProps = {
   /** Animate when scrolled into view (default) or immediately on mount. */
   immediate?: boolean;
   delay?: number;
+  /** Heading level — use "h1" for the hero. */
+  as?: "h1" | "h2";
 };
 
 // Line-by-line headline reveal via GSAP SplitText (masked lines slide up).
@@ -20,6 +22,7 @@ export function SplitReveal({
   className,
   immediate = false,
   delay = 0,
+  as = "h2",
 }: SplitRevealProps) {
   const ref = useRef<HTMLHeadingElement>(null);
 
@@ -70,9 +73,10 @@ export function SplitReveal({
     };
   }, [text, immediate, delay]);
 
+  const Tag = as;
   return (
-    <h2 ref={ref} className={className}>
+    <Tag ref={ref} className={className}>
       {text}
-    </h2>
+    </Tag>
   );
 }

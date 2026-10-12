@@ -96,10 +96,10 @@ function StoryPanel({
 function StoryCard({ step, active }: { step: StoryStep; active: boolean }) {
   return (
     <div className="flex w-full max-w-xl flex-col items-center gap-3 text-center">
-      <p className="text-xs font-semibold tracking-widest text-accent uppercase">
+      <p className="font-mono text-[11px] tracking-[0.18em] text-stone uppercase">
         {step.statLabel}
       </p>
-      <p className="text-5xl font-semibold tracking-tight sm:text-6xl">
+      <p className="font-display text-5xl tracking-tight sm:text-6xl">
         {active ? (
           <AnimatedNumber
             value={step.value}
@@ -111,7 +111,7 @@ function StoryCard({ step, active }: { step: StoryStep; active: boolean }) {
           step.value.toLocaleString()
         )}
       </p>
-      <h2 className="text-xl font-semibold tracking-tight sm:text-2xl">
+      <h2 className="font-display text-xl tracking-tight sm:text-2xl">
         {step.title}
       </h2>
       <p className="max-w-md text-sm leading-6 text-muted-foreground">
