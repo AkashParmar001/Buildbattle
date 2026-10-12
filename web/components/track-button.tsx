@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { useState } from "react";
 
+import { notifyFeedbackChanged } from "@/lib/feedback-refresh";
+
 export function TrackButton({
   clusterId,
   initialTracked,
@@ -17,7 +19,7 @@ export function TrackButton({
   if (tracked) {
     return (
       <Link
-        href="/issues"
+        href="/app?overlay=issues"
         className="inline-flex h-9 items-center rounded-lg border border-emerald-300 px-4 text-sm font-medium text-emerald-700 dark:border-emerald-800 dark:text-emerald-300"
       >
         ✓ Tracked — view issues
@@ -41,6 +43,7 @@ export function TrackButton({
             .then(async (res) => {
               if (res.ok) {
                 setTracked(true);
+                notifyFeedbackChanged();
                 return;
               }
               const json = (await res.json().catch(() => ({}))) as {

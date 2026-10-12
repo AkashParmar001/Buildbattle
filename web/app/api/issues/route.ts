@@ -8,11 +8,17 @@ import { getClusterRows } from "@/lib/db";
 export async function GET() {
   await connection();
   try {
-    const [issues, trackedClusterIds] = await Promise.all([
+    const [issues, trackedClusterIds, clusters] = await Promise.all([
       getIssues(),
       getIssueTrackedClusterIds(),
+      getClusterRows(),
     ]);
-    return NextResponse.json({ issues, trackedClusterIds });
+    const clusterMeta = clusters.map((c) => ({
+      id: c.id,
+      label: c.label,
+      priority: c.priority,
+    }));
+    return NextResponse.json({ issues, trackedClusterIds, clusterMeta });
   } catch (err) {
     return NextResponse.json(
       { error: err instanceof Error ? err.message : "Could not load issues." },
@@ -42,7 +48,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Unknown cluster." }, { status: 404 });
   }
   const { issue, created } = await trackIssue(clusterId, cluster.label);
-  revalidatePath("/recommendations");
-  revalidatePath("/issues");
+  revalidatePath("/app");
   return NextResponse.json({ issue, created }, { status: created ? 201 : 200 });
 }

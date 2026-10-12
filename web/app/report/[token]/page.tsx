@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { connection } from "next/server";
 
 import { normalizeTrend } from "@/lib/analytics";
 import { getReport } from "@/lib/reports";
@@ -11,12 +12,17 @@ import { TrendChart } from "@/components/trend-chart";
 import { Card, CardContent } from "@/components/ui/card";
 import { Flame, Inbox, Meh, Tags } from "lucide-react";
 
+// Tokenized share links read from the database/overlay at request time —
+// allowed to block (cacheComponents opt-out for this segment).
+export const instant = false;
+
 export default async function ReportPage({
   params,
 }: {
   params: Promise<{ token: string }>;
 }) {
   const { token } = await params;
+  await connection();
   const report = await getReport(token);
   if (!report) notFound();
   const { snapshot } = report;
@@ -36,7 +42,7 @@ export default async function ReportPage({
       : "All feedback";
 
   return (
-    <div className="light mx-auto flex w-full max-w-4xl flex-col gap-6 print:max-w-none print:gap-4">
+    <div className="light mx-auto flex w-full max-w-4xl flex-col gap-6 px-4 py-6 sm:px-6 print:max-w-none print:gap-4 print:p-0">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
           <p className="text-xs font-semibold tracking-wide text-muted-foreground uppercase">

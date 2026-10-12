@@ -12,6 +12,11 @@ const nextConfig: NextConfig = {
       },
     },
   },
+  // Old single-purpose routes collapse into the Command Center.
+  redirects: async () =>
+    ["/feedback", "/insights", "/recommendations", "/pipeline", "/issues"].map(
+      (source) => ({ source, destination: "/app", permanent: false }),
+    ),
 };
 
 export default nextConfig;

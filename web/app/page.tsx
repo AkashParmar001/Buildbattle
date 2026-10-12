@@ -1,110 +1,39 @@
-import { Flame, Inbox, Meh, Tags } from "lucide-react";
+import Link from "next/link";
 
-import {
-  getCategories,
-  getKpis,
-  getSentimentDistribution,
-  getTopIssues,
-  getTrend,
-} from "@/lib/analytics";
-import type { Sentiment } from "@/lib/db";
-import { EmptyState } from "@/components/empty-state";
-import { FilterBar } from "@/components/filter-bar";
-import { HeroStrip } from "@/components/hero-strip";
-import { KpiCard } from "@/components/kpi-card";
-import { ReportButton } from "@/components/report-button";
-import { SentimentDonut } from "@/components/sentiment-donut";
-import { TopIssuesChart } from "@/components/top-issues-chart";
-import { TrendChart } from "@/components/trend-chart";
-
-const VALID_SENTIMENTS: Sentiment[] = ["positive", "neutral", "negative"];
-
-export default async function DashboardPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ category?: string; sentiment?: string }>;
-}) {
-  const params = await searchParams;
-  const categories = await getCategories();
-  const category = params.category && categories.includes(params.category)
-    ? params.category
-    : undefined;
-  const sentiment =
-    params.sentiment && VALID_SENTIMENTS.includes(params.sentiment as Sentiment)
-      ? (params.sentiment as Sentiment)
-      : undefined;
-  const filters = { category, sentiment };
-
-  const [kpis, sentimentMix, topIssues, trend] = await Promise.all([
-    getKpis(filters),
-    getSentimentDistribution(filters),
-    getTopIssues(filters),
-    getTrend(filters),
-  ]);
-
+// Landing placeholder — replaced by the hero galaxy + scroll story in Phase C.
+export default function LandingPage() {
   return (
-    <div className="flex flex-col gap-6">
-      <div className="flex flex-wrap items-end justify-between gap-3">
-        <div>
-          <h1 className="text-2xl font-semibold tracking-tight">Dashboard</h1>
-          <p className="mt-1 text-sm text-muted-foreground">
-            KPIs, sentiment, top issues, and the 12-week trend — all filterable.
-          </p>
-        </div>
-        <div className="flex flex-wrap items-center gap-2">
-          <FilterBar categories={categories} current={filters} />
-          <ReportButton filters={filters} />
-        </div>
+    <main className="flex min-h-screen flex-col items-center justify-center gap-6 bg-background px-6 text-center text-foreground">
+      <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-accent text-lg font-bold text-accent-foreground">
+        I
+      </span>
+      <div className="max-w-2xl">
+        <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">
+          Know which customer problem to fix first.
+        </h1>
+        <p className="mt-3 text-base leading-7 text-muted-foreground">
+          InsightFlow turns 7,000 raw feedback rows into deduped, Adaption-
+          refined insights, 10 explainable clusters, and a ranked action queue
+          — every number traceable to source data.
+        </p>
       </div>
-
-      <HeroStrip />
-
-      {kpis.totalVolume === 0 ? (
-        <EmptyState
-          title="No feedback matches these filters"
-          description="Try a different category or sentiment, or reset the filters to see the full picture."
-        />
-      ) : (
-        <>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-            <KpiCard
-              title="Total feedback"
-              value={kpis.totalVolume.toLocaleString()}
-              sub={`${kpis.uniqueTexts.toLocaleString()} unique texts`}
-              icon={Inbox}
-            />
-            <KpiCard
-              title="Unique issues"
-              value={kpis.uniqueTexts.toLocaleString()}
-              sub="distinct feedback texts"
-              icon={Tags}
-            />
-            <KpiCard
-              title="Negative"
-              value={`${(kpis.pctNegative * 100).toFixed(1)}%`}
-              sub="share of feedback volume"
-              icon={Meh}
-            />
-            <KpiCard
-              title="Top priority issue"
-              value={
-                kpis.topPriority
-                  ? `${kpis.topPriority.priority.toFixed(1)}`
-                  : "—"
-              }
-              sub={kpis.topPriority?.label ?? "No issues"}
-              icon={Flame}
-            />
-          </div>
-
-          <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
-            <SentimentDonut data={sentimentMix} />
-            <TopIssuesChart data={topIssues} />
-          </div>
-
-          <TrendChart data={trend} />
-        </>
-      )}
-    </div>
+      <div className="flex flex-wrap items-center justify-center gap-3">
+        <Link
+          href="/app"
+          className="inline-flex h-11 items-center rounded-lg bg-accent px-6 text-sm font-medium text-accent-foreground hover:bg-accent-hover"
+        >
+          Open the Command Center
+        </Link>
+        <a
+          href="#"
+          className="inline-flex h-11 items-center rounded-lg border border-border px-6 text-sm font-medium hover:bg-muted"
+        >
+          How it works
+        </a>
+      </div>
+      <p className="text-xs text-muted-foreground">
+        Frontend Arena Build Battle 2026 · demo data, no keys required
+      </p>
+    </main>
   );
 }

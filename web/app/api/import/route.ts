@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
   try {
     const result = await importFeedback((body as { rows?: unknown })?.rows);
     revalidatePath("/");
-    revalidatePath("/feedback");
+    revalidatePath("/app");
     return NextResponse.json(result, { status: 201 });
   } catch (err) {
     const isValidation = err instanceof ImportValidationError;

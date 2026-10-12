@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 
+import { notifyFeedbackChanged } from "@/lib/feedback-refresh";
 import { mapRows, parseCsv } from "@/components/csv-parse";
 
 const ROW_LIMIT = 2000;
@@ -80,6 +81,7 @@ export function CsvImport({ categories }: CsvImportProps) {
         `Imported ${json.added} reviews (${json.merged} merged as duplicates, ${json.failed} invalid skipped).`,
       );
       router.refresh();
+      notifyFeedbackChanged();
     } catch {
       setError("Network error. Please try again.");
     } finally {

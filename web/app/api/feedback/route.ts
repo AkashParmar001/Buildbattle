@@ -4,8 +4,9 @@ import { connection } from "next/server";
 
 import { classifyFeedback } from "@/lib/classify";
 import { refreshClusterStats } from "@/lib/cluster-stats";
-import { getClusterRows } from "@/lib/db";
+import { getClusterRows, type Sentiment } from "@/lib/db";
 import { addUserFeedback, mergeUserFeedback } from "@/lib/feedback-store";
+import { queryFeedback, type FeedbackSort } from "@/lib/query-feedback";
 
 // Simple in-memory per-IP rate limit (per-instance; documented limitation).
 const RATE_WINDOW_MS = 60_000;
@@ -21,6 +22,50 @@ function rateLimited(key: string): boolean {
   }
   entry.count += 1;
   return entry.count > RATE_MAX;
+}
+
+const VALID_SORTS: FeedbackSort[] = [
+  "volume_desc",
+  "volume_asc",
+  "text_asc",
+  "text_desc",
+];
+const VALID_SENTIMENTS: Sentiment[] = ["positive", "neutral", "negative"];
+
+// Feedback drawer search/filter/sort/paginate.
+export async function GET(req: NextRequest) {
+  await connection();
+  try {
+    const sp = req.nextUrl.searchParams;
+    const q = sp.get("q")?.trim() || undefined;
+    const category = sp.get("category") || undefined;
+    const sentimentRaw = sp.get("sentiment");
+    const sentiment =
+      sentimentRaw && VALID_SENTIMENTS.includes(sentimentRaw as Sentiment)
+        ? (sentimentRaw as Sentiment)
+        : undefined;
+    const clusterRaw = Number(sp.get("cluster"));
+    const cluster =
+      sp.get("cluster") !== null &&
+      Number.isInteger(clusterRaw) &&
+      clusterRaw >= -1
+        ? clusterRaw
+        : undefined;
+    const sortRaw = sp.get("sort");
+    const sort =
+      sortRaw && VALID_SORTS.includes(sortRaw as FeedbackSort)
+        ? (sortRaw as FeedbackSort)
+        : "volume_desc";
+    const page = Number(sp.get("page")) || 1;
+
+    const result = await queryFeedback({ q, category, sentiment, cluster, sort, page });
+    return NextResponse.json(result);
+  } catch (err) {
+    return NextResponse.json(
+      { error: err instanceof Error ? err.message : "Could not load feedback." },
+      { status: 500 },
+    );
+  }
 }
 
 export async function POST(req: NextRequest) {
@@ -70,7 +115,8 @@ export async function POST(req: NextRequest) {
     if (merged) {
       await refreshClusterStats();
       revalidatePath("/");
-      revalidatePath("/feedback");
+      revalidatePath("/app");
+
       return NextResponse.json(
         { record: merged, merged: true, llmFallback: false },
         { status: 200 },
@@ -95,7 +141,7 @@ export async function POST(req: NextRequest) {
 
     await refreshClusterStats();
     revalidatePath("/");
-    revalidatePath("/feedback");
+    revalidatePath("/app");
 
     return NextResponse.json(
       { record, merged: false, llmFallback: classification.llmFailed },

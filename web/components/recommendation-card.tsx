@@ -78,7 +78,7 @@ export function RecommendationCard({
         <div className="flex flex-wrap items-center gap-2 print:hidden">
           <TrackButton clusterId={item.id} initialTracked={tracked} />
           <Link
-            href={`/feedback?cluster=${item.id}`}
+            href={`/app?overlay=feedback&cluster=${item.id}`}
             className="inline-flex h-9 items-center rounded-lg px-3 text-sm font-medium text-accent hover:bg-accent/10"
           >
             View evidence in feedback →

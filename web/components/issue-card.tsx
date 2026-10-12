@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import type { Issue, IssueStatus } from "@/lib/issues";
+import { notifyFeedbackChanged } from "@/lib/feedback-refresh";
 import { Card, CardContent } from "@/components/ui/card";
 
 const STATUS_LABEL: Record<IssueStatus, string> = {
@@ -44,6 +45,7 @@ export function IssueCard({
         return;
       }
       router.refresh();
+      notifyFeedbackChanged();
     } catch {
       setError("Network error. Please try again.");
     } finally {
@@ -58,7 +60,7 @@ export function IssueCard({
           <h3 className="text-sm font-semibold tracking-tight">{issue.title}</h3>
           <p className="mt-0.5 text-xs text-muted-foreground">
             <Link
-              href={`/feedback?cluster=${issue.clusterId}`}
+              href={`/app?overlay=feedback&cluster=${issue.clusterId}`}
               className="text-accent hover:underline"
             >
               {clusterLabel}

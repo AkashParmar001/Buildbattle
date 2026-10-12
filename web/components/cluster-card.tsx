@@ -115,7 +115,7 @@ export function ClusterCard({ cluster }: { cluster: InsightCluster }) {
         </div>
 
         <Link
-          href={`/feedback?cluster=${cluster.id}`}
+          href={`/app?overlay=feedback&cluster=${cluster.id}`}
           className="text-sm font-medium text-accent hover:underline"
         >
           View all feedback in this cluster →

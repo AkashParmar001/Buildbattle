@@ -3,6 +3,8 @@
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 
+import { notifyFeedbackChanged } from "@/lib/feedback-refresh";
+
 type AddFeedbackModalProps = {
   categories: string[];
 };
@@ -46,6 +48,7 @@ export function AddFeedbackModal({ categories }: AddFeedbackModalProps) {
       setText("");
       dialogRef.current?.close();
       router.refresh();
+      notifyFeedbackChanged();
     } catch {
       setError("Network error. Please try again.");
     } finally {

@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { ArrowDown, ArrowUp } from "lucide-react";
 
 import type { FeedbackRecord } from "@/lib/db";
@@ -8,24 +7,11 @@ import { cn } from "@/lib/utils";
 
 export type SortKey = "volume_desc" | "volume_asc" | "text_asc" | "text_desc";
 
-function sortHref(
-  base: string,
-  target: "volume" | "text",
-  current: SortKey,
-): string {
-  const next: SortKey =
-    target === "volume"
-      ? current === "volume_desc"
-        ? "volume_asc"
-        : "volume_desc"
-      : current === "text_asc"
-        ? "text_desc"
-        : "text_asc";
-  const params = new URLSearchParams(base);
-  params.set("sort", next);
-  params.delete("page");
-  const query = params.toString();
-  return query ? `?${query}` : "?";
+function nextSort(current: SortKey, target: "volume" | "text"): SortKey {
+  if (target === "volume") {
+    return current === "volume_desc" ? "volume_asc" : "volume_desc";
+  }
+  return current === "text_asc" ? "text_desc" : "text_asc";
 }
 
 function SortIcon({ active, dir }: { active: boolean; dir: "asc" | "desc" }) {
@@ -37,28 +23,50 @@ function SortIcon({ active, dir }: { active: boolean; dir: "asc" | "desc" }) {
   );
 }
 
+function SortHeader({
+  label,
+  target,
+  sort,
+  onSort,
+}: {
+  label: string;
+  target: "volume" | "text";
+  sort: SortKey;
+  onSort: (next: SortKey) => void;
+}) {
+  const active = sort.startsWith(target);
+  return (
+    <button
+      type="button"
+      onClick={() => onSort(nextSort(sort, target))}
+      className="inline-flex items-center gap-1 hover:text-foreground"
+    >
+      {label}
+      <SortIcon
+        active={active}
+        dir={sort === `${target}_asc` ? "asc" : "desc"}
+      />
+    </button>
+  );
+}
+
 export function FeedbackTable({
   rows,
-  baseQuery,
   sort,
+  onSort,
 }: {
   rows: FeedbackRecord[];
-  baseQuery: string;
   sort: SortKey;
+  onSort: (next: SortKey) => void;
 }) {
   return (
     <Card className="overflow-hidden">
       <div className="overflow-x-auto">
-        <table className="w-full min-w-[640px] text-left text-sm">
+        <table className="w-full min-w-[560px] text-left text-sm">
           <thead>
             <tr className="border-b border-border text-xs text-muted-foreground uppercase">
               <th scope="col" className="px-4 py-3 font-medium">
-                <Link
-                  href={`/feedback${sortHref(baseQuery, "text", sort)}`}
-                  className="inline-flex items-center gap-1 hover:text-foreground"
-                >
-                  Review <SortIcon active={sort.startsWith("text")} dir={sort === "text_asc" ? "asc" : "desc"} />
-                </Link>
+                <SortHeader label="Review" target="text" sort={sort} onSort={onSort} />
               </th>
               <th scope="col" className="px-4 py-3 font-medium">
                 Category
@@ -70,12 +78,12 @@ export function FeedbackTable({
                 Topic
               </th>
               <th scope="col" className="px-4 py-3 text-right font-medium">
-                <Link
-                  href={`/feedback${sortHref(baseQuery, "volume", sort)}`}
-                  className="inline-flex items-center gap-1 hover:text-foreground"
-                >
-                  Volume <SortIcon active={sort.startsWith("volume")} dir={sort === "volume_asc" ? "asc" : "desc"} />
-                </Link>
+                <SortHeader
+                  label="Volume"
+                  target="volume"
+                  sort={sort}
+                  onSort={onSort}
+                />
               </th>
             </tr>
           </thead>

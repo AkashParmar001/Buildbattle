@@ -45,7 +45,7 @@ export async function PATCH(
       ...(status !== undefined ? { status: status as IssueStatus } : {}),
       ...(notes !== undefined ? { notes } : {}),
     });
-    revalidatePath("/issues");
+    revalidatePath("/app");
     return NextResponse.json({ issue });
   } catch (err) {
     const message = err instanceof Error ? err.message : "Update failed.";

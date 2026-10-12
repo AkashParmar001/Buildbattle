@@ -3,6 +3,8 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
+import { notifyFeedbackChanged } from "@/lib/feedback-refresh";
+
 const SAMPLES = [
   {
     text: "The delivery driver left my package in the rain and everything inside was soaked.",
@@ -59,6 +61,7 @@ export function LoadSampleButton() {
           : `Loaded ${json.inserted} sample reviews.`,
       );
       router.refresh();
+      notifyFeedbackChanged();
     } catch {
       setDone("Network error. Please try again.");
     } finally {

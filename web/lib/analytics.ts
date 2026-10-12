@@ -42,6 +42,28 @@ export type Kpis = {
 
 export const getKpis = cache(async (filters: AnalyticsFilters = {}): Promise<Kpis> => {
   const { feedback, clusters } = await loadRows();
+  const hasFilters = Boolean(
+    filters.category || filters.sentiment || filters.cluster !== undefined,
+  );
+  if (hasFilters) {
+    // Filtered mode: derive top priority from the same recomputed cluster
+    // metrics the Issue map and Priority queue use, so every number agrees.
+    const cards = await getInsightClusters(filters);
+    const top = cards[0] ?? null;
+    const rows = applyFilters(feedback, filters);
+    const totalVolume = rows.reduce((sum, r) => sum + r.count, 0);
+    const negVolume = rows
+      .filter((r) => r.sentiment === "negative")
+      .reduce((sum, r) => sum + r.count, 0);
+    return {
+      totalVolume,
+      uniqueTexts: rows.length,
+      pctNegative: totalVolume === 0 ? 0 : negVolume / totalVolume,
+      topPriority: top
+        ? { id: top.id, label: top.label, priority: top.priority }
+        : null,
+    };
+  }
   const rows = applyFilters(feedback, filters);
   const totalVolume = rows.reduce((sum, r) => sum + r.count, 0);
   const negVolume = rows
@@ -213,38 +235,78 @@ export type InsightCluster = ClusterRecord & {
 // Full cluster cards: stored aggregates plus a sentiment breakdown and the
 // dominant category recomputed from the underlying rows (works with the
 // Supabase schema, which stores no per-category counts on clusters).
-export const getInsightClusters = cache(async (): Promise<InsightCluster[]> => {
-  const { feedback, clusters } = await loadRows();
-  const byCluster = new Map<number, FeedbackRecord[]>();
-  for (const r of feedback) {
-    const list = byCluster.get(r.cluster) ?? [];
-    list.push(r);
-    byCluster.set(r.cluster, list);
-  }
-  return clusters
-    .map((c) => {
-      const list = byCluster.get(c.id) ?? [];
-      const sentiment = {
-        positive: list
-          .filter((r) => r.sentiment === "positive")
-          .reduce((s, r) => s + r.count, 0),
-        neutral: list
-          .filter((r) => r.sentiment === "neutral")
-          .reduce((s, r) => s + r.count, 0),
-        negative: list
-          .filter((r) => r.sentiment === "negative")
-          .reduce((s, r) => s + r.count, 0),
-      };
-      const catVolume = new Map<string, number>();
-      for (const r of list) {
-        catVolume.set(r.category, (catVolume.get(r.category) ?? 0) + r.count);
-      }
-      const dominantCategory =
-        [...catVolume.entries()].sort((a, b) => b[1] - a[1])[0]?.[0] ?? "";
-      return { ...c, sentiment, dominantCategory };
-    })
-    .sort((a, b) => b.priority - a.priority);
-});
+// With filters, volume/share/negativity/priority are recomputed from the
+// filtered rows so the whole Command Center agrees; unfiltered returns the
+// stored seed aggregates unchanged.
+export const getInsightClusters = cache(
+  async (filters: AnalyticsFilters = {}): Promise<InsightCluster[]> => {
+    const { feedback, clusters } = await loadRows();
+    const hasFilters = Boolean(
+      filters.category || filters.sentiment || filters.cluster !== undefined,
+    );
+    const rows = hasFilters ? applyFilters(feedback, filters) : feedback;
+    const byCluster = new Map<number, FeedbackRecord[]>();
+    for (const r of rows) {
+      const list = byCluster.get(r.cluster) ?? [];
+      list.push(r);
+      byCluster.set(r.cluster, list);
+    }
+    const filteredTotal = rows.reduce((sum, r) => sum + r.count, 0);
+    const cards = clusters
+      .filter((c) => !hasFilters || byCluster.has(c.id))
+      .map((c) => {
+        const list = byCluster.get(c.id) ?? [];
+        const sentiment = {
+          positive: list
+            .filter((r) => r.sentiment === "positive")
+            .reduce((s, r) => s + r.count, 0),
+          neutral: list
+            .filter((r) => r.sentiment === "neutral")
+            .reduce((s, r) => s + r.count, 0),
+          negative: list
+            .filter((r) => r.sentiment === "negative")
+            .reduce((s, r) => s + r.count, 0),
+        };
+        const catVolume = new Map<string, number>();
+        for (const r of list) {
+          catVolume.set(r.category, (catVolume.get(r.category) ?? 0) + r.count);
+        }
+        const dominantCategory =
+          [...catVolume.entries()].sort((a, b) => b[1] - a[1])[0]?.[0] ?? "";
+        if (!hasFilters) return { ...c, sentiment, dominantCategory };
+        const volume = list.reduce((s, r) => s + r.count, 0);
+        return {
+          ...c,
+          volume,
+          share: filteredTotal === 0 ? 0 : volume / filteredTotal,
+          negativity: volume === 0 ? 0 : sentiment.negative / volume,
+          sentiment,
+          dominantCategory,
+        };
+      });
+    if (!hasFilters) {
+      return cards.sort((a, b) => b.priority - a.priority);
+    }
+    // AGENTS.md formula on the filtered set (fraud x1.25 can exceed 100).
+    const maxShare = Math.max(...cards.map((c) => c.share), 0);
+    const maxGrowth = Math.max(...cards.map((c) => c.growth), 0);
+    return cards
+      .map((c) => {
+        const raw =
+          0.4 * (maxShare === 0 ? 0 : c.share / maxShare) +
+          0.35 * c.negativity +
+          0.25 * (maxGrowth === 0 ? 0 : Math.min(c.growth / maxGrowth, 1));
+        return {
+          ...c,
+          priority:
+            100 *
+            Math.min(1, raw) *
+            (c.dominantCategory === "Fraud and Scam" ? 1.25 : 1),
+        };
+      })
+      .sort((a, b) => b.priority - a.priority);
+  },
+);
 
 export type Recommendation = ClusterRecord & {
   dominantCategory: string;
@@ -259,8 +321,8 @@ export type Recommendation = ClusterRecord & {
 // 0.4*share/maxShare + 0.35*negativity + 0.25*min(growth/maxGrowth,1),
 // x1.25 when fraud-dominated.
 export const getRecommendations = cache(
-  async (): Promise<Recommendation[]> => {
-    const cards = await getInsightClusters();
+  async (filters: AnalyticsFilters = {}): Promise<Recommendation[]> => {
+    const cards = await getInsightClusters(filters);
     const maxShare = Math.max(...cards.map((c) => c.share), 0);
     const maxGrowth = Math.max(...cards.map((c) => c.growth), 0);
     return cards.map((c) => {

@@ -9,13 +9,13 @@ export default function Loading() {
         <div className="h-7 w-48 rounded-lg bg-muted" />
         <div className="h-4 w-72 rounded-lg bg-muted" />
       </div>
-      <div className="mx-auto w-full max-w-2xl rounded-xl border border-border bg-card p-6">
-        <div className="flex flex-col items-center gap-3 py-6">
-          <div className="h-11 w-11 rounded-xl bg-muted" />
-          <div className="h-5 w-40 rounded-lg bg-muted" />
-          <div className="h-4 w-64 rounded-lg bg-muted" />
-        </div>
+      <div className="h-40 rounded-xl border border-border bg-card" />
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        {Array.from({ length: 4 }).map((_, i) => (
+          <div key={i} className="h-28 rounded-xl border border-border bg-card" />
+        ))}
       </div>
+      <div className="h-64 rounded-xl border border-border bg-card" />
     </div>
   );
 }
