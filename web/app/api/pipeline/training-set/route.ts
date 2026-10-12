@@ -20,7 +20,7 @@ export async function GET() {
     });
   } catch {
     return NextResponse.json(
-      { error: "Training set not found. Regenerate data/autoscientist_sft.jsonl." },
+      { error: "Training set not available." },
       { status: 404 },
     );
   }

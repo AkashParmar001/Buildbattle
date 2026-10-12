@@ -97,7 +97,7 @@ export function IssuesPanel() {
             </h2>
             <p className="text-xs text-muted-foreground">
               Set status and notes per issue — saved to the database (or the
-              demo fallback overlay).
+              local snapshot).
             </p>
           </div>
           <button

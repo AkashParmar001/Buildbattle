@@ -36,12 +36,14 @@ function TermBar({
   );
 }
 
-// Visual explanation of priority = 100 * min(1, volume + negativity + growth),
-// x1.25 when fraud-dominated.
+// Visual explanation of priority = 100 * (volume + negativity + growth),
+// ×1.25 when fraud-dominated, clamped to 0–100.
 export function ScoreBreakdown({ item }: { item: Recommendation }) {
   const { breakdown } = item;
   const rawSum =
     breakdown.volumeTerm + breakdown.negativityTerm + breakdown.growthTerm;
+  const boosted = rawSum * (item.fraudBoosted ? 1.25 : 1) * 100;
+  const capped = boosted > 100;
   return (
     <div className="flex flex-col gap-2 rounded-lg bg-muted p-3">
       <p className="text-xs font-medium tracking-wide text-muted-foreground uppercase">
@@ -67,8 +69,8 @@ export function ScoreBreakdown({ item }: { item: Recommendation }) {
       />
       {item.fraudBoosted ? (
         <p className="text-xs font-medium text-amber-700 dark:text-amber-300">
-          ×1.25 fraud-severity multiplier applied (raw score{" "}
-          {Math.min(1, rawSum).toFixed(3)} → {item.priority.toFixed(1)})
+          ×1.25 fraud-severity multiplier applied ({boosted.toFixed(1)}
+          {capped ? ` capped to ${item.priority.toFixed(1)}` : ""})
         </p>
       ) : (
         <p className="text-xs text-muted-foreground">

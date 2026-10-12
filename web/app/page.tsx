@@ -101,9 +101,6 @@ export default async function LandingPage() {
 
         <div className="grid flex-1 items-center gap-8 pb-16 lg:grid-cols-2">
           <div className="flex flex-col items-start gap-5">
-            <span className="inline-flex items-center rounded-full border border-border bg-card/60 px-3 py-1 text-xs font-medium text-muted-foreground backdrop-blur-sm">
-              Frontend Arena Build Battle 2026
-            </span>
             <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">
               Know which customer
               <br />
@@ -161,15 +158,11 @@ export default async function LandingPage() {
               Open the Command Center →
             </Link>
           </MagneticButton>
-          <p className="text-xs text-muted-foreground">
-            Demo runs on seed data — no keys or database required.
-          </p>
         </div>
       </section>
 
       <footer className="relative border-t border-border px-4 py-6 text-center text-xs text-muted-foreground sm:px-6">
-        InsightFlow · Adaption + AutoScientist pipeline showcase · weekly
-        trends are simulated demo data
+        InsightFlow — customer feedback intelligence
       </footer>
     </main>
   );

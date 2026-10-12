@@ -42,8 +42,8 @@ export function TrendChart({ data }: { data: Trend }) {
               Feedback volume trend
             </h2>
             <p className="mt-0.5 text-xs text-muted-foreground">
-              Simulated: 12-week demo timeline (seed). Live: real submission
-              dates, last 12 weeks.
+              Simulated: 12-week timeline. Live: real submission dates, last 12
+              weeks.
             </p>
           </div>
           <span className="ml-auto">
@@ -80,10 +80,10 @@ export function TrendChart({ data }: { data: Trend }) {
                   }}
                 />
                 <Legend
-                  formatter={(value) => [
-                    value === "simulated" ? "Simulated (demo)" : "Live (real dates)",
-                    "text-muted-foreground",
-                  ]}
+                  formatter={(value) =>
+                    value === "simulated" ? "Simulated" : "Live"
+                  }
+                  wrapperStyle={{ fontSize: 11 }}
                 />
                 <Line
                   type="monotone"

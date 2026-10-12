@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils";
 const OVERLAY_ITEMS = [
   { overlay: "feedback", label: "Feedback", icon: Inbox },
   { overlay: "issues", label: "Issues", icon: Tags },
-  { overlay: "hood", label: "Under the hood", icon: Sparkles },
+  { overlay: "hood", label: "How it works", icon: Sparkles },
 ] as const;
 
 export function TopBar({ source }: { source: "supabase" | "seed" }) {
@@ -78,7 +78,7 @@ export function TopBar({ source }: { source: "supabase" | "seed" }) {
                   : "inline-block h-2 w-2 rounded-full bg-amber-500"
               }
             />
-            {source === "supabase" ? "Database" : "Demo fallback"}
+            {source === "supabase" ? "Live database" : "Local snapshot"}
           </span>
           <ThemeToggle />
         </div>

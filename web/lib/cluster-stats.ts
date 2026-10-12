@@ -3,10 +3,9 @@ import { growthOf } from "@/lib/analytics";
 
 // Recomputes stored cluster aggregates after every write (submit/import) so
 // KPIs, top issues and recommendations reflect new volume immediately.
-// Priority follows AGENTS.md:
-//   100 * min(1, 0.4*share/maxShare + 0.35*negativity + 0.25*min(growth/maxGrowth,1))
-//   x1.25 when fraud-dominated (dominant category = "Fraud and Scam").
-// No-op in seed mode (clusters live in the committed seed file).
+// Priority = 100 * (0.4*share/maxShare + 0.35*negativity + 0.25*min(growth/maxGrowth,1)),
+// x1.25 when fraud-dominated (dominant category = "Fraud and Scam"), clamped 0-100.
+// No-op in seed mode (clusters live in the bundled snapshot file).
 
 const UPDATE_BATCH = 40;
 
@@ -30,8 +29,9 @@ function computePriority(
 ): number {
   const volumeTerm = maxShare === 0 ? 0 : 0.4 * (share / maxShare);
   const growthTerm = maxGrowth === 0 ? 0 : 0.25 * Math.min(growth / maxGrowth, 1);
-  const score = 100 * Math.min(1, volumeTerm + 0.35 * negativity + growthTerm);
-  return fraudDominated ? score * 1.25 : score;
+  const score = 100 * (volumeTerm + 0.35 * negativity + growthTerm);
+  const boosted = fraudDominated ? score * 1.25 : score;
+  return Math.min(100, Math.max(0, boosted));
 }
 
 export async function refreshClusterStats(): Promise<void> {

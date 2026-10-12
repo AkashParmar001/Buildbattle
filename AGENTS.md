@@ -47,6 +47,7 @@ python pipeline/03_analyze.py         # -> data/analysis.json (app seed data)
 - Supabase Postgres schema: `feedback`, `clusters`, `issues`, `reports` (`db/schema.sql`). Server-side access only via `web/lib/db.ts`; analytics helpers in `web/lib/analytics.ts` (`getKpis`, `getInsightClusters`, `getRecommendations`, filters `{category, sentiment, cluster}`; unfiltered path returns seed aggregates unchanged — verify `/api/analytics` totals stay 7000 + overlay rows).
 - If Supabase env vars are missing, fall back to reading `data/analysis.json` — never ship it to the client; memoise aggregations. `feedback:changed` pub-sub (`web/lib/feedback-refresh.ts`) keeps drawer/panel fresh after submits.
 - Every recommendation cites numbers (volume, share, negativity, growth) + example reviews. Responsive from 375px; loading skeletons + empty/error states; no lorem ipsum; small components; no new deps without justification.
+- Cluster labels/recommendations/why-lines + clamped priorities are regenerated offline by `cd web && npm run regenerate` (`web/scripts/regenerate-insights.ts`) — never hand-edit `analysis.json` text fields; never generate them on page load. After regenerating, re-run `npm run seed` when Supabase is live.
 
 ## Verify + commit
 

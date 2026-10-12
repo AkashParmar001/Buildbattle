@@ -39,11 +39,7 @@ export default async function ShellLayout({
               : "inline-block h-2 w-2 shrink-0 rounded-full bg-amber-500"
           }
         />
-        Data source: {source === "supabase" ? "Database" : "Demo fallback"}
-        <span aria-hidden="true" className="mx-1.5">
-          ·
-        </span>
-        Frontend Arena Build Battle 2026
+        Data source: {source === "supabase" ? "Live database" : "Local snapshot"}
       </footer>
 
       <Suspense fallback={null}>

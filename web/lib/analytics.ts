@@ -287,7 +287,8 @@ export const getInsightClusters = cache(
     if (!hasFilters) {
       return cards.sort((a, b) => b.priority - a.priority);
     }
-    // AGENTS.md formula on the filtered set (fraud x1.25 can exceed 100).
+    // Volume share (40%), negativity (35%), growth (25%); fraud themes
+    // weighted ×1.25, then clamped to 0–100.
     const maxShare = Math.max(...cards.map((c) => c.share), 0);
     const maxGrowth = Math.max(...cards.map((c) => c.growth), 0);
     return cards
@@ -296,12 +297,11 @@ export const getInsightClusters = cache(
           0.4 * (maxShare === 0 ? 0 : c.share / maxShare) +
           0.35 * c.negativity +
           0.25 * (maxGrowth === 0 ? 0 : Math.min(c.growth / maxGrowth, 1));
+        const boosted =
+          100 * raw * (c.dominantCategory === "Fraud and Scam" ? 1.25 : 1);
         return {
           ...c,
-          priority:
-            100 *
-            Math.min(1, raw) *
-            (c.dominantCategory === "Fraud and Scam" ? 1.25 : 1),
+          priority: Math.min(100, Math.max(0, boosted)),
         };
       })
       .sort((a, b) => b.priority - a.priority);

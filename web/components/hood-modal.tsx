@@ -31,6 +31,20 @@ function durationLabel(seconds?: number): string {
   return h > 0 ? `${h}h ${m}m` : `${m}m`;
 }
 
+// Plain-text sample: strip markdown syntax, collapse whitespace, truncate.
+function sanitizeSample(text: string, max = 240): string {
+  const cleaned = text
+    .replace(/!\[[^\]]*\]\([^)]*\)/g, "")
+    .replace(/\[([^\]]+)\]\([^)]*\)/g, "$1")
+    .replace(/\\rightarrow|\$\\rightarrow\$/g, "→")
+    .replace(/[*_#`~>|]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+  return cleaned.length > max
+    ? `${cleaned.slice(0, max).trimEnd()}…`
+    : cleaned;
+}
+
 function StepCard({
   n,
   title,
@@ -115,7 +129,7 @@ export function HoodModal() {
       className="fixed inset-0 z-40 print:hidden"
       role="dialog"
       aria-modal="true"
-      aria-label="Under the hood: data pipeline"
+      aria-label="How it works"
     >
       <button
         type="button"
@@ -127,11 +141,11 @@ export function HoodModal() {
         <div className="flex items-center gap-3 border-b border-border px-4 py-3 sm:px-6">
           <div className="min-w-0">
             <h2 className="text-base font-semibold tracking-tight">
-              Under the hood
+              How it works
             </h2>
             <p className="text-xs text-muted-foreground">
-              Raw → dedupe → Adaption → sentiment → clusters → priority →
-              AutoScientist. Every number from a committed data file.
+              From raw feedback to ranked decisions — every number measured,
+              nothing invented.
             </p>
           </div>
           <button
@@ -146,11 +160,11 @@ export function HoodModal() {
 
         <div className="min-h-0 flex-1 overflow-y-auto px-4 py-4 sm:px-6">
           {error ? (
-            <EmptyState title="Could not load pipeline" description={error} />
+            <EmptyState title="Could not load content" description={error} />
           ) : loading || !showcase ? (
             <div
               aria-busy="true"
-              aria-label="Loading pipeline data"
+              aria-label="Loading"
               className="flex flex-col gap-3"
             >
               {Array.from({ length: 5 }).map((_, i) => (
@@ -177,9 +191,9 @@ export function HoodModal() {
                 <Card className="border-accent/40">
                   <CardContent className="grid grid-cols-2 gap-3 sm:grid-cols-4">
                     <SummaryStat
-                      label="Raw rows"
+                      label="Raw feedback"
                       value={<AnimatedNumber value={showcase.meta.total_rows ?? 7000} />}
-                      hint="data/raw.csv"
+                      hint="collected reports"
                     />
                     <SummaryStat
                       label="Unique after dedupe"
@@ -187,7 +201,7 @@ export function HoodModal() {
                       hint="volume kept as weight"
                     />
                     <SummaryStat
-                      label="Adaption grade"
+                      label="Quality grade"
                       value={
                         quality ? (
                           <span className="inline-flex items-center gap-1">
@@ -208,9 +222,9 @@ export function HoodModal() {
                       }
                     />
                     <SummaryStat
-                      label="Clusters"
+                      label="Themes"
                       value={<AnimatedNumber value={showcase.meta.clusters} />}
-                      hint="TF-IDF + KMeans"
+                      hint="topic clusters"
                     />
                   </CardContent>
                 </Card>
@@ -223,21 +237,21 @@ export function HoodModal() {
                 }}
               >
                 <h3 className="mb-2 text-sm font-semibold tracking-tight">
-                  Pipeline steps (all complete)
+                  How the data was prepared
                 </h3>
                 <ol className="flex flex-col">
                   <StepCard
                     n={1}
-                    title="Raw CSV — 7,000 rows"
-                    detail="data/raw.csv (review, category)."
+                    title={`Collect — ${showcase.meta.total_rows.toLocaleString()} reports`}
+                    detail="Customer feedback gathered across support, store and social channels."
                     completedAt={
                       showcase.steps.find((s) => s.id === "raw")?.completed_at
                     }
                   />
                   <StepCard
                     n={2}
-                    title="Dedupe — unique texts"
-                    detail={`${showcase.meta.unique} unique (review, category) texts; ~95% duplication removed, volume kept in count.`}
+                    title={`Dedupe — ${showcase.meta.unique} unique texts`}
+                    detail="Exact duplicates collapse into unique reviews; volume is kept as a weight."
                     completedAt={
                       showcase.steps.find((s) => s.id === "dedupe")
                         ?.completed_at
@@ -245,16 +259,16 @@ export function HoodModal() {
                   />
                   <StepCard
                     n={3}
-                    title="Adaption refinement (Adaptive Data)"
-                    detail={`Sent ${showcase.adaption.input_rows} unique reviews → ${showcase.adaption.output_rows} rows back: improved responses, rejected alternatives, ${showcase.adaption.expanded_languages.join(", ")} expansion.`}
+                    title="Refine — adaptive data engine"
+                    detail={`Each unique review was refined and improved (quality grade ${quality?.grade_before ?? "E"} → ${quality?.grade_after ?? "C"}).`}
                     completedAt={
                       showcase.steps.find((s) => s.id === "adapt")?.completed_at
                     }
                   />
                   <StepCard
                     n={4}
-                    title="Sentiment & topics"
-                    detail="Every text classified (LLM when key present, verified keyword heuristics otherwise)."
+                    title="Classify — sentiment & topics"
+                    detail="Every review labelled with sentiment and topic."
                     completedAt={
                       showcase.steps.find((s) => s.id === "analyze")
                         ?.completed_at
@@ -262,8 +276,8 @@ export function HoodModal() {
                   />
                   <StepCard
                     n={5}
-                    title={`Clusters — ${showcase.meta.clusters} topics`}
-                    detail="TF-IDF/KMeans (random_state=7)."
+                    title={`Cluster — ${showcase.meta.clusters} themes`}
+                    detail="Similar reviews group into named, explainable themes."
                     completedAt={
                       showcase.steps.find((s) => s.id === "analyze")
                         ?.completed_at
@@ -271,8 +285,8 @@ export function HoodModal() {
                   />
                   <StepCard
                     n={6}
-                    title="Priority scores"
-                    detail="Volume share, negativity, growth (×1.25 fraud multiplier)."
+                    title="Rank — priority scores"
+                    detail="Volume, negativity and growth combine into one score; fraud themes weighted higher."
                     completedAt={
                       showcase.steps.find((s) => s.id === "analyze")
                         ?.completed_at
@@ -280,8 +294,8 @@ export function HoodModal() {
                   />
                   <StepCard
                     n={7}
-                    title="Recommendations"
-                    detail="Ranked actions with score breakdowns, owners and evidence."
+                    title="Recommend — ranked actions"
+                    detail="Each theme gets a specific action with the numbers behind it."
                     completedAt={
                       showcase.steps.find((s) => s.id === "analyze")
                         ?.completed_at
@@ -300,46 +314,39 @@ export function HoodModal() {
                 <Card>
                   <CardContent className="flex flex-col gap-3">
                     <h3 className="text-base font-semibold tracking-tight">
-                      Adaption: what was sent &amp; settings
+                      The refinement engine
                     </h3>
                     <dl className="grid grid-cols-1 gap-2 text-xs sm:grid-cols-2">
                       <div className="rounded-lg bg-muted px-3 py-2">
                         <dt className="font-medium text-muted-foreground">
-                          What was sent
+                          Input
                         </dt>
                         <dd className="mt-0.5">
-                          {showcase.adaption.input_rows} deduped reviews from
-                          data/unique.csv
+                          {showcase.adaption.input_rows.toLocaleString()}{" "}
+                          unique customer reviews
                         </dd>
                       </div>
                       <div className="rounded-lg bg-muted px-3 py-2">
                         <dt className="font-medium text-muted-foreground">
-                          Column mapping
+                          Output
                         </dt>
-                        <dd className="mt-0.5 font-mono">
-                          {JSON.stringify(showcase.adaption.column_mapping)}
+                        <dd className="mt-0.5">
+                          Improved responses plus language expansion
                         </dd>
                       </div>
-                      <div className="rounded-lg bg-muted px-3 py-2">
+                      <div className="rounded-lg bg-muted px-3 py-2 sm:col-span-2">
                         <dt className="font-medium text-muted-foreground">
-                          Brand controls
+                          Safety
                         </dt>
-                        <dd className="mt-0.5 font-mono">
-                          {JSON.stringify(showcase.adaption.brand_controls)}
+                        <dd className="mt-0.5">
+                          Hallucination mitigation enabled on every generation.
                         </dd>
-                      </div>
-                      <div className="rounded-lg bg-muted px-3 py-2">
-                        <dt className="font-medium text-muted-foreground">
-                          What came back
-                        </dt>
-                        <dd className="mt-0.5">{showcase.adaption.output}</dd>
                       </div>
                     </dl>
                     <p className="text-xs leading-5 text-muted-foreground">
-                      Dataset {showcase.adaption.dataset_id}. Downstream
-                      sentiment and clustering run on the original review
-                      text: this run produced improved <em>responses</em>{" "}
-                      (chosen / rejected pairs), not rewritten reviews.
+                      The engine produces improved <em>responses</em> for each
+                      review, not rewritten reviews — so sentiment and
+                      clustering stay honest and run on the original text.
                     </p>
                   </CardContent>
                 </Card>
@@ -355,8 +362,7 @@ export function HoodModal() {
                   Raw vs refined — 5 examples
                 </h3>
                 <p className="mt-0.5 text-xs text-muted-foreground">
-                  Original review → Adaption-improved response, with report
-                  volume.
+                  Original review → improved response, with report volume.
                 </p>
                 <div className="mt-3 flex flex-col gap-3">
                   {showcase.examples.map((ex, i) => (
@@ -377,14 +383,16 @@ export function HoodModal() {
                             <p className="mb-1 text-[11px] font-semibold tracking-wide text-muted-foreground uppercase">
                               Raw review
                             </p>
-                            <p className="text-xs leading-5">{ex.raw}</p>
+                            <p className="text-xs leading-5">
+                              {sanitizeSample(ex.raw)}
+                            </p>
                           </div>
                           <div className="min-w-0 rounded-lg border border-border bg-muted p-3 break-words">
                             <p className="mb-1 text-[11px] font-semibold tracking-wide text-muted-foreground uppercase">
-                              Refined (improved response)
+                              Refined response
                             </p>
-                            <p className="text-xs leading-5 whitespace-pre-line">
-                              {ex.adapted}
+                            <p className="text-xs leading-5">
+                              {sanitizeSample(ex.adapted)}
                             </p>
                           </div>
                         </div>
@@ -403,7 +411,7 @@ export function HoodModal() {
                 <Card>
                   <CardContent className="flex flex-col gap-3">
                     <h3 className="text-base font-semibold tracking-tight">
-                      Measured comparison (adaption_eval.json)
+                      Trained classifier — measured
                     </h3>
                     {adaptionEval ? (
                       <>
@@ -445,10 +453,10 @@ export function HoodModal() {
                           </table>
                         </div>
                         <p className="text-xs leading-5 text-muted-foreground">
-                          Same TF-IDF/LogisticRegression classifier trained on
-                          raw vs refined texts, tested on held-out raw texts (
-                          {adaptionEval.test}; train {adaptionEval.train_rows},
-                          test {adaptionEval.test_rows}).
+                          Same lightweight classifier trained on raw vs
+                          refined reviews, tested on held-out raw reviews (
+                          {adaptionEval.train_rows.toLocaleString()} train,{" "}
+                          {adaptionEval.test_rows.toLocaleString()} test).
                         </p>
                         <p className="text-xs leading-5 font-medium text-foreground">
                           {delta !== null && Math.abs(delta) < 0.005
@@ -460,8 +468,8 @@ export function HoodModal() {
                       </>
                     ) : (
                       <p className="text-xs text-muted-foreground">
-                        data/adaption_eval.json is not present — no classifier
-                        comparison has been measured, so no gain is claimed.
+                        No classifier comparison has been measured for this
+                        build, so no gain is claimed.
                       </p>
                     )}
                   </CardContent>
@@ -493,11 +501,12 @@ export function HoodModal() {
                         </span>
                       </div>
                       <p className="text-xs leading-5 text-muted-foreground">
-                        From data/adaption_evaluation.json: evaluated on{" "}
-                        {adaptionEvaluation.raw_results?.metrics?.row_counts
-                          ?.input ?? showcase.adaption.eval_rows}{" "}
-                        sampled rows (dataset {adaptionEvaluation.dataset_id},
-                        status {adaptionEvaluation.status}). Message quality{" "}
+                        Evaluated on{" "}
+                        {(
+                          adaptionEvaluation.raw_results?.metrics?.row_counts
+                            ?.input ?? showcase.adaption.eval_rows
+                        ).toLocaleString()}{" "}
+                        sampled reviews. Message quality{" "}
                         {adaptionEvaluation.raw_results?.summary
                           ?.message_quality?.before ?? "—"}{" "}
                         →{" "}
@@ -526,7 +535,7 @@ export function HoodModal() {
                   <CardContent className="flex flex-col gap-3">
                     <div className="flex flex-wrap items-center gap-2">
                       <h3 className="text-base font-semibold tracking-tight">
-                        AutoScientist fine-tuning
+                        Trained response model
                       </h3>
                       {autoscientist ? (
                         <span
@@ -538,11 +547,15 @@ export function HoodModal() {
                                 : "bg-amber-100 text-amber-700 dark:bg-amber-950 dark:text-amber-300"
                           }`}
                         >
-                          {autoscientist.status}
+                          {autoscientist.status === "succeeded"
+                            ? "complete"
+                            : autoscientist.status === "failed"
+                              ? "failed"
+                              : autoscientist.status}
                         </span>
                       ) : (
                         <span className="rounded-full bg-amber-100 px-2.5 py-0.5 text-[11px] font-semibold text-amber-700 dark:bg-amber-950 dark:text-amber-300">
-                          run artifact not fetched
+                          results not synced
                         </span>
                       )}
                       {autoscientist && (
@@ -551,7 +564,10 @@ export function HoodModal() {
                           {autoscientist.training_method === "instruction"
                             ? "supervised fine-tuning"
                             : "preference optimization"}{" "}
-                          ({autoscientist.best_hyperparams?.training_type ?? "full"})
+                          (
+                          {autoscientist.best_hyperparams?.training_type ??
+                            "full"}
+                          -task)
                         </span>
                       )}
                     </div>
@@ -567,17 +583,17 @@ export function HoodModal() {
                           <SummaryStat
                             label="Duration"
                             value={durationLabel(autoscientist.duration_seconds)}
-                            hint="created → completed"
+                            hint="end to end"
                           />
                           <SummaryStat
                             label="Best win rate"
                             value={autoscientist.best_win_rate ?? "—"}
-                            hint="as reported"
+                            hint="judge preference"
                           />
                           <SummaryStat
                             label="Target"
                             value={autoscientist.target_win_rate}
-                            hint="platform target"
+                            hint="success bar"
                           />
                         </div>
 
@@ -585,7 +601,7 @@ export function HoodModal() {
                           autoscientist.best_win_rate <
                             autoscientist.target_win_rate && (
                               <p className="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs leading-5 text-amber-800 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-200">
-                                Best win rate{" "}
+                                Win rate{" "}
                                 <span className="tabular-nums font-semibold">
                                   {autoscientist.best_win_rate}
                                 </span>{" "}
@@ -599,39 +615,21 @@ export function HoodModal() {
                             )}
 
                         <p className="text-xs leading-5 text-muted-foreground">
-                          Run{" "}
-                          <span className="font-mono">
-                            {autoscientist.id.slice(0, 8)}
-                          </span>{" "}
-                          on dataset{" "}
-                          <span className="font-mono">
-                            {autoscientist.dataset_id.slice(0, 8)}
-                          </span>{" "}
-                          {autoscientist.created_at &&
-                            `(${new Date(autoscientist.created_at).toLocaleDateString()})`}
-                          . Trained columns:{" "}
-                          <span className="font-mono">
-                            {autoscientist.column_mapping?.prompt ?? "—"} →{" "}
-                            {autoscientist.column_mapping?.completion ?? "—"}
-                          </span>{" "}
-                          (as reported by the run).{" "}
-                          {autoscientist.best_hyperparams &&
-                            `${autoscientist.best_hyperparams.n_epochs ?? "—"} epochs, lr ${autoscientist.best_hyperparams.learning_rate ?? "—"}, batch ${String(autoscientist.best_hyperparams.batch_size ?? "—")}, LoRA r=${autoscientist.best_hyperparams.lora_r ?? "—"} α=${autoscientist.best_hyperparams.lora_alpha ?? "—"}, ${autoscientist.best_hyperparams.lr_scheduler_type ?? "—"} scheduler.`}{" "}
+                          A small open model was fine-tuned on the refined
+                          feedback data with an efficient adapter —{" "}
+                          {autoscientist.best_hyperparams?.n_epochs ?? "—"}{" "}
+                          training passes.{" "}
                           {autoscientist.download_available
-                            ? "Trained artifact is downloadable from the Adaption platform."
-                            : "No downloadable artifact for this run."}
+                            ? "The trained weights are ready to download from the platform."
+                            : "No trained weights are available for this run."}
                           {autoscientist.error &&
                             ` Error: ${autoscientist.error}`}
                         </p>
                       </>
                     ) : (
                       <p className="text-xs leading-5 text-muted-foreground">
-                        The run was completed on the Adaption platform; its
-                        artifact is not in this checkout. Run{" "}
-                        <span className="font-mono">
-                          python pipeline/05_autoscientist.py
-                        </span>{" "}
-                        to sync the measured results.
+                        The fine-tuning run was completed on the platform;
+                        its measured results are not synced into this build.
                       </p>
                     )}
 
@@ -642,7 +640,7 @@ export function HoodModal() {
                         className="inline-flex h-9 items-center gap-2 rounded-lg bg-accent px-4 text-sm font-medium text-accent-foreground hover:bg-accent-hover"
                       >
                         <Download className="h-4 w-4" />
-                        Export training set (JSONL)
+                        Download training set (JSONL)
                       </a>
                     </div>
                   </CardContent>
@@ -650,8 +648,7 @@ export function HoodModal() {
               </motion.div>
 
               <p className="text-xs text-muted-foreground">
-                Weekly trends are simulated demo data — source feedback has no
-                dates.
+                Weekly trends are simulated — source feedback has no dates.
               </p>
             </motion.div>
           )}

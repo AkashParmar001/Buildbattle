@@ -168,8 +168,8 @@ export default async function CommandCenterPage({
                 Priority queue
               </h2>
               <p className="mt-0.5 text-sm text-muted-foreground">
-                Ranked by the AGENTS.md priority formula — volume share (40%),
-                negativity (35%), growth (25%), ×1.25 when fraud-dominated.
+                Ranked by volume share, negativity and growth — fraud themes
+                weighted higher.
               </p>
             </div>
             <PriorityQueue items={recommendations} trackedIds={trackedIds} />

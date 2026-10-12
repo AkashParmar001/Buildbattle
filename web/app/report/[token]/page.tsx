@@ -136,21 +136,21 @@ export default async function ReportPage({
             <li>
               Source: {snapshot.meta.total_rows.toLocaleString()} deduplicated
               feedback reports ({snapshot.meta.unique} unique texts, volume =
-              duplicate count). Analysis input: {snapshot.meta.source}.
+              duplicate count), refined through adaptive data before analysis.
             </li>
             <li>
-              The 12-week trend is a simulated demo timeline — feedback has no
-              real dates. Only user-submitted or imported feedback carries real
+              The 12-week trend is a simulated timeline — feedback has no real
+              dates. Only user-submitted or imported feedback carries real
               timestamps.
             </li>
             <li>
-              Adaption step: {snapshot.meta.unique} unique reviews adapted and
-              evaluated (quality grade E → C, +205%); downstream analysis runs
-              on review text with volume-weighted metrics.
+              {snapshot.meta.unique} unique reviews refined and evaluated
+              (quality grade E → C, +205%); downstream analysis runs on review
+              text with volume-weighted metrics.
             </li>
             <li>
-              Priority = 100 × min(1, 0.4·share/maxShare + 0.35·negativity +
-              0.25·min(growth/maxGrowth,1)), ×1.25 when fraud-dominated.
+              Priority combines volume share, negativity and growth, with
+              fraud-dominated themes weighted higher.
             </li>
           </ul>
         </CardContent>
