@@ -1,4 +1,5 @@
 import { Flame, Inbox, Meh, Tags } from "lucide-react";
+import { Suspense } from "react";
 
 import {
   getCategories,
@@ -10,6 +11,7 @@ import {
 } from "@/lib/analytics";
 import type { Sentiment } from "@/lib/db";
 import { getIssueTrackedClusterIds } from "@/lib/issues";
+import { ClusterDrawer } from "@/components/cluster-drawer";
 import { DecisionBrief } from "@/components/decision-brief";
 import { EmptyState } from "@/components/empty-state";
 import { FilterBar } from "@/components/filter-bar";
@@ -61,6 +63,9 @@ export default async function CommandCenterPage({
     ]);
   const trackedIds = new Set(tracked);
   const top = recommendations[0];
+  const selected = clusters.find((c) => c.id === selectedCluster);
+  const selectedRec = recommendations.find((r) => r.id === selectedCluster);
+  const negativeVolume = Math.round(kpis.pctNegative * kpis.totalVolume);
 
   return (
     <div className="flex flex-col gap-6">
@@ -120,7 +125,17 @@ export default async function CommandCenterPage({
             />
           </div>
 
-          <IssueMap clusters={clusters} selectedId={selectedCluster} />
+          <Suspense
+            fallback={
+              <div
+                aria-busy="true"
+                aria-label="Loading issue map"
+                className="h-96 animate-pulse rounded-xl border border-border bg-card"
+              />
+            }
+          >
+            <IssueMap clusters={clusters} />
+          </Suspense>
 
           <section className="flex flex-col gap-4">
             <div>
@@ -140,6 +155,15 @@ export default async function CommandCenterPage({
             <TrendChart data={trend} />
           </div>
         </>
+      )}
+
+      {selected && (
+        <ClusterDrawer
+          cluster={selected}
+          recommendation={selectedRec}
+          tracked={trackedIds.has(selected.id)}
+          totals={{ volume: kpis.totalVolume, negativeVolume }}
+        />
       )}
     </div>
   );
