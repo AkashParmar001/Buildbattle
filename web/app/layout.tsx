@@ -1,16 +1,26 @@
 import type { Metadata } from "next";
-import { Geist_Mono, Inter } from "next/font/google";
+import { Instrument_Serif, Inter_Tight, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
 import { Providers } from "@/components/providers";
+import { CustomCursor } from "@/components/custom-cursor";
+import { Preloader } from "@/components/preloader";
+import { SmoothScroll } from "@/components/smooth-scroll";
 
-const inter = Inter({
-  variable: "--font-inter",
+const instrumentSerif = Instrument_Serif({
+  variable: "--font-instrument",
+  weight: "400",
+  style: ["normal", "italic"],
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const interTight = Inter_Tight({
+  variable: "--font-body",
+  subsets: ["latin"],
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-code",
   subsets: ["latin"],
 });
 
@@ -24,9 +34,15 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" suppressHydrationWarning className="h-full antialiased">
       <body
-        className={`${inter.variable} ${geistMono.variable} min-h-full font-sans`}
+        className={`${instrumentSerif.variable} ${interTight.variable} ${jetbrainsMono.variable} min-h-full font-sans`}
       >
-        <Providers>{children}</Providers>
+        <Providers>
+          <SmoothScroll>
+            <Preloader />
+            <CustomCursor />
+            {children}
+          </SmoothScroll>
+        </Providers>
       </body>
     </html>
   );

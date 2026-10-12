@@ -2,60 +2,92 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* Ink and Indigo — calm neutral base, one confident accent.
-   Sentiment/category/priority hues live in web/lib/colors.ts. */
+/* Editorial Noir — bone-dominant base, ink text, lime accent.
+   Palette: ink #0C0C0B · charcoal #161614 · bone #EDE9E0 · stone #8B867B
+   hairline #2A2925 · accent #D4FF3A (bright lime, primary actions + #1 only).
+   Semantic hues (sentiment/category/priority/chart) live in lib/colors.ts. */
 :root {
-  --background: #f8fafc;
-  --foreground: #0f172a;
-  --card: #ffffff;
-  --card-foreground: #0f172a;
-  --border: #e2e8f0;
-  --muted: #f1f5f9;
-  --muted-foreground: #64748b;
-  --accent: #4f46e5;
-  --accent-hover: #4338ca;
-  --accent-foreground: #ffffff;
-  --ring: #4f46e5;
-  /* Atmosphere: barely-there in light, ink-and-indigo wash in dark. */
-  --glow-1: rgba(79, 70, 229, 0);
-  --glow-2: rgba(139, 92, 246, 0);
-  --grid-dot: rgba(15, 23, 42, 0.07);
+  --ink: #0c0c0b;
+  --charcoal: #161614;
+  --bone: #ede9e0;
+  --stone: #8b867b;
+  --hairline: #2a2925;
+  --lime: #d4ff3a;
+
+  --background: var(--bone);
+  --foreground: var(--ink);
+  --card: #f4f1e9;
+  --card-foreground: var(--ink);
+  --border: color-mix(in srgb, var(--hairline) 16%, transparent);
+  --rule: color-mix(in srgb, var(--hairline) 40%, transparent);
+  --muted: color-mix(in srgb, var(--bone) 78%, var(--ink));
+  --muted-foreground: var(--stone);
+  --accent: var(--lime);
+  --accent-hover: color-mix(in srgb, var(--lime) 84%, var(--ink));
+  --accent-foreground: var(--ink);
+  --ring: var(--ink);
+  /* Atmosphere: warm ink wash, nearly invisible on bone. */
+  --glow-1: color-mix(in srgb, var(--ink) 5%, transparent);
+  --glow-2: color-mix(in srgb, var(--stone) 14%, transparent);
+  --grid-dot: color-mix(in srgb, var(--hairline) 9%, transparent);
 }
 
+/* Night edition — the same Noir flipped: charcoal ground, bone type. */
 .dark {
-  --background: #0b1020;
-  --foreground: #e8ecf8;
-  --card: #121830;
-  --card-foreground: #e8ecf8;
-  --border: #232c4a;
-  --muted: #1a2140;
-  --muted-foreground: #94a3b8;
-  --accent: #818cf8;
-  --accent-hover: #a5b4fc;
-  --accent-foreground: #0b1020;
-  --ring: #818cf8;
-  --glow-1: rgba(99, 102, 241, 0.16);
-  --glow-2: rgba(139, 92, 246, 0.1);
-  --grid-dot: rgba(148, 163, 184, 0.12);
+  --background: var(--charcoal);
+  --foreground: var(--bone);
+  --card: color-mix(in srgb, var(--charcoal) 86%, var(--bone));
+  --card-foreground: var(--bone);
+  --border: color-mix(in srgb, var(--bone) 13%, transparent);
+  --rule: color-mix(in srgb, var(--bone) 26%, transparent);
+  --muted: color-mix(in srgb, var(--charcoal) 72%, var(--bone));
+  --muted-foreground: color-mix(in srgb, var(--stone) 66%, var(--bone));
+  --accent: var(--lime);
+  --accent-hover: color-mix(in srgb, var(--lime) 88%, var(--bone));
+  --accent-foreground: var(--ink);
+  --ring: var(--lime);
+  --glow-1: color-mix(in srgb, var(--lime) 6%, transparent);
+  --glow-2: color-mix(in srgb, var(--stone) 12%, transparent);
+  --grid-dot: color-mix(in srgb, var(--bone) 8%, transparent);
 }
 
-/* Forced-light scope: the shareable report renders with light tokens
-   regardless of the visitor's theme (and prints on white). */
+/* Forced scope for the shareable report — bone tokens regardless of theme
+   (and it prints on white). */
 .light {
-  --background: #f8fafc;
-  --foreground: #0f172a;
-  --card: #ffffff;
-  --card-foreground: #0f172a;
-  --border: #e2e8f0;
-  --muted: #f1f5f9;
-  --muted-foreground: #64748b;
-  --accent: #4f46e5;
-  --accent-hover: #4338ca;
-  --accent-foreground: #ffffff;
-  --ring: #4f46e5;
-  --glow-1: rgba(79, 70, 229, 0);
-  --glow-2: rgba(139, 92, 246, 0);
-  --grid-dot: rgba(15, 23, 42, 0.07);
+  --background: var(--bone);
+  --foreground: var(--ink);
+  --card: #f4f1e9;
+  --card-foreground: var(--ink);
+  --border: color-mix(in srgb, var(--hairline) 16%, transparent);
+  --rule: color-mix(in srgb, var(--hairline) 40%, transparent);
+  --muted: color-mix(in srgb, var(--bone) 78%, var(--ink));
+  --muted-foreground: var(--stone);
+  --accent: var(--lime);
+  --accent-hover: color-mix(in srgb, var(--lime) 84%, var(--ink));
+  --accent-foreground: var(--ink);
+  --ring: var(--ink);
+  --glow-1: transparent;
+  --glow-2: transparent;
+  --grid-dot: color-mix(in srgb, var(--hairline) 9%, transparent);
+}
+
+/* Ink band: alternate dark sections on the landing page (and anywhere a
+   charcoal-on-bone contrast block is wanted). Scopes the night tokens to the
+   element it's applied to. */
+.band-ink {
+  --background: var(--charcoal);
+  --foreground: var(--bone);
+  --card: color-mix(in srgb, var(--charcoal) 86%, var(--bone));
+  --card-foreground: var(--bone);
+  --border: color-mix(in srgb, var(--bone) 13%, transparent);
+  --rule: color-mix(in srgb, var(--bone) 26%, transparent);
+  --muted: color-mix(in srgb, var(--charcoal) 72%, var(--bone));
+  --muted-foreground: color-mix(in srgb, var(--stone) 66%, var(--bone));
+  --accent: var(--lime);
+  --accent-hover: color-mix(in srgb, var(--lime) 88%, var(--bone));
+  --accent-foreground: var(--ink);
+  background: var(--background);
+  color: var(--foreground);
 }
 
 @theme inline {
@@ -64,14 +96,22 @@
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
   --color-border: var(--border);
+  --color-rule: var(--rule);
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
   --color-accent: var(--accent);
   --color-accent-hover: var(--accent-hover);
   --color-accent-foreground: var(--accent-foreground);
   --color-ring: var(--ring);
-  --font-sans: var(--font-inter);
-  --font-mono: var(--font-geist-mono);
+  --color-ink: var(--ink);
+  --color-charcoal: var(--charcoal);
+  --color-bone: var(--bone);
+  --color-stone: var(--stone);
+  --color-hairline: var(--hairline);
+  --color-lime: var(--lime);
+  --font-sans: var(--font-body);
+  --font-mono: var(--font-code);
+  --font-display: var(--font-instrument);
 }
 
 body {
@@ -79,7 +119,7 @@ body {
   color: var(--foreground);
 }
 
-/* Soft radial ink glows — pure CSS atmosphere, no images. */
+/* Warm ink-wash atmosphere — pure CSS, no images. */
 .bg-glow {
   background-image:
     radial-gradient(720px 420px at 12% -8%, var(--glow-1), transparent 68%),
@@ -123,18 +163,18 @@ body {
   :root,
   .light {
     --background: #ffffff;
-    --foreground: #0f172a;
+    --foreground: var(--ink);
     --card: #ffffff;
-    --border: #e2e8f0;
+    --border: color-mix(in srgb, var(--hairline) 24%, transparent);
   }
   body {
     background: #fff;
   }
   .dark {
     --background: #ffffff;
-    --foreground: #0f172a;
+    --foreground: var(--ink);
     --card: #ffffff;
-    --card-foreground: #0f172a;
+    --card-foreground: var(--ink);
   }
 }
 

@@ -53,7 +53,7 @@ export function TrendChart({ data }: { data: Trend }) {
         <figure
           role="img"
           aria-label={`Simulated weekly volumes: ${data.simulated.map((d) => `week ${d.week}: ${d.volume}`).join(", ")}. Live submissions: ${data.live.filter((d) => d.volume > 0).map((d) => `week ${d.week}: ${d.volume}`).join(", ") || "none"}.`}
-          className="mt-2 h-64 text-muted-foreground"
+          className="mt-2 h-64 text-foreground"
         >
           {chartData.length === 0 ? (
             <p className="flex h-full items-center justify-center text-sm text-muted-foreground">
@@ -89,7 +89,7 @@ export function TrendChart({ data }: { data: Trend }) {
                   type="monotone"
                   dataKey="simulated"
                   name="simulated"
-                  stroke={chartColors.simulated}
+                  stroke="currentColor"
                   strokeWidth={2}
                   dot={false}
                   connectNulls

@@ -1,31 +1,31 @@
-// Ink and Indigo semantic palette — the ONLY place hex colors are defined
-// (globals.css owns the neutral theme tokens). Components must import from
-// here; never hardcode hex in components.
+// Editorial Noir semantic palette — the ONLY place hex colors are defined
+// (globals.css owns the neutral theme tokens: ink, charcoal, bone, stone,
+// hairline, accent). Components must import from here; never hardcode hex.
 
 export type Sentiment = "positive" | "neutral" | "negative";
 
 /** Solid hues for chart fills, dots and areas (non-text). */
 export const sentimentColors: Record<Sentiment, string> = {
-  positive: "#10B981",
-  neutral: "#94A3B8",
-  negative: "#F43F5E",
+  positive: "#5DD6A2",
+  neutral: "#8B867B",
+  negative: "#FF5A4E",
 };
 
 /** AA-safe text/tint classes for sentiment badges (label always shown too). */
 export const sentimentBadgeClass: Record<Sentiment, string> = {
-  positive: "bg-[#10B981]/10 text-[#047857] dark:text-[#34D399]",
-  neutral: "bg-[#94A3B8]/15 text-[#475569] dark:text-[#94A3B8]",
-  negative: "bg-[#F43F5E]/10 text-[#BE123C] dark:text-[#FDA4AF]",
+  positive: "bg-[#5DD6A2]/15 text-[#1D7A55] dark:text-[#5DD6A2]",
+  neutral: "bg-[#8B867B]/15 text-[#5F5A51] dark:text-[#A5A093]",
+  negative: "bg-[#FF5A4E]/12 text-[#B32B1F] dark:text-[#FF8074]",
 };
 
 export const categoryColors: Record<string, string> = {
-  "Operational Issues": "#0EA5E9",
-  "Fraud and Scam": "#F97316",
-  "Product Feedback": "#8B5CF6",
-  "Customer Service": "#14B8A6",
+  "Operational Issues": "#2B7BB8",
+  "Fraud and Scam": "#C96A2B",
+  "Product Feedback": "#6D5BD0",
+  "Customer Service": "#1F9B8E",
 };
 
-export const fallbackCategoryColor = "#64748B";
+export const fallbackCategoryColor = "#8B867B";
 
 export function categoryColor(category: string): string {
   return categoryColors[category] ?? fallbackCategoryColor;
@@ -33,9 +33,9 @@ export function categoryColor(category: string): string {
 
 /** Solid hues for priority swatches (bars, dots, badge fills). */
 export const priorityColors = {
-  low: "#94A3B8",
-  medium: "#F59E0B",
-  high: "#EF4444",
+  low: "#8B867B",
+  medium: "#5F5A51",
+  high: "#FF5A4E",
 } as const;
 
 export type PriorityTier = keyof typeof priorityColors;
@@ -46,7 +46,7 @@ export const priorityTierLabel: Record<PriorityTier, string> = {
   high: "High",
 };
 
-// 0-39 low, 40-69 medium, 70-100 high (fraud-boosted scores can exceed 100).
+// 0-39 low, 40-69 medium, 70-100 high (scores clamp at 100).
 export function priorityTier(score: number): PriorityTier {
   if (score >= 70) return "high";
   if (score >= 40) return "medium";
@@ -55,9 +55,9 @@ export function priorityTier(score: number): PriorityTier {
 
 /** AA-safe priority text classes — pair with the word label, never color alone. */
 export const priorityTextClass: Record<PriorityTier, string> = {
-  low: "text-[#475569] dark:text-[#94A3B8]",
-  medium: "text-[#B45309] dark:text-[#F59E0B]",
-  high: "text-[#DC2626] dark:text-[#EF4444]",
+  low: "text-[#5F5A51] dark:text-[#A5A093]",
+  medium: "text-[#3D3A33] dark:text-[#D6D1C4]",
+  high: "text-[#B32B1F] dark:text-[#FF8074]",
 };
 
 /** Hex with alpha (0-1) — for inline chart gradients and tinted dots. */
@@ -69,12 +69,12 @@ export function withAlpha(hex: string, alpha: number): string {
   return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 }
 
-/** Static chart hues that stay legible (>=3:1) on both light and dark cards. */
+/** Static chart hues that stay legible on both bone and charcoal cards. */
 export const chartColors = {
-  /** Mid accent tone — readable on #F8FAFC and #121830 alike. */
-  simulated: "#6366F1",
-  /** Foreground-neutral overlay line (dashed, secondary to simulated). */
-  live: "#64748B",
+  /** Primary series uses `currentColor` (theme foreground) in charts. */
+  simulated: "#0C0C0B",
+  /** Secondary overlay line (dashed) — stone reads on either surface. */
+  live: "#8B867B",
   /** Neutral ranking bars — categories carry their own colors elsewhere. */
-  bar: "#64748B",
+  bar: "#2A2925",
 } as const;
