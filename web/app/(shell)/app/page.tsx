@@ -16,7 +16,7 @@ import { ClusterDrawer } from "@/components/cluster-drawer";
 import { DecisionBrief } from "@/components/decision-brief";
 import { EmptyState } from "@/components/empty-state";
 import { FilterBar } from "@/components/filter-bar";
-import { IssueMap } from "@/components/issue-map";
+import { IssueMap } from "@/components/issue-map-lazy";
 import { KpiCard } from "@/components/kpi-card";
 import { PriorityQueue } from "@/components/priority-queue";
 import { ReportButton } from "@/components/report-button";

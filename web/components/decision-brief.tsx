@@ -77,7 +77,7 @@ export function DecisionBrief({
             href={`?cluster=${item.id}`}
             className="inline-flex h-9 items-center rounded-lg px-3 text-sm font-medium text-accent hover:bg-accent/10"
           >
-            Open in map
+            Open details
           </Link>
         </div>
       </CardContent>

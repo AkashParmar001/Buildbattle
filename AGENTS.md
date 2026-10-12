@@ -5,13 +5,10 @@ explainable Adaption integration. Keep demo-safe: app must run from seed data wi
 
 ## Repo state (non-obvious)
 
-- No app code scaffolded yet. Only `files/` exists at root: `AGENTS.md` (product rules),
-  `OPENCODE_GUIDE.md` (staged build plan), `insightflow-pipeline.zip` (canonical starter:
-  `pipeline/*.py`, `db/schema.sql`, `data/raw.csv`, `.env.example`, `README.md`).
-- Unzip the bundle before pipeline work; do not treat `files/` as the app root.
-- Layout once built: `web/` (Next.js), `pipeline/`, `db/schema.sql`, `data/analysis.json`
-  (+ `web/data/analysis.json` copy, committed so Vercel builds with root = `web/` still work).
-  `pipeline/03_seed_local.py` generates `data/analysis.json` with no API keys
+- Built: `web/` (Next.js 16 App Router, "Signal" restructure complete), `pipeline/`, `db/schema.sql`,
+  `data/analysis.json` (+ `web/data/analysis.json` copy, committed so Vercel builds with root = `web/` still work).
+- Pipeline bundle at `files/` is the historical starter; run pipeline scripts from repo root.
+- `pipeline/03_seed_local.py` generates `data/analysis.json` with no API keys
   (heuristic sentiment/labels, same KMeans/weekly/priority as `03_analyze.py`); prefer the
   real `03_analyze.py` run once `ANTHROPIC_API_KEY` exists.
 
@@ -42,18 +39,19 @@ python pipeline/03_analyze.py         # -> data/analysis.json (app seed data)
 - Volume = `count` (duplicate count). Weight all metrics by `count`, never by row.
 - Priority: `100 * min(1, 0.4*share/maxShare + 0.35*negativity + 0.25*min(growth/maxGrowth,1))`, ×1.25 if fraud-dominated.
 
-## Web app (planned stack — see `files/AGENTS.md` + `files/OPENCODE_GUIDE.md`)
+## Web app (built — "Signal" architecture)
 
-- Next.js App Router + TypeScript + Tailwind + shadcn/ui + Recharts + lucide-react in `web/`; deploy on Vercel with root = `web/`.
-- Supabase Postgres schema: `feedback`, `clusters`, `issues`, `reports` (`db/schema.sql`). Server-side access only via `web/lib/db.ts`; analytics helpers in `web/lib/analytics.ts` (`getKpis`, `getSentimentDistribution`, `getTopIssues`, `getTrend`, filters `{category, sentiment, cluster}`).
-- If Supabase env vars are missing, fall back to reading `data/analysis.json` — never ship it to the client; memoise aggregations.
-- Routes: `/` dashboard · `/feedback` · `/insights` · `/recommendations` · `/issues` · `/pipeline` (Adaption showcase: raw→dedupe→adapt+evaluate→sentiment→clusters→priority, with 5 raw-vs-adapted examples + quality score) · `/report/[token]`.
+- Next.js App Router + TypeScript + Tailwind + Recharts + lucide-react + framer-motion + d3-force/d3-scale in `web/`; deploy on Vercel with root = `web/`. Dark theme by default (`Providers`: `defaultTheme="dark"`, no system).
+- Routes: `/` landing (hero galaxy canvas + ~400vh scroll story, both with reduced-motion fallbacks) · `/app` Command Center (Decision brief → KPIs → Issue map → Priority queue → Trends; category/sentiment URL params refilter everything server-side) · `/report/[token]` (forced-light, print-ready, `instant = false` blocking read). Old routes `/feedback|/insights|/recommendations|/pipeline|/issues` 307-redirect to `/app`.
+- Overlays (URL state, no extra routes): `?overlay=feedback` drawer (search/sort/paginate via `GET /api/feedback`) · `?overlay=issues` board · `?overlay=hood` Adaption showcase (raw→dedupe→Adaption→sentiment→clusters→priority, 5 raw-vs-adapted examples, grade E→C, eval table, AutoScientist roadmap) · `?cluster=ID` cluster drawer (sentiment mix, ScoreBreakdown, evidence, impact estimator) from Issue map bubbles (`layoutId` morph).
+- Supabase Postgres schema: `feedback`, `clusters`, `issues`, `reports` (`db/schema.sql`). Server-side access only via `web/lib/db.ts`; analytics helpers in `web/lib/analytics.ts` (`getKpis`, `getInsightClusters`, `getRecommendations`, filters `{category, sentiment, cluster}`; unfiltered path returns seed aggregates unchanged — verify `/api/analytics` totals stay 7000 + overlay rows).
+- If Supabase env vars are missing, fall back to reading `data/analysis.json` — never ship it to the client; memoise aggregations. `feedback:changed` pub-sub (`web/lib/feedback-refresh.ts`) keeps drawer/panel fresh after submits.
 - Every recommendation cites numbers (volume, share, negativity, growth) + example reviews. Responsive from 375px; loading skeletons + empty/error states; no lorem ipsum; small components; no new deps without justification.
 
 ## Verify + commit
 
-- After each task in `web/`: `npm run lint` then `npm run build`; fix errors before reporting done. Analytics sanity: `/api/analytics` total rows must equal 7000.
-- One git commit per completed task, clear message. Check `.env*` never committed. Branch `master` is currently empty (unborn) — first commit creates it.
+- After each task in `web/`: `npm run lint` then `npm run build`; fix errors before reporting done. Analytics sanity: `/api/analytics` unfiltered volume = 7000 (+ any local user-overlay rows).
+- One git commit per completed task, clear message. Check `.env*` never committed.
 
 ## Adaption and AutoScientist (honest scope)
 - Adaption is used in the data stage: the deduped dataset is refined through Adaptive Data

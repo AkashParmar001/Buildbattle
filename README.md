@@ -9,21 +9,29 @@ the app works with every external API down.
 
 ## Features
 
-- **Dashboard** (`/`) — KPI cards, sentiment donut, top-issues chart, 12-week
-  trend, all filterable by category/sentiment via URL params
-- **Feedback** (`/feedback`) — searchable, sortable, paginated table; add
-  modal with LLM-or-heuristic classification; drag-drop CSV import with column
-  mapping, preview and dedupe; sample-data loader
-- **Insights** (`/insights`) — 10 topic-cluster cards (sentiment bar,
-  sparkline, example reviews, filtered-feedback links)
-- **Recommendations** (`/recommendations`) — priority-ranked actions with
-  visible score breakdowns, owners, evidence and one-click issue tracking
-- **Issues** (`/issues`) — Open / In progress / Resolved board with notes
-- **Pipeline** (`/pipeline`) — the Adaption showcase: raw → dedupe → adapt +
-  evaluate → sentiment → clusters → priority, with quality score and 5
-  raw-vs-improved examples
-- **Reports** (`/report/[token]`) — snapshot KPIs + top 5 recommendations into
-  a shareable print-friendly page (PDF via print stylesheet)
+- **Landing** (`/`) — hero galaxy (canvas particles drift into the real
+  top-cluster labels) + scroll story through the pipeline numbers
+  (7,000 → 320 → Adaption E→C → clusters → decisions); static SVG under
+  `prefers-reduced-motion`
+- **Command Center** (`/app`) — one filterable surface:
+  - **Decision brief** — "Fix this first" with score breakdown, why, evidence
+  - **KPI row** — total / unique / negativity / top priority (count-up)
+  - **Issue map** — d3-force bubbles (size = volume, color = dominant
+    sentiment, pulse = priority ≥ 70); click opens the **cluster drawer**
+    (sentiment mix, ScoreBreakdown, evidence, Track, impact estimator)
+  - **Priority queue** — ranked, explainable, reorder-animates on filter change
+  - **Trends** — sentiment donut + simulated-vs-live 12-week chart
+  - Top bar: Feedback drawer (`?overlay=feedback`, search/sort/paginate +
+    add/CSV/sample loaders), Issues board (`?overlay=issues`), Under the
+    hood (`?overlay=hood`), theme toggle, data-source pill
+- **Under the hood** (`/app?overlay=hood`) — the Adaption showcase: summary
+  strip, 7-step pipeline trail, settings, 5 raw-vs-improved examples,
+  measured eval table, grade E→C card, AutoScientist roadmap (planned, not run)
+- **Reports** (`/report/[token]`) — print-friendly forced-light snapshot of
+  KPIs + top 5 recommendations (PDF via print stylesheet)
+
+Old single-purpose routes (`/feedback`, `/insights`, `/recommendations`,
+`/pipeline`, `/issues`) 307-redirect to `/app`.
 
 ## Architecture
 
@@ -50,7 +58,7 @@ and `brand_controls={"hallucination_mitigation": True}`. The run returned
 **376 rows**: an improved support response per review (`chosen`), a weaker
 alternative (`rejected`, i.e. training-ready preference pairs), plus English
 language expansion for 56 rows. Quality evaluation on a 100-row sample:
-**grade E → C, score 2.0 → 6.1 (+205%)** — see `/pipeline` and
+**grade E → C, score 2.0 → 6.1 (+205%)** — see `/app?overlay=hood` and
 `data/adaption_evaluation.json`.
 
 Honest note: this run produced improved *responses*, not rewritten reviews,
