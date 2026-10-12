@@ -16,6 +16,10 @@
   --accent-hover: #4338ca;
   --accent-foreground: #ffffff;
   --ring: #4f46e5;
+  /* Atmosphere: barely-there in light, ink-and-indigo wash in dark. */
+  --glow-1: rgba(79, 70, 229, 0);
+  --glow-2: rgba(139, 92, 246, 0);
+  --grid-dot: rgba(15, 23, 42, 0.07);
 }
 
 .dark {
@@ -30,6 +34,9 @@
   --accent-hover: #a5b4fc;
   --accent-foreground: #0b1020;
   --ring: #818cf8;
+  --glow-1: rgba(99, 102, 241, 0.16);
+  --glow-2: rgba(139, 92, 246, 0.1);
+  --grid-dot: rgba(148, 163, 184, 0.12);
 }
 
 /* Forced-light scope: the shareable report renders with light tokens
@@ -46,6 +53,9 @@
   --accent-hover: #4338ca;
   --accent-foreground: #ffffff;
   --ring: #4f46e5;
+  --glow-1: rgba(79, 70, 229, 0);
+  --glow-2: rgba(139, 92, 246, 0);
+  --grid-dot: rgba(15, 23, 42, 0.07);
 }
 
 @theme inline {
@@ -67,6 +77,19 @@
 body {
   background: var(--background);
   color: var(--foreground);
+}
+
+/* Soft radial ink glows — pure CSS atmosphere, no images. */
+.bg-glow {
+  background-image:
+    radial-gradient(720px 420px at 12% -8%, var(--glow-1), transparent 68%),
+    radial-gradient(560px 380px at 88% 4%, var(--glow-2), transparent 70%);
+}
+
+/* Subtle dot-grid overlay for hero/section backdrops. */
+.bg-grid {
+  background-image: radial-gradient(var(--grid-dot) 1px, transparent 1px);
+  background-size: 24px 24px;
 }
 
 @media print {
