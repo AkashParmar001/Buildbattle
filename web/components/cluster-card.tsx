@@ -1,7 +1,12 @@
 import Link from "next/link";
 
 import type { InsightCluster } from "@/lib/analytics";
-import { priorityTextClass, priorityTier, sentimentColors } from "@/lib/colors";
+import {
+  categoryColor,
+  priorityTextClass,
+  priorityTier,
+  sentimentColors,
+} from "@/lib/colors";
 import { SimulatedBadge } from "@/components/simulated-badge";
 import { Sparkline } from "@/components/sparkline";
 import { Card, CardContent } from "@/components/ui/card";
@@ -45,10 +50,19 @@ export function ClusterCard({ cluster }: { cluster: InsightCluster }) {
             <h2 className="text-base font-semibold tracking-tight">
               {cluster.label}
             </h2>
-            <p className="mt-0.5 text-xs text-muted-foreground">
+            <p className="mt-0.5 text-xs tabular-nums text-muted-foreground">
               {cluster.volume.toLocaleString()} reports ·{" "}
               {(cluster.share * 100).toFixed(1)}% of volume ·{" "}
-              {cluster.dominantCategory}
+              <span className="inline-flex items-center gap-1.5">
+                <span
+                  aria-hidden="true"
+                  className="h-2 w-2 shrink-0 rounded-full"
+                  style={{
+                    backgroundColor: categoryColor(cluster.dominantCategory),
+                  }}
+                />
+                {cluster.dominantCategory}
+              </span>
             </p>
           </div>
           <span

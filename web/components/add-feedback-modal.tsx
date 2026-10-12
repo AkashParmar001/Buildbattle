@@ -58,7 +58,7 @@ export function AddFeedbackModal({ categories }: AddFeedbackModalProps) {
       <button
         type="button"
         onClick={() => dialogRef.current?.showModal()}
-        className="inline-flex h-9 shrink-0 items-center rounded-lg bg-accent px-4 text-sm font-medium text-accent-foreground hover:opacity-90"
+        className="inline-flex h-9 shrink-0 items-center rounded-lg bg-accent px-4 text-sm font-medium text-accent-foreground hover:bg-accent-hover"
       >
         Add feedback
       </button>
@@ -131,7 +131,7 @@ export function AddFeedbackModal({ categories }: AddFeedbackModalProps) {
             <button
               type="submit"
               disabled={saving || text.trim().length < 10}
-              className="h-9 rounded-lg bg-accent px-4 text-sm font-medium text-accent-foreground hover:opacity-90 disabled:opacity-50"
+              className="h-9 rounded-lg bg-accent px-4 text-sm font-medium text-accent-foreground hover:bg-accent-hover disabled:opacity-50"
             >
               {saving ? "Saving…" : "Save"}
             </button>

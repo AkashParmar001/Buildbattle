@@ -39,7 +39,7 @@ export function RecheckButton() {
           type="button"
           onClick={() => void recheck()}
           disabled={busy}
-          className="inline-flex h-9 items-center rounded-lg bg-accent px-4 text-sm font-medium text-accent-foreground hover:opacity-90 disabled:opacity-50"
+          className="inline-flex h-9 items-center rounded-lg bg-accent px-4 text-sm font-medium text-accent-foreground hover:bg-accent-hover disabled:opacity-50"
         >
           {busy ? "Checking…" : "Re-check pipeline status"}
         </button>

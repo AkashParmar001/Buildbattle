@@ -51,7 +51,7 @@ export function TrackButton({
             .catch(() => setError("Network error. Please try again."))
             .finally(() => setBusy(false));
         }}
-        className="inline-flex h-9 items-center justify-center rounded-lg bg-accent px-4 text-sm font-medium text-accent-foreground hover:opacity-90 disabled:opacity-50"
+        className="inline-flex h-9 items-center justify-center rounded-lg bg-accent px-4 text-sm font-medium text-accent-foreground hover:bg-accent-hover disabled:opacity-50"
       >
         {busy ? "Tracking…" : "Track issue"}
       </button>

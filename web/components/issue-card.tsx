@@ -104,7 +104,7 @@ export function IssueCard({
           type="button"
           onClick={() => void save()}
           disabled={saving || !dirty}
-          className="h-8 self-start rounded-lg bg-accent px-3 text-xs font-medium text-accent-foreground hover:opacity-90 disabled:opacity-40"
+          className="h-8 self-start rounded-lg bg-accent px-3 text-xs font-medium text-accent-foreground hover:bg-accent-hover disabled:opacity-40"
         >
           {saving ? "Saving…" : "Save changes"}
         </button>

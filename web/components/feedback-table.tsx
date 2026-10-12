@@ -2,7 +2,7 @@ import Link from "next/link";
 import { ArrowDown, ArrowUp } from "lucide-react";
 
 import type { FeedbackRecord } from "@/lib/db";
-import { sentimentBadgeClass } from "@/lib/colors";
+import { categoryColor, sentimentBadgeClass } from "@/lib/colors";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
@@ -87,7 +87,16 @@ export function FeedbackTable({
               >
                 <td className="max-w-md px-4 py-3 leading-6">{r.text}</td>
                 <td className="px-4 py-3 whitespace-nowrap text-muted-foreground">
-                  {r.category}
+                  <span className="inline-flex items-center gap-1.5">
+                    <span
+                      aria-hidden="true"
+                      className="h-2 w-2 shrink-0 rounded-full"
+                      style={{
+                        backgroundColor: categoryColor(r.category),
+                      }}
+                    />
+                    {r.category}
+                  </span>
                 </td>
                 <td className="px-4 py-3 whitespace-nowrap">
                   <span

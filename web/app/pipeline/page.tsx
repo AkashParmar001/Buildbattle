@@ -5,6 +5,7 @@ import {
   loadAdaptionEvaluation,
   loadShowcase,
 } from "@/lib/showcase";
+import { categoryColor } from "@/lib/colors";
 import { RecheckButton } from "@/components/recheck-button";
 import { SimulatedBadge } from "@/components/simulated-badge";
 import { Card, CardContent } from "@/components/ui/card";
@@ -187,8 +188,13 @@ export default async function PipelinePage() {
           {showcase.examples.map((ex, i) => (
             <Card key={i}>
               <CardContent className="flex flex-col gap-2">
-                <p className="text-xs font-medium text-muted-foreground">
-                  {ex.category} · {ex.count.toLocaleString()} reports
+                <p className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground">
+                  <span
+                    aria-hidden="true"
+                    className="h-2 w-2 shrink-0 rounded-full"
+                    style={{ backgroundColor: categoryColor(ex.category) }}
+                  />
+                  {ex.category} × {ex.count.toLocaleString()} reports
                 </p>
                 <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
                   <div className="min-w-0 rounded-lg border border-border p-3 break-words">
@@ -323,7 +329,7 @@ export default async function PipelinePage() {
             <a
               href="/api/pipeline/training-set"
               download
-              className="inline-flex h-9 items-center gap-2 rounded-lg bg-accent px-4 text-sm font-medium text-accent-foreground hover:opacity-90"
+              className="inline-flex h-9 items-center gap-2 rounded-lg bg-accent px-4 text-sm font-medium text-accent-foreground hover:bg-accent-hover"
             >
               <Download className="h-4 w-4" />
               Export training set (JSONL)

@@ -65,7 +65,7 @@ export function HeroStrip() {
         <span className="ml-auto flex items-center gap-2">
           <Link
             href="/pipeline"
-            className="inline-flex h-8 items-center gap-1 rounded-lg bg-accent px-3 text-xs font-medium text-accent-foreground hover:opacity-90"
+            className="inline-flex h-8 items-center gap-1 rounded-lg bg-accent px-3 text-xs font-medium text-accent-foreground hover:bg-accent-hover"
           >
             See how it works <ArrowRight className="h-3.5 w-3.5" />
           </Link>

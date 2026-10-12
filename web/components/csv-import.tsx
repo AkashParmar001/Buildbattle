@@ -222,7 +222,7 @@ export function CsvImport({ categories }: CsvImportProps) {
               type="button"
               onClick={() => void onImport()}
               disabled={busy || dataRows.length === 0}
-              className="h-9 rounded-lg bg-accent px-4 text-sm font-medium text-accent-foreground hover:opacity-90 disabled:opacity-50"
+              className="h-9 rounded-lg bg-accent px-4 text-sm font-medium text-accent-foreground hover:bg-accent-hover disabled:opacity-50"
             >
               {busy ? "Importing…" : overLimit ? `Import first ${ROW_LIMIT.toLocaleString()}` : "Import"}
             </button>
