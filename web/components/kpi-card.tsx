@@ -1,10 +1,11 @@
 import type { LucideIcon } from "lucide-react";
+import type { ReactNode } from "react";
 
 import { Card, CardContent } from "@/components/ui/card";
 
 type KpiCardProps = {
   title: string;
-  value: string;
+  value: ReactNode;
   sub: string;
   icon: LucideIcon;
 };
@@ -20,9 +21,7 @@ export function KpiCard({ title, value, sub, icon: Icon }: KpiCardProps) {
           <p className="mt-1 truncate text-2xl font-semibold tracking-tight tabular-nums">
             {value}
           </p>
-          <p className="mt-1 truncate text-xs text-muted-foreground">
-            {sub}
-          </p>
+          <p className="mt-1 truncate text-xs text-muted-foreground">{sub}</p>
         </div>
         <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-muted text-muted-foreground">
           <Icon className="h-4 w-4" />

@@ -11,6 +11,7 @@ import {
 } from "@/lib/analytics";
 import type { Sentiment } from "@/lib/db";
 import { getIssueTrackedClusterIds } from "@/lib/issues";
+import { AnimatedNumber } from "@/components/animated-number";
 import { ClusterDrawer } from "@/components/cluster-drawer";
 import { DecisionBrief } from "@/components/decision-brief";
 import { EmptyState } from "@/components/empty-state";
@@ -19,6 +20,7 @@ import { IssueMap } from "@/components/issue-map";
 import { KpiCard } from "@/components/kpi-card";
 import { PriorityQueue } from "@/components/priority-queue";
 import { ReportButton } from "@/components/report-button";
+import { Reveal } from "@/components/reveal";
 import { SentimentDonut } from "@/components/sentiment-donut";
 import { TrendChart } from "@/components/trend-chart";
 
@@ -92,50 +94,73 @@ export default async function CommandCenterPage({
         />
       ) : (
         <>
-          <DecisionBrief item={top} tracked={trackedIds.has(top.id)} />
+          <Reveal>
+            <DecisionBrief item={top} tracked={trackedIds.has(top.id)} />
+          </Reveal>
 
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-            <KpiCard
-              title="Total feedback"
-              value={kpis.totalVolume.toLocaleString()}
-              sub={`${kpis.uniqueTexts.toLocaleString()} unique texts`}
-              icon={Inbox}
-            />
-            <KpiCard
-              title="Unique issues"
-              value={kpis.uniqueTexts.toLocaleString()}
-              sub="distinct feedback texts"
-              icon={Tags}
-            />
-            <KpiCard
-              title="Negative"
-              value={`${(kpis.pctNegative * 100).toFixed(1)}%`}
-              sub="share of feedback volume"
-              icon={Meh}
-            />
-            <KpiCard
-              title="Top priority issue"
-              value={
-                kpis.topPriority
-                  ? `${kpis.topPriority.priority.toFixed(1)}`
-                  : "—"
-              }
-              sub={kpis.topPriority?.label ?? "No issues"}
-              icon={Flame}
-            />
+            <Reveal delay={0.02}>
+              <KpiCard
+                title="Total feedback"
+                value={<AnimatedNumber value={kpis.totalVolume} />}
+                sub={`${kpis.uniqueTexts.toLocaleString()} unique texts`}
+                icon={Inbox}
+              />
+            </Reveal>
+            <Reveal delay={0.06}>
+              <KpiCard
+                title="Unique issues"
+                value={<AnimatedNumber value={kpis.uniqueTexts} />}
+                sub="distinct feedback texts"
+                icon={Tags}
+              />
+            </Reveal>
+            <Reveal delay={0.1}>
+              <KpiCard
+                title="Negative"
+                value={
+                  <AnimatedNumber
+                    value={kpis.pctNegative * 100}
+                    decimals={1}
+                    suffix="%"
+                  />
+                }
+                sub="share of feedback volume"
+                icon={Meh}
+              />
+            </Reveal>
+            <Reveal delay={0.14}>
+              <KpiCard
+                title="Top priority issue"
+                value={
+                  kpis.topPriority ? (
+                    <AnimatedNumber
+                      value={kpis.topPriority.priority}
+                      decimals={1}
+                    />
+                  ) : (
+                    "—"
+                  )
+                }
+                sub={kpis.topPriority?.label ?? "No issues"}
+                icon={Flame}
+              />
+            </Reveal>
           </div>
 
-          <Suspense
-            fallback={
-              <div
-                aria-busy="true"
-                aria-label="Loading issue map"
-                className="h-96 animate-pulse rounded-xl border border-border bg-card"
-              />
-            }
-          >
-            <IssueMap clusters={clusters} />
-          </Suspense>
+          <Reveal>
+            <Suspense
+              fallback={
+                <div
+                  aria-busy="true"
+                  aria-label="Loading issue map"
+                  className="h-96 rounded-xl border border-border animate-shimmer"
+                />
+              }
+            >
+              <IssueMap clusters={clusters} />
+            </Suspense>
+          </Reveal>
 
           <section className="flex flex-col gap-4">
             <div>
@@ -151,8 +176,12 @@ export default async function CommandCenterPage({
           </section>
 
           <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
-            <SentimentDonut data={sentimentMix} />
-            <TrendChart data={trend} />
+            <Reveal>
+              <SentimentDonut data={sentimentMix} />
+            </Reveal>
+            <Reveal delay={0.06}>
+              <TrendChart data={trend} />
+            </Reveal>
           </div>
         </>
       )}

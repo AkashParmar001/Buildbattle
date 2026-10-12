@@ -1,5 +1,6 @@
 "use client";
 
+import { useReducedMotion } from "framer-motion";
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 
 import type { SentimentSlice } from "@/lib/analytics";
@@ -7,6 +8,7 @@ import { sentimentColors } from "@/lib/colors";
 import { Card, CardContent } from "@/components/ui/card";
 
 export function SentimentDonut({ data }: { data: SentimentSlice[] }) {
+  const reduce = useReducedMotion();
   const total = data.reduce((sum, d) => sum + d.volume, 0);
   return (
     <Card>
@@ -32,6 +34,7 @@ export function SentimentDonut({ data }: { data: SentimentSlice[] }) {
                 outerRadius="90%"
                 paddingAngle={2}
                 strokeWidth={0}
+                isAnimationActive={!reduce}
               >
                 {data.map((d) => (
                   <Cell key={d.sentiment} fill={sentimentColors[d.sentiment]} />

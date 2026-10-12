@@ -1,5 +1,6 @@
 "use client";
 
+import { useReducedMotion } from "framer-motion";
 import {
   CartesianGrid,
   Legend,
@@ -17,6 +18,7 @@ import { SimulatedBadge } from "@/components/simulated-badge";
 import { Card, CardContent } from "@/components/ui/card";
 
 export function TrendChart({ data }: { data: Trend }) {
+  const reduce = useReducedMotion();
   const weeks = new Set<number>();
   for (const p of data.simulated) weeks.add(p.week);
   for (const p of data.live) weeks.add(p.week);
@@ -91,6 +93,8 @@ export function TrendChart({ data }: { data: Trend }) {
                   strokeWidth={2}
                   dot={false}
                   connectNulls
+                  isAnimationActive={!reduce}
+                  animationDuration={900}
                 />
                 <Line
                   type="monotone"
@@ -101,6 +105,8 @@ export function TrendChart({ data }: { data: Trend }) {
                   strokeDasharray="6 4"
                   dot={false}
                   connectNulls
+                  isAnimationActive={!reduce}
+                  animationDuration={900}
                 />
               </LineChart>
             </ResponsiveContainer>

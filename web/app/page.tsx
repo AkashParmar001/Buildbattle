@@ -9,6 +9,7 @@ import { loadAdaptionEvaluation } from "@/lib/showcase";
 import { HeroGalaxy } from "@/components/landing/hero-galaxy";
 import type { GalaxyCluster } from "@/components/landing/galaxy";
 import { Story, type StoryStep } from "@/components/landing/story";
+import { MagneticButton } from "@/components/magnetic-button";
 
 // Landing reads seed analytics + Adaption artifacts at request time
 // (memoised in-process) — allowed to block under cacheComponents.
@@ -115,12 +116,14 @@ export default async function LandingPage() {
               — every number traceable to source data.
             </p>
             <div className="flex flex-wrap items-center gap-3">
-              <Link
-                href="/app"
-                className="inline-flex h-11 items-center rounded-lg bg-accent px-6 text-sm font-medium text-accent-foreground transition-colors hover:bg-accent-hover"
-              >
-                Open the Command Center
-              </Link>
+              <MagneticButton>
+                <Link
+                  href="/app"
+                  className="inline-flex h-11 items-center rounded-lg bg-accent px-6 text-sm font-medium text-accent-foreground transition-colors hover:bg-accent-hover"
+                >
+                  Open the Command Center
+                </Link>
+              </MagneticButton>
               <a
                 href="#story"
                 className="inline-flex h-11 items-center rounded-lg border border-border px-6 text-sm font-medium hover:bg-muted"
@@ -150,12 +153,14 @@ export default async function LandingPage() {
             evidence reviews, sentiment trends, and the full priority queue —
             filterable end to end.
           </p>
-          <Link
-            href="/app"
-            className="inline-flex h-11 items-center rounded-lg bg-accent px-6 text-sm font-medium text-accent-foreground transition-colors hover:bg-accent-hover"
-          >
-            Open the Command Center →
-          </Link>
+          <MagneticButton>
+            <Link
+              href="/app"
+              className="inline-flex h-11 items-center rounded-lg bg-accent px-6 text-sm font-medium text-accent-foreground transition-colors hover:bg-accent-hover"
+            >
+              Open the Command Center →
+            </Link>
+          </MagneticButton>
           <p className="text-xs text-muted-foreground">
             Demo runs on seed data — no keys or database required.
           </p>
