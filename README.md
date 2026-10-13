@@ -117,6 +117,18 @@ npm run lint; npm run build
 npm run seed    # needs web/.env.local with Supabase keys; loads analysis.json
 ```
 
+Run with Docker (no keys needed — serves committed seed data):
+
+```powershell
+docker compose up --build web        # app on http://localhost:3000
+docker compose --profile pipeline run --rm pipeline python pipeline/03_seed_local.py
+```
+
+The `web` container persists user submissions in a `web-data` volume
+(`data/user-*.json` overlays). With `web/.env.local` present it uses the live
+Supabase DB instead. The `pipeline` profile runs one-shot Python jobs against
+the mounted `./data` with keys from the root `.env`.
+
 Supabase wiring (once):
 
 1. Create a project, then run `db/schema.sql` in the SQL editor (creates

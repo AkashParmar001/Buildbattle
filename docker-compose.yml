@@ -1,0 +1,37 @@
+# InsightFlow — local Docker setup (does not affect the Vercel deploy,
+# which builds from web/ as root).
+#
+#   docker compose up --build web        # app on http://localhost:3000
+#   docker compose --profile pipeline run --rm pipeline python pipeline/03_seed_local.py
+
+services:
+  web:
+    build:
+      context: ./web
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    # Optional: live Supabase DB. Absent, the app serves committed seed data.
+    # Create web/.env.local from web/.env.example (gitignored, never committed).
+    env_file:
+      - path: ./web/.env.local
+        required: false
+    volumes:
+      # Persists user submissions / issues / reports (data/user-*.json).
+      - web-data:/app/data
+    restart: unless-stopped
+
+  pipeline:
+    build:
+      context: .
+      dockerfile: ./pipeline/Dockerfile
+    env_file:
+      - path: ./.env
+        required: false
+    volumes:
+      - ./data:/work/data
+    profiles:
+      - pipeline
+
+volumes:
+  web-data:
