@@ -28,7 +28,10 @@ export function Story({ steps }: { steps: StoryStep[] }) {
 
   if (reduce || steps.length === 0) {
     return (
-      <div className="mx-auto flex w-full max-w-3xl flex-col gap-10 px-6 py-16">
+      <div
+        id="story"
+        className="mx-auto flex w-full max-w-3xl scroll-mt-16 flex-col gap-10 px-6 py-16"
+      >
         {steps.map((s) => (
           <StoryCard key={s.key} step={s} active />
         ))}
@@ -41,7 +44,7 @@ export function Story({ steps }: { steps: StoryStep[] }) {
       ref={ref}
       id="story"
       aria-label="How InsightFlow works"
-      className="relative h-[400vh]"
+      className="relative h-[400vh] scroll-mt-16"
     >
       <div className="sticky top-0 flex h-screen items-center justify-center overflow-hidden">
         <div className="relative mx-auto h-full w-full max-w-3xl px-6">

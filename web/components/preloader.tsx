@@ -46,14 +46,12 @@ export function Preloader() {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape" || e.key === "Enter" || e.key === " ") skip();
     };
-    window.addEventListener("click", skip, { once: true });
     window.addEventListener("keydown", onKey, { once: true });
     window.addEventListener("wheel", skip, { once: true, passive: true });
     window.addEventListener("touchstart", skip, { once: true, passive: true });
     return () => {
       cancelAnimationFrame(raf);
       clearTimeout(closeTimer);
-      window.removeEventListener("click", skip);
       window.removeEventListener("keydown", onKey);
       window.removeEventListener("wheel", skip);
       window.removeEventListener("touchstart", skip);
@@ -63,13 +61,30 @@ export function Preloader() {
   if (!visible) return null;
   return (
     <div
-      aria-hidden="true"
-      className={`fixed inset-0 z-[90] flex items-end justify-end bg-[var(--background)] p-6 transition-all duration-500 ease-out sm:p-10 ${
+      role="button"
+      tabIndex={0}
+      aria-label="Skip intro — show the site"
+      onClick={() => {
+        skipRef.current = true;
+        setClosing(true);
+        setVisible(false);
+      }}
+      onKeyDown={(e) => {
+        if (e.key === "Escape" || e.key === "Enter" || e.key === " ") {
+          skipRef.current = true;
+          setClosing(true);
+          setVisible(false);
+        }
+      }}
+      className={`fixed inset-0 z-[90] flex cursor-pointer items-end justify-end bg-[var(--background)] p-6 transition-all duration-500 ease-out sm:p-10 ${
         closing
           ? "pointer-events-none translate-y-[-4%] opacity-0"
           : "opacity-100"
       }`}
     >
+      <span className="mb-2 mr-4 font-mono text-[11px] tracking-wider text-[var(--foreground)] uppercase opacity-50">
+        click to skip
+      </span>
       <span className="font-mono text-5xl tracking-tight text-[var(--foreground)] tabular-nums sm:text-7xl">
         {count}
       </span>

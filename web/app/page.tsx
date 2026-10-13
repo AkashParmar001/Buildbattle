@@ -10,6 +10,7 @@ import {
   loadAdaptionEvaluation,
   loadAutoScientistRun,
 } from "@/lib/showcase";
+import { HeroFigure } from "@/components/landing/hero-figure";
 import { HeroScene } from "@/components/landing/hero-scene";
 import { Story, type StoryStep } from "@/components/landing/story";
 import { Statement } from "@/components/landing/statement";
@@ -105,7 +106,18 @@ export default async function LandingPage() {
     <main className="relative min-h-screen bg-background text-foreground">
       {/* 1 · Hero (bone) */}
       <section className="relative mx-auto flex min-h-screen w-full max-w-7xl flex-col px-5 sm:px-8">
-        <header className="flex h-16 items-center gap-3">
+        {/* Ambient WebGL constellation behind the hero copy. */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 opacity-60"
+        >
+          <HeroScene
+            clusters={galaxyClusters}
+            sentimentMix={sentimentMix}
+          />
+        </div>
+
+        <header className="relative flex h-16 items-center gap-3">
           <span className="font-display text-xl tracking-tight">
             InsightFlow
           </span>
@@ -114,14 +126,21 @@ export default async function LandingPage() {
           </span>
           <Link
             href="/app"
-            className="ml-auto inline-flex h-9 items-center border border-rule px-4 text-sm hover:bg-muted"
+            className="ml-auto inline-flex h-9 items-center border border-rule bg-background/80 px-4 text-sm backdrop-blur hover:bg-muted"
           >
             Open app
           </Link>
         </header>
 
-        <div className="grid flex-1 items-center gap-8 pb-16 lg:grid-cols-2">
+        <div className="relative grid flex-1 items-center gap-10 pb-16 lg:grid-cols-[1fr_1.1fr]">
           <div className="flex flex-col items-start gap-5">
+            <p className="inline-flex items-center gap-2 border border-rule bg-background/80 px-3 py-1.5 font-mono text-[11px] tracking-wider text-muted-foreground uppercase backdrop-blur">
+              <span
+                aria-hidden="true"
+                className="inline-block h-2 w-2 rounded-full bg-accent ring-1 ring-ink/20"
+              />
+              Demo-safe · runs from seed data, APIs down
+            </p>
             <SplitReveal
               as="h1"
               immediate
@@ -143,19 +162,33 @@ export default async function LandingPage() {
               </MagneticButton>
               <a
                 href="#story"
-                className="inline-flex h-11 items-center border border-rule px-6 text-sm hover:bg-muted"
+                className="inline-flex h-11 items-center border border-rule bg-background/80 px-6 text-sm backdrop-blur hover:bg-muted"
               >
                 See how it works ↓
               </a>
             </div>
+            <dl className="flex flex-wrap gap-x-6 gap-y-2 font-mono text-[11px] tabular-nums text-muted-foreground">
+              <div className="flex gap-1.5">
+                <dt className="text-stone">reports</dt>
+                <dd className="text-foreground">{totalRows.toLocaleString()}</dd>
+              </div>
+              <div className="flex gap-1.5">
+                <dt className="text-stone">unique</dt>
+                <dd className="text-foreground">{unique.toLocaleString()}</dd>
+              </div>
+              <div className="flex gap-1.5">
+                <dt className="text-stone">themes</dt>
+                <dd className="text-foreground">{clusters.length}</dd>
+              </div>
+            </dl>
           </div>
 
-          <div className="relative h-72 w-full sm:h-96 lg:h-[420px]">
-            <HeroScene
-              clusters={galaxyClusters}
-              sentimentMix={sentimentMix}
-            />
-          </div>
+          <HeroFigure
+            totalRows={totalRows}
+            unique={unique}
+            themes={clusters.length}
+            qualityGain={quality?.improvement_percent ?? 205}
+          />
         </div>
       </section>
 

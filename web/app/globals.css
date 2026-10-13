@@ -119,6 +119,15 @@ body {
   color: var(--foreground);
 }
 
+::selection {
+  background: var(--lime);
+  color: var(--ink);
+}
+
+img {
+  -webkit-user-drag: none;
+}
+
 /* Warm ink-wash atmosphere — pure CSS, no images. */
 .bg-glow {
   background-image:

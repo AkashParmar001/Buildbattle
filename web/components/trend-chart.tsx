@@ -60,9 +60,9 @@ export function TrendChart({ data }: { data: Trend }) {
           ) : (
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={chartData} margin={{ left: -8, right: 16 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="currentColor" opacity={0.2} />
-                <XAxis dataKey="label" tick={{ fill: "currentColor", fontSize: 11 }} />
-                <YAxis tick={{ fill: "currentColor", fontSize: 11 }} />
+                <CartesianGrid strokeDasharray="3 3" stroke="currentColor" opacity={0.2} vertical={false} />
+                <XAxis dataKey="label" tick={{ fill: "currentColor", fontSize: 11 }} axisLine={false} tickLine={false} />
+                <YAxis tick={{ fill: "currentColor", fontSize: 11 }} axisLine={false} tickLine={false} width={40} />
                 <Tooltip
                   formatter={(value, name) => [
                     `${Number(value).toLocaleString()} reports`,

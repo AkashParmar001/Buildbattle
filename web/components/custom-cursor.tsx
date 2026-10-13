@@ -4,8 +4,10 @@ import { useEffect, useRef } from "react";
 
 const INTERACTIVE = "a, button, [role='button'], input, textarea, select";
 
-// Editorial cursor: a bone dot in difference blend that grows over
-// interactive elements. Hidden on touch devices and reduced motion.
+// Editorial cursor: a soft bone ring in difference blend that trails the
+// pointer and grows over interactive elements. The native cursor is never
+// hidden — this is an accent only, so text inputs keep their I-beam and
+// touch / reduced-motion devices skip it entirely.
 export function CustomCursor() {
   const dotRef = useRef<HTMLDivElement>(null);
   const ringRef = useRef<HTMLDivElement>(null);
@@ -40,10 +42,7 @@ export function CustomCursor() {
     const move = (e: PointerEvent) => {
       mx = e.clientX;
       my = e.clientY;
-      if (!shown) {
-        shown = true;
-        document.documentElement.style.cursor = "none";
-      }
+      if (!shown) shown = true;
       const target = e.target as Element | null;
       grow = !!target?.closest?.(INTERACTIVE);
     };
@@ -57,7 +56,6 @@ export function CustomCursor() {
       cancelAnimationFrame(raf);
       window.removeEventListener("pointermove", move);
       document.documentElement.removeEventListener("pointerleave", leave);
-      document.documentElement.style.cursor = "";
     };
   }, []);
 
@@ -74,7 +72,7 @@ export function CustomCursor() {
       />
       <div
         ref={dotRef}
-        className="absolute top-0 left-0 h-1.5 w-1.5 rounded-full"
+        className="absolute top-0 left-0 h-1.5 w-1.5 rounded-full opacity-70"
         style={{ background: "var(--bone)", mixBlendMode: "difference" }}
       />
     </div>

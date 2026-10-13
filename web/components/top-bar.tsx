@@ -53,6 +53,7 @@ export function TopBar({ source }: { source: "supabase" | "seed" }) {
             <Link
               key={overlay}
               href={overlayHref(searchParams, overlay)}
+              aria-label={label}
               aria-current={active === overlay ? "true" : undefined}
               className={cn(
                 "inline-flex h-9 shrink-0 items-center gap-1.5 border-b-2 border-transparent px-3 text-sm text-muted-foreground hover:text-foreground",

@@ -23,6 +23,16 @@ function updateQuery(
   return query ? `?${query}` : "?";
 }
 
+function resetQuery(params: URLSearchParams): string {
+  // Clear filters but keep overlay/cluster UI state so an open drawer,
+  // board or cluster detail stays open.
+  const next = new URLSearchParams(params.toString());
+  next.delete("category");
+  next.delete("sentiment");
+  const query = next.toString();
+  return query ? `?${query}` : "?";
+}
+
 export function FilterBar({ categories, current }: FilterBarProps) {
   const router = useRouter();
   const pathname = usePathname();
@@ -77,7 +87,11 @@ export function FilterBar({ categories, current }: FilterBarProps) {
       {(current.category ?? current.sentiment) && (
         <button
           type="button"
-          onClick={() => router.replace(pathname, { scroll: false })}
+          onClick={() =>
+            router.replace(`${pathname}${resetQuery(searchParams)}`, {
+              scroll: false,
+            })
+          }
           className="h-9 px-3 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
         >
           Reset
