@@ -1,21 +1,32 @@
-# InsightFlow — customer feedback intelligence
+# InsightFlow — from customer feedback to the one decision that matters
 
-Turns 7,000 raw customer feedback rows into an analytics dashboard, prioritized
-recommendations with evidence, issue tracking, and shareable executive reports.
+Turns 7,000 raw customer reviews into a ranked list of what to fix first —
+with the numbers and real customer quotes behind every recommendation.
 Built for the Frontend Arena Build Battle 2026 (48h solo hackathon).
 
-Live demo runs entirely from committed seed data (`web/data/analysis.json`) —
-the app works with every external API down.
+- **Live app:** [FILL: Vercel URL]
+- **Repo:** https://github.com/AkashParmar001/Buildbattle
+
+The demo runs from committed seed data (`web/data/analysis.json`) and works
+with every external API down. With Supabase keys configured it runs live.
+
+## Try it in 60 seconds
+
+1. Open the landing page, then enter the **Command Center** (`/app`).
+2. Read the **#1 recommendation** — score breakdown, why-lines, evidence quotes.
+3. Open the **Issue map**, click a bubble, then **Track** the issue.
+4. Open **How it works** (`?overlay=hood`) for the measured Adaption results.
+5. Export the **report** (read-only link, print to PDF).
 
 ## Features
 
-- **Landing** (`/`) — Editorial Noir 10-section narrative: serif hero with a
-  WebGL point-cloud scene (ogl; scattered cloud locks into the real cluster
-  constellation on scroll), theme marquee, scroll-highlighted statement,
-  pinned 5-step pipeline story (7,000 → 320 → Adaption E→C → clusters →
-  decisions), feature rows, framed live issue map, counters, product-language
-  How it works (measured numbers only); static gradient fallback + plain
-  sections under `prefers-reduced-motion` / touch
+- **Landing** (`/`) — Editorial Noir narrative: serif hero with a WebGL
+  point-cloud scene (ogl; scattered cloud locks into the real cluster
+  constellation on scroll), framed Command Center illustration with live seed
+  numbers, theme marquee, scroll-highlighted statement, pinned 5-step pipeline
+  story (7,000 → 320 → Adaption E→C → clusters → decisions), feature rows,
+  framed live issue map, counters, How it works (measured numbers only).
+  Static fallbacks under `prefers-reduced-motion` / touch.
 - **Command Center** (`/app`) — one filterable surface:
   - **Decision brief** — "Fix this first" with score breakdown, why, evidence
   - **KPI row** — total / unique / negativity / top priority (count-up)
@@ -27,10 +38,10 @@ the app works with every external API down.
   - Top bar: Feedback drawer (`?overlay=feedback`, search/sort/paginate +
     add/CSV/sample loaders), Issues board (`?overlay=issues`), How it
     works (`?overlay=hood`), theme toggle, data-source pill
-- **How it works** (`/app?overlay=hood`) — plain-language explainer: summary
-  strip, 7-step pipeline trail, settings, 5 raw-vs-improved examples,
-  measured eval table, grade E→C card, AutoScientist run results (measured
-  win rate vs target, iterations, hyperparameters)
+- **How it works** (`/app?overlay=hood`) — plain-language explainer: 7-step
+  pipeline trail, 5 raw-vs-improved examples, measured eval table, grade E→C
+  card, AutoScientist run results (measured win rate vs target, iterations,
+  hyperparameters)
 - **Reports** (`/report/[token]`) — print-friendly forced-light snapshot of
   KPIs + top 5 recommendations (PDF via print stylesheet)
 
@@ -57,25 +68,36 @@ Next.js (web/) ── Supabase (if env set) ── else seed JSON (server-side o
 
 ## How Adaption is used
 
-The 320 deduped reviews were sent with `column_mapping={"prompt": "review"}`
-and `brand_controls={"hallucination_mitigation": True}`. The run returned
-**376 rows**: an improved support response per review (`chosen`), a weaker
-alternative (`rejected`, i.e. training-ready preference pairs), plus English
-language expansion for 56 rows. Quality evaluation on a 100-row sample:
+Adaption sits in the data stage. The 320 deduped reviews were uploaded with
+`column_mapping={"prompt": "review"}` and
+`brand_controls={"hallucination_mitigation": True}` (estimate-first, then a
+real `--go` run). The platform returned **388 rows**: 320 original-language
+rows — each with an improved support response (`chosen`) plus a weaker
+alternative (`rejected`, i.e. training-ready preference pairs) — and 68
+English language-expansion rows. Quality evaluation on a 100-row sample:
 **grade E → C, score 2.0 → 6.1 (+205%)** — see `/app?overlay=hood` and
 `data/adaption_evaluation.json`.
 
-Honest note: this run produced improved *responses*, not rewritten reviews,
-so downstream sentiment/clustering deliberately runs on the original review
-text (`adapted.csv` keeps `adapted_text == review`); swapping replies in as
-feedback would corrupt the analysis.
+Honest notes, verified against the committed artifacts:
+
+- This run produced improved *responses*, not rewritten reviews, so downstream
+  sentiment/clustering deliberately runs on the original review text
+  (`adapted.csv` keeps `adapted_text == review`); swapping replies in as
+  feedback would corrupt the analysis.
+- Our own check (`data/adaption_eval.json`): the same TF-IDF/LogisticRegression
+  classifier trained on raw vs refined texts, tested only on held-out raw
+  reviews (25% stratified split, seed 7) scores **96.25% vs 96.25% — identical,
+  as expected** when `adapted_text == review`. Reported plainly; the measured
+  win is the platform's E→C quality grade, not classifier lift.
+- There was **no second refinement pass** — numbers come verbatim from
+  `adaption_evaluation.json` / `adaption_eval.json`, never rounded up.
 
 ## How AutoScientist is used
 
-AutoScientist (Adaption's fine-tuning loop) was run on the platform against
-the uploaded dataset (`product_service_feedback`, 320 rows). Measured result
-(run `f0d99208`, succeeded 2026-10-12, synced by `pipeline/05_autoscientist.py`
-into `data/autoscientist_run.json`):
+AutoScientist (Adaption's fine-tuning loop) ran on the platform against the
+uploaded dataset (`product_service_feedback`, run `f0d99208`, succeeded
+2026-10-12, synced by `pipeline/05_autoscientist.py` into
+`data/autoscientist_run.json`):
 
 - Model `Qwen/Qwen3.5-0.8B`, supervised (instruction) LoRA
 - 3/3 iterations, ~2h 34m, best hyperparameters: LoRA r=32 α=64, lr 1e-4,
@@ -87,6 +109,19 @@ The trained artifact is downloadable from the Adaption platform
 (`download_available: true`); the app reports metadata only.
 `data/autoscientist_sft.jsonl` remains the exportable 320-row classification
 training set (a training export, not a trained model).
+
+## Tech stack
+
+Next.js 16 (App Router), TypeScript, Tailwind CSS v4, shadcn-style UI
+primitives, Recharts, Framer Motion, GSAP (ScrollTrigger/SplitText), Lenis
+smooth scroll, d3-force issue map, ogl WebGL hero; Supabase (Postgres) live
+with seed-data fallback; Python pipeline (pandas, scikit-learn TF-IDF +
+KMeans K=10); Anthropic Claude (default `claude-sonnet-5-5`) for pipeline
+sentiment and live classification with keyword-heuristic fallback — note the
+shipped seed labels are heuristic (`local-heuristic, no LLM keys`);
+Adaption (Adaptive Data + AutoScientist); Docker (multi-stage web image +
+compose) and Vercel deploy. Built with AI-assisted development (opencode),
+reviewed by me.
 
 ## How to run
 
