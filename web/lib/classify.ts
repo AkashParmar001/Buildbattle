@@ -1,8 +1,9 @@
 import type { ClusterRecord } from "@/lib/db";
 
-// Classifies one feedback item. Prefers the Anthropic LLM server-side when
-// ANTHROPIC_API_KEY is set; otherwise (or on any LLM failure) falls back to
-// the same keyword heuristics as pipeline/03_seed_local.py. Never throws.
+// Classifies one feedback item. Prefers a configured OpenAI-compatible LLM
+// server-side (LLM_API_KEY + LLM_MODEL, optional LLM_BASE_URL) when set;
+// otherwise (or on any LLM failure) falls back to the same keyword heuristics
+// as pipeline/03_seed_local.py. Never throws.
 
 export type Classification = {
   sentiment: "positive" | "neutral" | "negative";
@@ -161,19 +162,21 @@ async function llmClassify(
   text: string,
   category: string,
 ): Promise<Omit<Classification, "cluster" | "llmFailed"> | null | "failed"> {
-  const key = process.env.ANTHROPIC_API_KEY;
+  const key = process.env.LLM_API_KEY;
   if (!key) return null;
+  const baseUrl = (process.env.LLM_BASE_URL ?? "https://api.openai.com/v1").replace(/\/$/, "");
+  const model = process.env.LLM_MODEL ?? "gpt-4o-mini";
   try {
-    const res = await fetch("https://api.anthropic.com/v1/messages", {
+    const res = await fetch(`${baseUrl}/chat/completions`, {
       method: "POST",
       headers: {
         "content-type": "application/json",
-        "x-api-key": key,
-        "anthropic-version": "2023-06-01",
+        authorization: `Bearer ${key}`,
       },
       body: JSON.stringify({
-        model: process.env.LLM_MODEL ?? "claude-sonnet-5-5",
+        model,
         max_tokens: 200,
+        temperature: 0,
         messages: [
           {
             role: "user",
@@ -184,9 +187,11 @@ async function llmClassify(
     });
     if (!res.ok) return "failed";
     const json = (await res.json()) as {
-      content?: { text?: string }[];
+      choices?: { message?: { content?: string } }[];
     };
-    const raw = json.content?.[0]?.text?.replace(/^```(?:json)?|```$/g, "").trim();
+    const raw = json.choices?.[0]?.message?.content
+      ?.replace(/^```(?:json)?|```$/g, "")
+      .trim();
     if (!raw) return "failed";
     const parsed = JSON.parse(raw) as {
       sentiment: Classification["sentiment"];

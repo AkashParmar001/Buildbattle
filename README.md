@@ -116,7 +116,8 @@ Next.js 16 (App Router), TypeScript, Tailwind CSS v4, shadcn-style UI
 primitives, Recharts, Framer Motion, GSAP (ScrollTrigger/SplitText), Lenis
 smooth scroll, d3-force issue map, ogl WebGL hero; Supabase (Postgres) live
 with seed-data fallback; Python pipeline (pandas, scikit-learn TF-IDF +
-KMeans K=10); Anthropic Claude (default `claude-sonnet-5-5`) for pipeline
+KMeans K=10); any OpenAI-compatible LLM (`LLM_API_KEY`, `LLM_MODEL`,
+`LLM_BASE_URL`) for pipeline
 sentiment and live classification with keyword-heuristic fallback — note the
 shipped seed labels are heuristic (`local-heuristic, no LLM keys`);
 Adaption (Adaptive Data + AutoScientist); Docker (multi-stage web image +
@@ -136,7 +137,7 @@ python pipeline/02_adaption.py        # upload + cost ESTIMATE only
 python pipeline/02_adaption.py --go   # real run (costs money)
 # save output as data/adapted.csv (id, review, adapted_text, count, category)
 python pipeline/03_seed_local.py      # no keys needed (heuristic labels)
-# ...or, with ANTHROPIC_API_KEY: python pipeline/03_analyze.py  (real LLM run)
+# ...or, with LLM_API_KEY: python pipeline/03_analyze.py  (real LLM run)
 python pipeline/04_showcase.py        # refresh web/data/showcase.json
 python pipeline/05_autoscientist.py   # sync AutoScientist run from platform
 Copy-Item data/analysis.json web/data/analysis.json
@@ -181,9 +182,9 @@ Supabase wiring (once):
 | File | Key | Needed for |
 | ---- | --- | ---------- |
 | `.env` (root) | `ADAPTION_API_KEY` | `02_adaption.py --go` |
-| `.env` (root) | `ANTHROPIC_API_KEY`, `LLM_MODEL` | `03_analyze.py` real LLM run |
+| `.env` (root) | `LLM_API_KEY`, `LLM_MODEL`, `LLM_BASE_URL` | `03_analyze.py` real LLM run |
 | `web/.env.local` | `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` or `SUPABASE_ANON_KEY` | live DB + `npm run seed` |
-| `web/.env.local` | `ANTHROPIC_API_KEY` | LLM classification for new submissions (server-side only; heuristic fallback when absent) |
+| `web/.env.local` | `LLM_API_KEY`, `LLM_MODEL`, `LLM_BASE_URL` | LLM classification for new submissions (server-side only; heuristic fallback when absent) |
 
 Without Supabase keys the app serves seed data; user-submitted feedback,
 issues and reports then persist to gitignored local JSON overlays

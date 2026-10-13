@@ -7,7 +7,7 @@ Same shape and same deterministic choices as 03_analyze.py
 simulated timeline, identical priority formula) but needs NO API keys:
 the two LLM calls are replaced by transparent keyword heuristics.
 
-When ANTHROPIC_API_KEY is available, prefer the real 03_analyze.py run.
+When LLM_API_KEY is available, prefer the real 03_analyze.py run.
 Seed labels/summaries are templated from real cluster numbers, not LLM prose.
 """
 import json

@@ -2,16 +2,21 @@
 timeline, priority scores, recommendations -> data/analysis.json
 Reads data/adapted.csv if present (cols: id, review, adapted_text, count, category),
 else data/unique.csv."""
-import os, json, re
+import os, json, re, urllib.request
 import numpy as np, pandas as pd
 from dotenv import load_dotenv
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.cluster import KMeans
-import anthropic
 
 load_dotenv()
-MODEL = os.environ.get("LLM_MODEL", "claude-sonnet-5-5")
-llm = anthropic.Anthropic()
+# General LLM config (OpenAI-compatible chat API — works with OpenAI, Groq,
+# Together, OpenRouter, Ollama, vLLM, ...). No vendor SDK required.
+LLM_API_KEY = os.environ.get("LLM_API_KEY", "")
+LLM_BASE_URL = os.environ.get("LLM_BASE_URL", "https://api.openai.com/v1").rstrip("/")
+LLM_MODEL = os.environ.get("LLM_MODEL", "gpt-4o-mini")
+if not LLM_API_KEY:
+    raise SystemExit("LLM_API_KEY is not set — cannot run the LLM analysis. "
+                     "Use pipeline/03_seed_local.py for the no-keys heuristic run.")
 np.random.seed(7)
 
 src = "data/adapted.csv" if os.path.exists("data/adapted.csv") else "data/unique.csv"
@@ -21,9 +26,21 @@ df["text"] = df[text_col].fillna(df["review"])
 print("source:", src, "| rows:", len(df))
 
 def ask_json(prompt, max_tokens=4000):
-    r = llm.messages.create(model=MODEL, max_tokens=max_tokens,
-                            messages=[{"role": "user", "content": prompt}])
-    t = re.sub(r"^```(?:json)?|```$", "", r.content[0].text.strip(), flags=re.M).strip()
+    req = urllib.request.Request(
+        f"{LLM_BASE_URL}/chat/completions",
+        data=json.dumps({
+            "model": LLM_MODEL,
+            "messages": [{"role": "user", "content": prompt}],
+            "max_tokens": max_tokens,
+            "temperature": 0,
+        }).encode(),
+        headers={"Content-Type": "application/json",
+                 "Authorization": f"Bearer {LLM_API_KEY}"},
+        method="POST")
+    with urllib.request.urlopen(req, timeout=120) as res:
+        body = json.load(res)
+    t = body["choices"][0]["message"]["content"].strip()
+    t = re.sub(r"^```(?:json)?|```$", "", t, flags=re.M).strip()
     return json.loads(t)
 
 sent = {}
