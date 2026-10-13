@@ -4,7 +4,7 @@ Turns 7,000 raw customer reviews into a ranked list of what to fix first —
 with the numbers and real customer quotes behind every recommendation.
 Built for the Frontend Arena Build Battle 2026 (48h solo hackathon).
 
-- **Live app:** [FILL: Vercel URL]
+- **Live app:** https://buildbattle26.vercel.app/
 - **Repo:** https://github.com/AkashParmar001/Buildbattle
 
 The demo runs from committed seed data (`web/data/analysis.json`) and works
