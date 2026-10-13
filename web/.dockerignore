@@ -1,0 +1,16 @@
+# Keep the build context small and secret-free.
+node_modules
+.next
+out
+build
+coverage
+server.log
+.vercel
+*.tsbuildinfo
+next-env.d.ts
+.DS_Store
+npm-debug.log*
+
+# Never bake credentials or local-only state into the image.
+.env*
+data/user-*.json
